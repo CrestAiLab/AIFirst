@@ -1,7 +1,7 @@
-import type { PageContent } from "@/lib/sanity/types"
+import type { StatItem } from "@/lib/sanity/types"
 
 interface StatsProps {
-  stats?: PageContent['stats']
+  stats?: StatItem[]
 }
 
 const defaultStats = [

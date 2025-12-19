@@ -1,9 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { getIcon } from "@/lib/iconMap"
-import type { PageContent } from "@/lib/sanity/types"
+import type { SolutionItem } from "@/lib/sanity/types"
 
 interface SolutionsProps {
-  solutions?: PageContent['solutions']
+  solutions?: SolutionItem[]
 }
 
 const defaultSolutions = [

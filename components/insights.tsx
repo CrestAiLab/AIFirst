@@ -2,11 +2,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { urlFor } from "@/lib/sanity/image"
-import type { Insight, PageContent } from "@/lib/sanity/types"
+import type { Insight, InsightsConfig } from "@/lib/sanity/types"
 
 interface InsightsProps {
   insights?: Insight[]
-  sectionConfig?: PageContent['insights']
+  sectionConfig?: InsightsConfig
 }
 
 export function Insights({ insights = [], sectionConfig }: InsightsProps) {

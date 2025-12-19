@@ -2,10 +2,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { getIcon } from "@/lib/iconMap"
 import { urlFor } from "@/lib/sanity/image"
-import type { CommunityPost, PageContent } from "@/lib/sanity/types"
+import type { CommunityPost, CommunityConfig } from "@/lib/sanity/types"
 
 interface CommunityProps {
-  community?: PageContent['community']
+  community?: CommunityConfig
   featuredPosts?: CommunityPost[]
 }
 

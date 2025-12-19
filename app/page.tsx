@@ -1,13 +1,9 @@
 import { Header } from "@/components/header"
-import { Hero } from "@/components/hero"
-import { Stats } from "@/components/stats"
-import { Solutions } from "@/components/solutions"
-import { Community } from "@/components/community"
-import { Insights } from "@/components/insights"
-import { CTA } from "@/components/cta"
 import { Footer } from "@/components/footer"
+import { SectionRenderer } from "@/components/section-renderer"
 import { client } from "@/lib/sanity/client"
 import { pageContentQuery, insightsQuery, featuredCommunityPostsQuery } from "@/lib/sanity/queries"
+import { getDefaultSections } from "@/lib/defaultSections"
 
 export default async function Home() {
   const [pageContent, insights, communityPosts] = await Promise.all([
@@ -16,15 +12,22 @@ export default async function Home() {
     client.fetch(featuredCommunityPostsQuery),
   ])
 
+  // Use sections from Sanity if available, otherwise use default sections
+  const sections = pageContent?.sections && pageContent.sections.length > 0
+    ? pageContent.sections.filter(section => section.enabled !== false)
+    : getDefaultSections()
+
   return (
     <main className="min-h-screen">
       <Header />
-      <Hero hero={pageContent?.hero} />
-      <Stats stats={pageContent?.stats} />
-      <Solutions solutions={pageContent?.solutions} />
-      <Community community={pageContent?.community} featuredPosts={communityPosts || []} />
-      <Insights insights={insights || []} sectionConfig={pageContent?.insights} />
-      <CTA cta={pageContent?.cta} />
+      {sections.map((section) => (
+        <SectionRenderer
+          key={section._key || section.sectionType}
+          section={section}
+          insights={insights || []}
+          communityPosts={communityPosts || []}
+        />
+      ))}
       <Footer />
     </main>
   )

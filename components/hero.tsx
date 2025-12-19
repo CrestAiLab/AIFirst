@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Sparkles } from "lucide-react"
-import type { PageContent } from "@/lib/sanity/types"
+import type { HeroConfig } from "@/lib/sanity/types"
 
 interface HeroProps {
-  hero?: PageContent['hero']
+  hero?: HeroConfig
 }
 
 export function Hero({ hero }: HeroProps) {

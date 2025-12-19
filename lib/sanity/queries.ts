@@ -1,42 +1,47 @@
 export const pageContentQuery = `*[_type == "pageContent"][0]{
   title,
-  hero{
-    badge,
-    heading,
-    description,
-    primaryButton,
-    secondaryButton
-  },
-  stats[]{
-    value,
-    label,
-    description
-  },
-  solutions[]{
-    icon,
-    title,
-    description
-  },
-  community{
-    heading,
-    description,
-    buttonText,
-    features[]{
+  sections[]{
+    _key,
+    sectionType,
+    enabled,
+    hero{
+      badge,
+      heading,
+      description,
+      primaryButton,
+      secondaryButton
+    },
+    stats[]{
+      value,
+      label,
+      description
+    },
+    solutions[]{
       icon,
       title,
       description
+    },
+    community{
+      heading,
+      description,
+      buttonText,
+      features[]{
+        icon,
+        title,
+        description
+      }
+    },
+    insights{
+      heading,
+      description,
+      buttonText
+    },
+    cta{
+      heading,
+      description,
+      buttonText,
+      disclaimer
     }
-  },
-  insights{
-    heading,
-    description,
-    buttonText
-  },
-  cta{
-    heading,
-    description,
-    buttonText,
-    disclaimer
   }
 }`
 

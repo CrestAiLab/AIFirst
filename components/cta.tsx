@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import type { PageContent } from "@/lib/sanity/types"
+import type { CTAConfig } from "@/lib/sanity/types"
 
 interface CTAProps {
-  cta?: PageContent['cta']
+  cta?: CTAConfig
 }
 
 export function CTA({ cta }: CTAProps) {
