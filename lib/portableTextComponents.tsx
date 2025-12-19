@@ -1,18 +1,27 @@
 import { PortableTextComponents } from '@portabletext/react'
 import { urlFor } from './sanity/image'
+import Image from 'next/image'
 
 export const portableTextComponents: PortableTextComponents = {
   types: {
     image: ({ value }) => {
       if (!value?.asset) return null
       const imageUrl = urlFor(value).width(800).url()
+      const imageDimensions = value.asset?._ref 
+        ? { width: 800, height: 600 } // Default dimensions if not available
+        : { width: value.asset?.metadata?.dimensions?.width || 800, height: value.asset?.metadata?.dimensions?.height || 600 }
+      
       return (
         <div className="my-8">
-          <img
-            src={imageUrl}
-            alt={value.alt || 'Image'}
-            className="w-full h-auto rounded-lg"
-          />
+          <div className="relative w-full" style={{ aspectRatio: `${imageDimensions.width} / ${imageDimensions.height}` }}>
+            <Image
+              src={imageUrl}
+              alt={value.alt || 'Image'}
+              fill
+              className="object-contain rounded-lg"
+              sizes="(max-width: 768px) 100vw, 800px"
+            />
+          </div>
           {value.alt && (
             <p className="text-sm text-muted-foreground mt-2 text-center">
               {value.alt}

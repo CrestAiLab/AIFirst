@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react"
 import { urlFor } from "@/lib/sanity/image"
 import Link from "next/link"
 import type { Insight, InsightsConfig } from "@/lib/sanity/types"
+import Image from "next/image"
 
 interface InsightsProps {
   insights?: Insight[]
@@ -56,10 +57,12 @@ export function Insights({ insights = [], sectionConfig }: InsightsProps) {
                   <Card className="group cursor-pointer overflow-hidden bg-card/80 backdrop-blur-xl border-border/50 hover:border-accent/50 shadow-lg dark:shadow-xl hover:shadow-2xl dark:hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] hover:shadow-accent/15 dark:hover:shadow-accent/25 transition-all duration-300 hover:-translate-y-2 h-full">
                   <div className="aspect-[2/1] overflow-hidden relative">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
-                    <img
+                    <Image
                       src={imageUrl}
                       alt={insight.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   </div>
                   <CardHeader>

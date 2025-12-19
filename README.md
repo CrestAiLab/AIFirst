@@ -63,15 +63,24 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Deployment
 
-### Vercel
+### Quick Deploy to Vercel
+
+See **[QUICK_DEPLOY.md](./QUICK_DEPLOY.md)** for a 5-step deployment guide.
+
+### Detailed Deployment Guide
+
+For comprehensive deployment instructions, see **[DEPLOYMENT.md](./DEPLOYMENT.md)**.
+
+### Quick Summary
 
 1. Push your code to GitHub
-2. Import your repository in [Vercel](https://vercel.com)
-3. Add environment variables in Vercel dashboard:
+2. Import repository in [Vercel](https://vercel.com)
+3. Add environment variables:
    - `NEXT_PUBLIC_SANITY_PROJECT_ID`
    - `NEXT_PUBLIC_SANITY_DATASET`
-   - `SANITY_API_TOKEN` (optional, for write operations)
-4. Deploy
+   - `SANITY_API_TOKEN` (optional)
+4. Configure Sanity CORS with your Vercel URL
+5. Deploy!
 
 The project is pre-configured for Vercel with `vercel.json`.
 

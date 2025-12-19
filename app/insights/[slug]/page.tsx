@@ -9,6 +9,7 @@ import { ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { notFound } from "next/navigation"
 import { portableTextComponents } from "@/lib/portableTextComponents"
+import Image from "next/image"
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -50,12 +51,20 @@ export default async function InsightPage({ params }: PageProps) {
       <Header />
       <article className="py-12 md:py-20">
         <div className="container max-w-4xl">
-          <Link href="/insights">
-            <Button variant="ghost" className="mb-8 gap-2">
-              <ArrowLeft className="h-4 w-4" />
-              Back to Insights
-            </Button>
-          </Link>
+          <div className="flex items-center gap-4 mb-8">
+            <Link href="/">
+              <Button variant="ghost" className="gap-2">
+                <ArrowLeft className="h-4 w-4" />
+                Home
+              </Button>
+            </Link>
+            <Link href="/insights">
+              <Button variant="ghost" className="gap-2">
+                <ArrowLeft className="h-4 w-4" />
+                All Insights
+              </Button>
+            </Link>
+          </div>
 
           <div className="mb-8">
             <div className="text-sm font-semibold text-accent mb-4">
@@ -72,11 +81,13 @@ export default async function InsightPage({ params }: PageProps) {
           </div>
 
           {insight.image && (
-            <div className="mb-12 rounded-2xl overflow-hidden shadow-2xl">
-              <img
+            <div className="mb-12 rounded-2xl overflow-hidden shadow-2xl relative aspect-[2/1]">
+              <Image
                 src={imageUrl}
                 alt={insight.title}
-                className="w-full h-auto object-cover"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
               />
             </div>
           )}

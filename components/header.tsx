@@ -3,9 +3,13 @@
 import { Button } from "@/components/ui/button"
 import { Moon, Sun } from "lucide-react"
 import { useEffect, useState } from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
 export function Header() {
   const [theme, setTheme] = useState<"light" | "dark">("light")
+  const pathname = usePathname()
+  const isHomePage = pathname === "/"
 
   useEffect(() => {
     const stored = localStorage.getItem("theme") as "light" | "dark" | null
@@ -36,38 +40,57 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60 shadow-lg dark:shadow-xl shadow-black/5 dark:shadow-black/20">
       <div className="container flex h-16 items-center justify-between">
-        <div className="flex items-center gap-2">
+        <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <div className="h-8 w-8 rounded-lg bg-primary shadow-md dark:shadow-lg border border-primary/20" />
           <span className="text-xl font-bold bg-gradient-to-r from-foreground to-accent bg-clip-text text-transparent">
             InfraAI
           </span>
-        </div>
+        </Link>
 
         <nav className="hidden md:flex items-center gap-8">
-          <a
-            href="#solutions"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
-          >
-            Solutions
-          </a>
-          <a
-            href="#community"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
-          >
-            Community
-          </a>
-          <a
-            href="#insights"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
-          >
-            Insights
-          </a>
-          <a
-            href="#about"
-            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
-          >
-            About
-          </a>
+          {isHomePage ? (
+            <>
+              <a
+                href="#solutions"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+              >
+                Solutions
+              </a>
+              <a
+                href="#community"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+              >
+                Community
+              </a>
+              <a
+                href="#insights"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+              >
+                Insights
+              </a>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/#solutions"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+              >
+                Solutions
+              </Link>
+              <Link
+                href="/#community"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+              >
+                Community
+              </Link>
+              <Link
+                href="/insights"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+              >
+                Insights
+              </Link>
+            </>
+          )}
         </nav>
 
         <div className="flex items-center gap-3">

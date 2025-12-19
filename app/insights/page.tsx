@@ -5,6 +5,8 @@ import { client } from "@/lib/sanity/client"
 import { allInsightsQuery } from "@/lib/sanity/queries"
 import { urlFor } from "@/lib/sanity/image"
 import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
+import Image from "next/image"
 
 export default async function InsightsPage() {
   const insights = await client.fetch(allInsightsQuery)
@@ -14,6 +16,10 @@ export default async function InsightsPage() {
       <Header />
       <section className="py-20 md:py-32">
         <div className="container">
+          <Link href="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8">
+            <ArrowLeft className="h-4 w-4" />
+            Back to Home
+          </Link>
           <div className="mx-auto max-w-4xl mb-16 text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-balance">
               Latest Insights
@@ -46,10 +52,12 @@ export default async function InsightsPage() {
                     <Card className="group cursor-pointer overflow-hidden bg-card/80 backdrop-blur-xl border-border/50 hover:border-accent/50 shadow-lg dark:shadow-xl hover:shadow-2xl dark:hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] hover:shadow-accent/15 dark:hover:shadow-accent/25 transition-all duration-300 hover:-translate-y-2 h-full">
                       <div className="aspect-[2/1] overflow-hidden relative">
                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
-                        <img
+                        <Image
                           src={imageUrl}
                           alt={insight.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-500"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                       </div>
                       <CardHeader>

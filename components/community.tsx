@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { getIcon } from "@/lib/iconMap"
 import { urlFor } from "@/lib/sanity/image"
 import type { CommunityPost, CommunityConfig } from "@/lib/sanity/types"
+import Image from "next/image"
 
 interface CommunityProps {
   community?: CommunityConfig
@@ -112,10 +113,12 @@ export function Community({ community, featuredPosts = [] }: CommunityProps) {
                         className="flex gap-3 p-3 rounded-lg hover:bg-muted/50 transition-all cursor-pointer border border-transparent hover:border-border/50 hover:shadow-md dark:hover:shadow-lg"
                       >
                         {avatarUrl ? (
-                          <img
+                          <Image
                             src={avatarUrl}
-                            alt={post.author?.name}
-                            className="h-10 w-10 rounded-full object-cover border border-accent/30"
+                            alt={post.author?.name || "Avatar"}
+                            width={40}
+                            height={40}
+                            className="rounded-full object-cover border border-accent/30"
                           />
                         ) : (
                           <div className="h-10 w-10 rounded-full bg-accent/20 shadow-sm border border-accent/30 flex items-center justify-center text-xs font-semibold text-accent">
