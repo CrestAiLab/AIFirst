@@ -1,7 +1,18 @@
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Sparkles } from "lucide-react"
+import type { PageContent } from "@/lib/sanity/types"
 
-export function Hero() {
+interface HeroProps {
+  hero?: PageContent['hero']
+}
+
+export function Hero({ hero }: HeroProps) {
+  const badge = hero?.badge || "Empowering tomorrow's infrastructure today"
+  const heading = hero?.heading || "Build the future with AI-powered infrastructure"
+  const description = hero?.description || "Transform your operations with cutting-edge AI solutions. Join a global community of innovators building scalable, intelligent infrastructure."
+  const primaryButton = hero?.primaryButton || "Start Building"
+  const secondaryButton = hero?.secondaryButton || "Watch Demo"
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-background via-background to-muted/30 py-24 md:py-32">
       <div className="absolute inset-0 bg-gradient-to-br from-accent/10 via-transparent to-primary/10" />
@@ -9,19 +20,15 @@ export function Hero() {
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-border/50 bg-card/60 backdrop-blur-xl px-4 py-1.5 text-sm shadow-lg dark:shadow-xl shadow-accent/10 dark:shadow-accent/20">
             <Sparkles className="h-4 w-4 text-accent drop-shadow-[0_0_8px_rgba(0,0,0,0.3)] dark:drop-shadow-[0_0_12px_rgba(255,255,255,0.5)]" />
-            <span className="text-balance">Empowering tomorrow's infrastructure today</span>
+            <span className="text-balance">{badge}</span>
           </div>
 
           <h1 className="mb-6 text-balance text-5xl font-bold tracking-tight sm:text-6xl md:text-7xl">
-            <span className="text-foreground">Build the future with </span>
-            <span className="inline-block bg-gradient-to-r from-accent via-primary to-accent bg-clip-text text-transparent [-webkit-background-clip:text] [-webkit-text-fill-color:transparent]">
-              AI-powered infrastructure
-            </span>
+            <span className="text-foreground">{heading}</span>
           </h1>
 
           <p className="mb-10 text-pretty text-lg text-muted-foreground sm:text-xl md:text-2xl leading-relaxed max-w-3xl mx-auto">
-            Transform your operations with cutting-edge AI solutions. Join a global community of innovators building
-            scalable, intelligent infrastructure.
+            {description}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -29,7 +36,7 @@ export function Hero() {
               size="lg"
               className="gap-2 text-base shadow-xl dark:shadow-2xl hover:shadow-2xl dark:hover:shadow-[0_0_40px_rgba(0,0,0,0.6)] hover:shadow-accent/30 dark:hover:shadow-accent/40 transition-all hover:-translate-y-1"
             >
-              Start Building
+              {primaryButton}
               <ArrowRight className="h-4 w-4" />
             </Button>
             <Button
@@ -37,7 +44,7 @@ export function Hero() {
               variant="outline"
               className="text-base bg-card/60 backdrop-blur-xl border-border/50 shadow-lg dark:shadow-xl hover:shadow-xl dark:hover:shadow-2xl hover:shadow-accent/10 dark:hover:shadow-accent/20 transition-all hover:-translate-y-1"
             >
-              Watch Demo
+              {secondaryButton}
             </Button>
           </div>
         </div>
