@@ -2,6 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { urlFor } from "@/lib/sanity/image"
+import Link from "next/link"
 import type { Insight, InsightsConfig } from "@/lib/sanity/types"
 
 interface InsightsProps {
@@ -24,10 +25,12 @@ export function Insights({ insights = [], sectionConfig }: InsightsProps) {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">{heading}</h2>
             <p className="text-lg text-muted-foreground">{description}</p>
           </div>
-          <Button variant="outline" className="hidden md:flex gap-2 bg-transparent">
-            {buttonText}
-            <ArrowRight className="h-4 w-4" />
-          </Button>
+          <Link href="/insights">
+            <Button variant="outline" className="hidden md:flex gap-2 bg-transparent">
+              {buttonText}
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </Link>
         </div>
 
         {displayInsights.length > 0 ? (
@@ -45,10 +48,12 @@ export function Insights({ insights = [], sectionConfig }: InsightsProps) {
                 : ""
 
               return (
-                <Card
+                <Link
                   key={insight._id}
-                  className="group cursor-pointer overflow-hidden bg-card/80 backdrop-blur-xl border-border/50 hover:border-accent/50 shadow-lg dark:shadow-xl hover:shadow-2xl dark:hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] hover:shadow-accent/15 dark:hover:shadow-accent/25 transition-all duration-300 hover:-translate-y-2"
+                  href={`/insights/${insight.slug.current}`}
+                  className="block"
                 >
+                  <Card className="group cursor-pointer overflow-hidden bg-card/80 backdrop-blur-xl border-border/50 hover:border-accent/50 shadow-lg dark:shadow-xl hover:shadow-2xl dark:hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] hover:shadow-accent/15 dark:hover:shadow-accent/25 transition-all duration-300 hover:-translate-y-2 h-full">
                   <div className="aspect-[2/1] overflow-hidden relative">
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
                     <img
@@ -70,6 +75,7 @@ export function Insights({ insights = [], sectionConfig }: InsightsProps) {
                     <div className="text-xs text-muted-foreground">{date}</div>
                   </CardContent>
                 </Card>
+                </Link>
               )
             })}
           </div>
@@ -80,10 +86,12 @@ export function Insights({ insights = [], sectionConfig }: InsightsProps) {
         )}
 
         <div className="text-center md:hidden">
-          <Button variant="outline" className="gap-2 bg-transparent">
-            {buttonText}
-            <ArrowRight className="h-4 w-4" />
-          </Button>
+          <Link href="/insights">
+            <Button variant="outline" className="gap-2 bg-transparent">
+              {buttonText}
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
