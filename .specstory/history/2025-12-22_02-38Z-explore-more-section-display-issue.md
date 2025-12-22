@@ -1196,7 +1196,166 @@ Checking if the default sections match the current layout. Comparing the default
 
 ---
 
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
+<details>
+                <summary>Tool use: **codebase_search** • Searched codebase "What sections are currently displayed on the homepage layout?" • **13** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `app/page.tsx` | L55 |
+| `SANITY_HOMEPAGE_GUIDE.md` | L57 |
+| `components/section-renderer.tsx` | L9-57 |
+| `sanity/schemaTypes/pageSection.ts` | L428 |
+| `sanity/schemaTypes/pageContent.ts` | L39 |
+| `SANITY_HOMEPAGE_GUIDE.md` | L54-114 |
+| `lib/defaultSections.ts` | L101 |
+| `lib/sanity/queries.ts` | L87 |
+| `components/content.tsx` | L9-114 |
+| `components/section-renderer.tsx` | L57 |
+| `scripts/README.md` | L43-87 |
+| `components/content.tsx` | L6-114 |
+| `SANITY_HOMEPAGE_GUIDE.md` | L110-166 |
 
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/components/content.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Default sections use `layout: 'default'` (text-only), but the current layout shows a 2-column section with an image. Updating the default sections to match the current layout:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/lib/defaultSections.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updating the default sections to match the current layout. The "Purpose" section should use a 2-column layout with an image on the right:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/lib/defaultSections.ts</summary>
+
+**Chunk 1**
+Lines added: 8, lines removed: 1
+
+```diff
+@@ -32,5 +32,12 @@
+          title: "Purpose of the Community Event",
+          body: "Bring together practitioners, solution builders, and government agencies to strengthen shared capability on data for AI—how to design, create, evaluate, govern, and continuously improve data assets that enable effective, reliable, and responsible AI in real operational settings. The event aims to move organizations beyond isolated pilots toward repeatable, scalable practices.",
+-         layout: 'default',
++         layout: 'imageRight',
++         // Note: Image needs to be uploaded in Sanity Studio after seeding
++       },
++       showMore: {
++         enabled: true,
++         text: "Explore more",
++         linkType: 'internal',
++         internalPage: '/insights',
+        },
+      },
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Fixing the structure — `showMore` should be at the section level, not inside `content`:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/lib/defaultSections.ts</summary>
+
+**Chunk 1**
+Lines added: undefined, lines removed: 1
+
+```diff
+@@ -33,5 +33,4 @@
+          body: "Bring together practitioners, solution builders, and government agencies to strengthen shared capability on data for AI—how to design, create, evaluate, govern, and continuously improve data assets that enable effective, reliable, and responsible AI in real operational settings. The event aims to move organizations beyond isolated pilots toward repeatable, scalable practices.",
+          layout: 'imageRight',
+-         // Note: Image needs to be uploaded in Sanity Studio after seeding
+        },
+        showMore: {
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `lib/defaultSections.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updated the default sections to match the current layout:
+
+1. **"Purpose of the Community Event" section** now uses:
+   - `layout: 'imageRight'` (content on left, image on right — matches your screenshot)
+   - `showMore` button enabled with "Explore more" text pointing to `/insights`
+
+**Note:** The image can't be included in the seed data (it must be uploaded in Sanity Studio). After running `pnpm seed:sanity`, upload the image in Sanity Studio for the "Purpose" section.
+
+The seed script will now create the section with the correct layout. You'll need to:
+1. Run `pnpm seed:sanity`
+2. Go to Sanity Studio
+3. Edit the "Purpose of the Community Event" section
+4. Upload the image (the layout is already set to "Image on Right")
+
+The "Explore more" button is already configured and will appear below the body text.
 
 ---
 

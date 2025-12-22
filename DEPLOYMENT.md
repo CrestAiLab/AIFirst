@@ -179,10 +179,54 @@ If you want to populate Sanity with default content:
 
 ## Continuous Deployment
 
+### Vercel Auto-Deployment
+
 Once connected to GitHub, Vercel will automatically:
 - Deploy on every push to `main` branch
 - Create preview deployments for pull requests
 - Run builds automatically
+
+### Sanity Schema Auto-Deployment
+
+The project includes a GitHub Actions workflow that automatically deploys Sanity schema changes to Sanity when code is pushed to the `main` branch.
+
+#### Setup GitHub Secrets
+
+To enable automatic Sanity deployment, you need to add the following **repository secrets** (not environment secrets) to your GitHub repository:
+
+1. **Go to your GitHub repository**
+2. **Navigate to**: Settings → Secrets and variables → Actions
+3. **Make sure you're on the "Secrets" tab** (not "Variables" or "Environments")
+4. **Click "New repository secret"** and add these secrets:
+
+   - **`SANITY_PROJECT_ID`**: Your Sanity project ID
+     - Get it from [sanity.io/manage](https://sanity.io/manage) → Your project → Settings
+   
+   - **`SANITY_DATASET`**: Your Sanity dataset name (usually `production`)
+     - Optional: defaults to `production` if not set
+   
+   - **`SANITY_AUTH_TOKEN`**: Your Sanity authentication token
+     - Get it from [sanity.io/manage](https://sanity.io/manage) → Your project → API → Tokens
+     - Create a new token with **Editor** permissions
+     - Name it something like "GitHub Actions Deploy Token"
+
+#### How It Works
+
+The workflow (`.github/workflows/deploy-sanity.yml`) will:
+- Trigger automatically on pushes to `main` branch
+- Only run when Sanity-related files change (sanity/, sanity.config.ts, package.json, etc.)
+- Deploy your Sanity Studio schema to Sanity
+- Use the secrets you configured for authentication
+
+#### Manual Deployment
+
+If you need to deploy manually, you can run:
+
+```bash
+npx sanity deploy
+```
+
+Or use the GitHub Actions UI to trigger the workflow manually.
 
 ## Next Steps
 
