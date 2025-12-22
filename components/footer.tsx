@@ -1,9 +1,24 @@
+import Link from "next/link"
+
 export function Footer() {
   const links = {
-    Product: ["Solutions", "Pricing", "Documentation", "API Reference"],
-    Company: ["About", "Blog", "Careers", "Contact"],
-    Resources: ["Community", "Events", "Guides", "Support"],
-    Legal: ["Privacy", "Terms", "Security", "Compliance"],
+    About: [
+      { label: "Background", href: "/#background" },
+      { label: "Why it Matters", href: "/#why-it-matters" },
+      { label: "Goals", href: "/#goals" },
+      { label: "Expected Outcomes", href: "/#expected-outcomes" },
+    ],
+    "Resources": [
+      { label: "Events & Insights", href: "/insights" },
+      { label: "Community", href: "/community" },
+      { label: "Contact", href: "#contact" },
+    ],
+    Legal: [
+      { label: "Privacy", href: "#" },
+      { label: "Terms", href: "#" },
+      { label: "Code of Conduct", href: "#" },
+      { label: "Accessibility", href: "#" },
+    ],
   }
 
   return (
@@ -14,11 +29,11 @@ export function Footer() {
             <div className="flex items-center gap-2 mb-4">
               <div className="h-8 w-8 rounded-lg bg-primary shadow-md dark:shadow-lg border border-primary/20" />
               <span className="text-xl font-bold bg-gradient-to-r from-foreground to-accent bg-clip-text text-transparent">
-                InfraAI
+                AIDFest
               </span>
             </div>
             <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
-              Building the future of intelligent infrastructure through AI innovation and community collaboration.
+              Bringing together practitioners, solution builders, and government agencies to strengthen shared capability on data for AI.
             </p>
           </div>
 
@@ -27,13 +42,22 @@ export function Footer() {
               <h3 className="font-semibold mb-3">{category}</h3>
               <ul className="space-y-2">
                 {items.map((item) => (
-                  <li key={item}>
-                    <a
-                      href="#"
-                      className="text-sm text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
-                    >
-                      {item}
-                    </a>
+                  <li key={item.label}>
+                    {item.href.startsWith("/") ? (
+                      <Link
+                        href={item.href}
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+                      >
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <a
+                        href={item.href}
+                        className="text-sm text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+                      >
+                        {item.label}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -42,7 +66,7 @@ export function Footer() {
         </div>
 
         <div className="pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-sm text-muted-foreground">© 2025 InfraAI. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">© 2025 AIDFest. All rights reserved.</p>
           <div className="flex gap-6">
             <a
               href="#"

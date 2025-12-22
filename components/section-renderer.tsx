@@ -4,6 +4,7 @@ import { Solutions } from "@/components/solutions"
 import { Community } from "@/components/community"
 import { Insights } from "@/components/insights"
 import { CTA } from "@/components/cta"
+import { Content } from "@/components/content"
 import type { PageSection, Insight, CommunityPost } from "@/lib/sanity/types"
 
 interface SectionRendererProps {
@@ -19,19 +20,20 @@ export function SectionRenderer({ section, insights = [], communityPosts = [] }:
 
   switch (section.sectionType) {
     case 'hero':
-      return <Hero hero={section.hero} />
+      return <Hero hero={section.hero} showMore={section.showMore} />
     
     case 'stats':
-      return <Stats stats={section.stats} />
+      return <Stats stats={section.stats} showMore={section.showMore} />
     
     case 'solutions':
-      return <Solutions solutions={section.solutions} />
+      return <Solutions solutions={section.solutions} showMore={section.showMore} />
     
     case 'community':
       return (
         <Community 
           community={section.community} 
-          featuredPosts={communityPosts || []} 
+          featuredPosts={communityPosts || []}
+          showMore={section.showMore}
         />
       )
     
@@ -39,12 +41,16 @@ export function SectionRenderer({ section, insights = [], communityPosts = [] }:
       return (
         <Insights 
           insights={insights || []} 
-          sectionConfig={section.insights} 
+          sectionConfig={section.insights}
+          showMore={section.showMore}
         />
       )
     
     case 'cta':
-      return <CTA cta={section.cta} />
+      return <CTA cta={section.cta} showMore={section.showMore} />
+    
+    case 'content':
+      return <Content content={section.content} showMore={section.showMore} />
     
     default:
       return null

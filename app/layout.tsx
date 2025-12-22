@@ -8,9 +8,9 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "InfraAI - AI-Powered Infrastructure Solutions",
+  title: "AIDFest - Artificial Intelligence and Data Festival",
   description:
-    "Transform your operations with cutting-edge AI solutions. Join a global community of innovators building scalable, intelligent infrastructure.",
+    "Bring together practitioners, solution builders, and government agencies to strengthen shared capability on data for AI.",
   generator: "v0.app",
   icons: {
     icon: [

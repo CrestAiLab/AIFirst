@@ -1,15 +1,27 @@
-export const pageContentQuery = `*[_type == "pageContent"][0]{
+export const pageContentQuery = `*[_type == "pageContent"] | order(_updatedAt desc)[0]{
+  _id,
   title,
   sections[]{
     _key,
     sectionType,
     enabled,
+    showMore{
+      enabled,
+      text,
+      linkType,
+      internalPage,
+      externalUrl
+    },
     hero{
       badge,
       heading,
       description,
       primaryButton,
-      secondaryButton
+      primaryButtonUrl,
+      secondaryButton,
+      secondaryButtonUrl,
+      showPrimaryButton,
+      showSecondaryButton
     },
     stats[]{
       value,
@@ -25,6 +37,7 @@ export const pageContentQuery = `*[_type == "pageContent"][0]{
       heading,
       description,
       buttonText,
+      buttonUrl,
       features[]{
         icon,
         title,
@@ -34,13 +47,31 @@ export const pageContentQuery = `*[_type == "pageContent"][0]{
     insights{
       heading,
       description,
-      buttonText
+      buttonText,
+      buttonUrl
     },
     cta{
       heading,
       description,
       buttonText,
+      buttonUrl,
       disclaimer
+    },
+    content{
+      title,
+      body,
+      items,
+      layout,
+      image{
+        asset->{
+          _id,
+          _type,
+          url
+        },
+        hotspot,
+        crop
+      },
+      imageAlt
     }
   }
 }`

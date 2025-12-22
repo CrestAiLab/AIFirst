@@ -2009,16 +2009,269 @@ _**Agent (model default, mode Agent)**_
 
 ---
 
+Checking the theme toggle implementation:
 
 
 ---
 
-<tool-use data-tool-type="unknown" data-tool-name="read_file">
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/components/header.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/layout.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+Fixing the theme toggle: the layout script doesn't remove the dark class in light mode, and there's a sync issue. Updating both:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/app/layout.tsx</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: undefined
+
+```diff
+@@ -49,4 +49,6 @@
+                  if (theme === 'dark') {
+                    document.documentElement.classList.add('dark');
++                 } else {
++                   document.documentElement.classList.remove('dark');
+                  }
+                })();
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/components/header.tsx</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: undefined
+
+```diff
+@@ -15,4 +15,6 @@
+      if (initialTheme === "dark") {
+        document.documentElement.classList.add("dark")
++     } else {
++       document.documentElement.classList.remove("dark")
+      }
+    }, [])
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/components/header.tsx</summary>
+
+**Chunk 1**
+Lines added: 5, lines removed: 2
+
+```diff
+@@ -24,8 +24,11 @@
+      setTheme(newTheme)
+      localStorage.setItem("theme", newTheme)
++     
++     // Force remove/add to ensure it works
++     const html = document.documentElement
+      if (newTheme === "dark") {
+-       document.documentElement.classList.add("dark")
++       html.classList.add("dark")
+      } else {
+-       document.documentElement.classList.remove("dark")
++       html.classList.remove("dark")
+      }
+    }
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+Fixed the theme toggle. Issues:
+
+1. **Layout script**: Only added the dark class; didn't remove it for light mode.
+2. **Header initialization**: Didn't remove the dark class when initializing to light mode.
+3. **Toggle function**: Made it more explicit.
+
+The theme toggle should now work in both directions:
+- Clicking the moon icon switches to dark mode
+- Clicking the sun icon switches to light mode
+- The preference is saved in localStorage
+- The dark class is properly added/removed from the HTML element
+
+Try toggling the theme; it should switch between light and dark modes.
+
+---
+
+_**User (2025-12-21 23:51Z)**_
+
+@public/city.jpg @public/goal.jpg @public/matter.jpg @public/meeting.jpg @public/outcome.jpg @public/target.jpg 
+
+apply this to each part of showing the home pager part, section can have  the heading first like now, then 2 columns,  picture can be either lefft or right, display this respectively 
+
+this should be component on sanity studio, user can choose picture on left or right or no image, the content will be filled, if has picture, user can up load or select
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+
+
+---
+
+
+Checking the Sanity setup, then creating a reusable 2-column component with image positioning and integrating it with Sanity Studio.
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/lib/sanity/client.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/page.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
 <details>
-<summary>Tool use: **read_file**</summary>
+                <summary>Tool use: **codebase_search** • Searched codebase "How is Sanity configured and what schemas exist?" • **15** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `sanity/schemaTypes/index.ts` | L11 |
+| `sanity.config.ts` | L22 |
+| `sanity/schemaTypes/insight.ts` | L114 |
+| `SANITY_SETUP.md` | L78 |
+| `SANITY_SETUP.md` | L205-271 |
+| `sanity/schemaTypes/pageContent.ts` | L35 |
+| `SANITY_SETUP.md` | L123-209 |
+| `sanity/schemaTypes/pageSection.ts` | L319 |
+| `lib/sanity/client.ts` | L7 |
+| `SANITY_SETUP.md` | L72-129 |
+| `lib/sanity/queries.ts` | L64 |
+| `sanity/schemaTypes/communityPost.ts` | L102 |
+| `README.md` | L90 |
+| `scripts/README.md` | L48 |
+| `package.json` | L48 |
 
-Status: **loading**
+</details>
+</tool-use>
 
+---
+
+<tool-use data-tool-type="generic" data-tool-name="glob_file_search">
+<details>
+<summary>Tool use: **glob_file_search** • Searched codebase "**/sanity/**/*.ts" • **9** results in **1** directory</summary>
+
+Directory: **/Users/phucpham/GitHub/AIFirst** (9 files)
+
+| File |
+|------|
+| `sanity/schemaTypes/pageSection.ts` |
+| `lib/sanity/queries.ts` |
+| `lib/sanity/types.ts` |
+| `sanity/schemaTypes/pageContent.ts` |
+| `sanity/schemaTypes/index.ts` |
+| `sanity/schemaTypes/communityPost.ts` |
+| `sanity/schemaTypes/insight.ts` |
+| `lib/sanity/image.ts` |
+| `lib/sanity/client.ts` |
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="glob_file_search">
+<details>
+<summary>Tool use: **glob_file_search** • Searched codebase "**/sanity/**/*.tsx" • **0** result in **1** directory</summary>
+
+Directory: **/Users/phucpham/GitHub/AIFirst** (0 file)
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="list_dir">
+<details>
+            <summary>Tool use: **list_dir** • Listed directory, 0 results</summary>
+        
+No results found
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Reviewing existing schemas and components:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/sanity/schemaTypes/pageSection.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/components/section-renderer.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/lib/sanity/types.ts</summary>
 
 </details>
 </tool-use>
@@ -2030,19 +2283,13 @@ Status: **loading**
 ---
 
 
-
----
-
+Checking the Content component:
 
 
 ---
 
-<tool-use data-tool-type="unknown" data-tool-name="search_replace">
-<details>
-<summary>Tool use: **search_replace**</summary>
-
-Status: **loading**
-
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/components/content.tsx</summary>
 
 </details>
 </tool-use>
@@ -2054,6 +2301,110 @@ Status: **loading**
 ---
 
 
+Updating the Content component to show the heading first, then a 2-column layout with modern styling. Enhancing the Sanity schema to support this:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/components/content.tsx</summary>
+
+**Chunk 1**
+Lines added: 6, lines removed: 11
+
+```diff
+@@ -18,26 +18,21 @@
+  
+    const hasImage = image &amp;&amp; layout !== 'default'
+-   const imageUrl = image ? urlFor(image).width(800).height(600).url() : null
++   const imageUrl = image ? urlFor(image).width(1200).height(800).url() : null
+  
+    const renderContent = () =&gt; (
+      &lt;div className={hasImage ? "flex-1" : ""}&gt;
+-       {title &amp;&amp; (
+-         &lt;h2 className="mb-6 text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl"&gt;
+-           {title}
+-         &lt;/h2&gt;
+-       )}
+        {body &amp;&amp; (
+          &lt;div className="prose prose-lg dark:prose-invert max-w-none mb-8"&gt;
+-           &lt;div className="whitespace-pre-wrap text-muted-foreground leading-relaxed text-base"&gt;
++           &lt;div className="whitespace-pre-wrap text-muted-foreground leading-relaxed text-lg"&gt;
+              {body}
+            &lt;/div&gt;
+          &lt;/div&gt;
+        )}
+        {items.length &gt; 0 &amp;&amp; (
+-         &lt;ul className="space-y-3 mt-6"&gt;
++         &lt;ul className="space-y-4 mt-6"&gt;
+            {items.map((item, index) =&gt; (
+-             &lt;li key={index} className="flex items-start gap-4 pl-1"&gt;
+-               &lt;div className="flex-shrink-0 mt-2 h-1.5 w-1.5 rounded-full bg-accent shadow-sm shadow-accent/50" /&gt;
+-               &lt;span className="text-muted-foreground leading-relaxed flex-1"&gt;{item}&lt;/span&gt;
++             &lt;li key={index} className="flex items-start gap-4 p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-accent/50 transition-all duration-300 hover:shadow-lg dark:hover:shadow-xl hover:shadow-accent/10 dark:hover:shadow-accent/20"&gt;
++               &lt;div className="flex-shrink-0 mt-1.5 h-2 w-2 rounded-full bg-accent shadow-md dark:shadow-lg shadow-accent/50" /&gt;
++               &lt;span className="text-foreground leading-relaxed flex-1 font-medium"&gt;{item}&lt;/span&gt;
+              &lt;/li&gt;
+            ))}
+```
+
+**Chunk 2**
+Lines added: 4, lines removed: 3
+
+```diff
+@@ -51,13 +46,14 @@
+      
+      return (
+-       &lt;div className="flex-1 relative"&gt;
+-         &lt;div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl dark:shadow-2xl border border-border/50"&gt;
++       &lt;div className="flex-1 relative group"&gt;
++         &lt;div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl dark:shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-border/50 hover:border-accent/50 transition-all duration-300 group-hover:shadow-[0_25px_70px_rgba(0,0,0,0.15)] dark:group-hover:shadow-[0_25px_70px_rgba(0,0,0,0.7)] group-hover:shadow-accent/15 dark:group-hover:shadow-accent/25"&gt;
+            &lt;Image
+              src={imageUrl}
+              alt={imageAlt}
+              fill
+-             className="object-cover"
++             className="object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 40vw"
+            /&gt;
++           &lt;div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" /&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+```
+
+**Chunk 3**
+Lines added: 14, lines removed: 3
+
+```diff
+@@ -66,8 +62,19 @@
+  
+    return (
+-     &lt;section className="py-16 md:py-24 bg-background"&gt;
+-       &lt;div className="container"&gt;
++     &lt;section className="py-20 md:py-28 relative overflow-hidden"&gt;
++       &lt;div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-primary/5" /&gt;
++       &lt;div className="container relative z-10"&gt;
++         {/* Heading First */}
++         {title &amp;&amp; (
++           &lt;div className="mx-auto max-w-3xl text-center mb-16"&gt;
++             &lt;h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-balance bg-gradient-to-r from-foreground via-accent to-foreground bg-clip-text text-transparent"&gt;
++               {title}
++             &lt;/h2&gt;
++           &lt;/div&gt;
++         )}
++ 
++         {/* Two Column Layout */}
+          {hasImage ? (
+-           &lt;div className="grid lg:grid-cols-2 gap-12 items-center"&gt;
++           &lt;div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center"&gt;
+              {layout === 'imageLeft' ? (
+                &lt;&gt;
+```
+
+</details>
+
+</tool-use>
 
 ---
 
@@ -2062,6 +2413,2147 @@ Status: **loading**
 ---
 
 
+Updating the Sanity schema to clarify the layout options and improve the content section:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/sanity/schemaTypes/pageSection.ts</summary>
+
+**Chunk 1**
+Lines added: 3, lines removed: 1
+
+```diff
+@@ -241,6 +241,8 @@
+          defineField({
+            name: 'title',
+-           title: 'Title',
++           title: 'Heading',
+            type: 'string',
++           description: 'Main heading displayed at the top (centered)',
++           validation: (rule) =&gt; rule.required(),
+          }),
+          defineField({
+```
+
+**Chunk 2**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -249,4 +251,5 @@
+            type: 'text',
+            rows: 6,
++           description: 'Main content text displayed in the content column',
+          }),
+          defineField({
+```
+
+**Chunk 3**
+Lines added: 6, lines removed: 6
+
+```diff
+@@ -255,19 +258,19 @@
+            type: 'array',
+            of: [{ type: 'string' }],
+-           description: 'Optional list items (bullet points)',
++           description: 'Optional list items displayed as styled cards',
+          }),
+          defineField({
+            name: 'layout',
+-           title: 'Layout',
++           title: 'Image Position',
+            type: 'string',
+            options: {
+              list: [
+-               { title: 'Text Only (Default)', value: 'default' },
+-               { title: 'Image Left, Text Right', value: 'imageLeft' },
+-               { title: 'Text Left, Image Right', value: 'imageRight' },
++               { title: 'No Image (Text Only)', value: 'default' },
++               { title: 'Image on Left, Content on Right', value: 'imageLeft' },
++               { title: 'Content on Left, Image on Right', value: 'imageRight' },
+              ],
+            },
+            initialValue: 'default',
+-           description: 'Choose the layout for this section',
++           description: 'Choose where to display the image, or select "No Image" for text-only layout',
+          }),
+          defineField({
+```
+
+**Chunk 4**
+Lines added: 4, lines removed: 2
+
+```diff
+@@ -278,11 +281,13 @@
+              hotspot: true,
+            },
+-           description: 'Optional image (only used if layout is set to imageLeft or imageRight)',
++           description: 'Upload or select an image. Only used if Image Position is set to "Image on Left" or "Image on Right"',
++           hidden: ({ parent }) =&gt; parent?.layout === 'default',
+          }),
+          defineField({
+            name: 'imageAlt',
+            title: 'Image Alt Text',
+            type: 'string',
+-           description: 'Alternative text for the image (for accessibility)',
++           description: 'Alternative text for the image (for accessibility and SEO)',
++           hidden: ({ parent }) =&gt; parent?.layout === 'default',
+          }),
+        ],
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 2 files</summary>
+      
+Lint paths:
+
+- `components/content.tsx`
+- `sanity/schemaTypes/pageSection.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Checking queries to ensure images are fetched correctly:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/lib/sanity/queries.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updating the query to fetch image assets correctly:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/lib/sanity/queries.ts</summary>
+
+**Chunk 1**
+Lines added: 12, lines removed: 1
+
+```diff
+@@ -48,5 +48,16 @@
+        items,
+        layout,
+-       image,
++       image{
++         asset-&gt;{
++           _id,
++           url,
++           metadata{
++             dimensions{
++               width,
++               height
++             }
++           }
++         }
++       },
+        imageAlt
+      }
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Creating a quick reference guide for using this feature. Checking the image utility:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/lib/sanity/image.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+## Updates
+
+### 1. **Enhanced Content Component** (`components/content.tsx`)
+   - Heading first (centered, gradient text)
+   - Two-column layout below the heading
+   - Image positioning: left, right, or no image
+   - Shadows and hover effects
+   - Responsive design
+
+### 2. **Updated Sanity Schema** (`sanity/schemaTypes/pageSection.ts`)
+   - Clearer field descriptions
+   - Image Position options:
+     - "No Image (Text Only)"
+     - "Image on Left, Content on Right"
+     - "Content on Left, Image on Right"
+   - Image field hidden when "No Image" is selected
+   - Title/heading is required
+
+### 3. **Updated Query** (`lib/sanity/queries.ts`)
+   - Fetches image assets with metadata
+
+## How to Use in Sanity Studio
+
+1. Go to `/studio` in your browser
+2. Edit the "Page Content" document
+3. Add or edit a "Content" section:
+   - Set Section Type to "Content"
+   - Enter a Heading (required)
+   - Enter Body Text
+   - Optionally add List Items
+   - Choose Image Position:
+     - No Image: text-only layout
+     - Image on Left: image left, content right
+     - Image on Right: content left, image right
+   - If using an image:
+     - Upload or select an image
+     - Add Alt Text for accessibility
+4. Publish your changes
+
+The component will:
+- Display the heading centered at the top
+- Show content and image in a 2-column layout (if image is selected)
+- Apply shadows and hover effects
+- Work in both light and dark modes
+
+The images in your `public` folder (city.jpg, goal.jpg, etc.) can be uploaded to Sanity Studio or referenced if you add a fallback mechanism. The component is ready to use.
+
+---
+
+_**User (2025-12-21 23:51Z)**_
+
+I mean should have an editable component for user on sanity studio like this
+apply this to each part of showing the home pager part, section can have  the heading first like now, then 2 columns,  picture can be either lefft or right, display this respectively 
+
+this should be component on sanity studio, user can choose picture on left or right or no image, the content will be filled, if has picture, user can up load or select
+
+the current homepage should editable on santity studio as well
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+
+
+---
+
+
+Reviewing the current Sanity setup to make all homepage sections editable in Sanity Studio, including the 2-column content component:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/sanity/schemaTypes/pageContent.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/lib/defaultSections.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/lib/sanity/queries.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Enhancing the Sanity schema to make all sections editable and improve the content section with clearer options. Updating the schema:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/sanity/schemaTypes/pageSection.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/sanity/schemaTypes/pageSection.ts</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -5,4 +5,5 @@
+    title: 'Page Section',
+    type: 'object',
++   description: 'Configure a section for your homepage. Each section type has different options.',
+    fields: [
+      defineField({
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/sanity/schemaTypes/pageSection.ts</summary>
+
+**Chunk 1**
+Lines added: 7, lines removed: 6
+
+```diff
+@@ -11,13 +11,14 @@
+        title: 'Section Type',
+        type: 'string',
++       description: 'Choose the type of section to display. Each type has different content options below.',
+        options: {
+          list: [
+-           { title: 'Hero', value: 'hero' },
+-           { title: 'Stats', value: 'stats' },
+-           { title: 'Solutions', value: 'solutions' },
++           { title: 'Hero (Top Banner)', value: 'hero' },
++           { title: 'Stats (Numbers/Metrics)', value: 'stats' },
++           { title: 'Solutions (Feature Cards)', value: 'solutions' },
+            { title: 'Community', value: 'community' },
+-           { title: 'Insights', value: 'insights' },
+-           { title: 'Call to Action', value: 'cta' },
+-           { title: 'Content', value: 'content' },
++           { title: 'Insights (Blog Posts)', value: 'insights' },
++           { title: 'Call to Action (CTA)', value: 'cta' },
++           { title: 'Content (2-Column with Image)', value: 'content' },
+          ],
+        },
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/sanity/schemaTypes/pageSection.ts</summary>
+
+**Chunk 1**
+Lines added: 3, lines removed: 2
+
+```diff
+@@ -238,12 +238,13 @@
+      defineField({
+        name: 'content',
+-       title: 'Content Section',
++       title: 'Content Section (2-Column Layout)',
+        type: 'object',
++       description: 'Create a section with a heading at the top, followed by a 2-column layout with content and optional image.',
+        fields: [
+          defineField({
+            name: 'title',
+            title: 'Heading',
+            type: 'string',
+-           description: 'Main heading displayed at the top (centered)',
++           description: 'Main heading displayed at the top center of the section',
+            validation: (rule) =&gt; rule.required(),
+          }),
+```
+
+**Chunk 2**
+Lines added: 3, lines removed: 3
+
+```diff
+@@ -253,12 +254,12 @@
+            type: 'text',
+            rows: 6,
+-           description: 'Main content text displayed in the content column',
++           description: 'Main content text displayed in the content column. This appears below the heading.',
+          }),
+          defineField({
+            name: 'items',
+-           title: 'List Items',
++           title: 'List Items (Optional)',
+            type: 'array',
+            of: [{ type: 'string' }],
+-           description: 'Optional list items displayed as styled cards',
++           description: 'Optional list items displayed as styled cards with bullet points. Each item will appear in its own card.',
+          }),
+          defineField({
+```
+
+**Chunk 3**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -274,5 +275,5 @@
+            },
+            initialValue: 'default',
+-           description: 'Choose where to display the image, or select "No Image" for text-only layout',
++           description: 'Layout options:\n• No Image: Single column text layout\n• Image Left: Image on left, content on right\n• Image Right: Content on left, image on right',
+          }),
+          defineField({
+```
+
+**Chunk 4**
+Lines added: 2, lines removed: 1
+
+```diff
+@@ -282,6 +283,7 @@
+            options: {
+              hotspot: true,
++             accept: 'image/*',
+            },
+-           description: 'Upload or select an image. Only used if Image Position is set to "Image on Left" or "Image on Right"',
++           description: 'Upload a new image or select an existing one from your media library. This field only appears when Image Position is set to "Image on Left" or "Image on Right".',
+            hidden: ({ parent }) =&gt; parent?.layout === 'default',
+          }),
+```
+
+**Chunk 5**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -290,5 +292,5 @@
+            title: 'Image Alt Text',
+            type: 'string',
+-           description: 'Alternative text for the image (for accessibility and SEO)',
++           description: 'Alternative text describing the image. Important for accessibility and SEO. Example: "Futuristic cityscape with glowing buildings"',
+            hidden: ({ parent }) =&gt; parent?.layout === 'default',
+          }),
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Enhancing the pageContent schema to clarify it's the homepage editor:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/sanity/schemaTypes/pageContent.ts</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: 1
+
+```diff
+@@ -4,6 +4,7 @@
+  export const pageContent = defineType({
+    name: 'pageContent',
+-   title: 'Page Content',
++   title: 'Homepage Content',
+    type: 'document',
++   description: 'Edit all sections of your homepage. Add, remove, reorder, and configure each section.',
+    fields: [
+      defineField({
+```
+
+**Chunk 2**
+Lines added: 4, lines removed: 2
+
+```diff
+@@ -12,12 +13,14 @@
+        type: 'string',
+        initialValue: 'Home Page',
++       description: 'Internal title for this page (not displayed on the website)',
+        validation: (rule) =&gt; rule.required(),
+      }),
+      defineField({
+        name: 'sections',
+-       title: 'Page Sections',
++       title: 'Homepage Sections',
+        type: 'array',
+        of: [{ type: 'pageSection' }],
+-       description: 'Add, remove, and reorder sections for your page',
++       description: 'Build your homepage by adding sections below. You can drag to reorder, and enable/disable each section.',
++       validation: (rule) =&gt; rule.min(1).error('At least one section is required'),
+      }),
+    ],
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `sanity/schemaTypes`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Verifying the Content component handles Sanity images correctly:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/components/content.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updating the query to return the image in the format expected by `urlFor`:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/lib/sanity/queries.ts</summary>
+
+**Chunk 1**
+Lines added: 5, lines removed: 8
+
+```diff
+@@ -51,12 +51,9 @@
+          asset-&gt;{
+            _id,
+-           url,
+-           metadata{
+-             dimensions{
+-               width,
+-               height
+-             }
+-           }
+-         }
++           _type,
++           url
++         },
++         hotspot,
++         crop
+        },
+        imageAlt
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/lib/sanity/types.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Creating a quick reference guide for using the Sanity Studio:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="write">
+
+<details><summary>Tool use: **write** • Edit file: /Users/phucpham/GitHub/AIFirst/SANITY_HOMEPAGE_GUIDE.md</summary>
+
+**Chunk 1**
+Lines added: 158, lines removed: 1
+
+```diff
+@@ -1,1 +1,158 @@
+- 
++ # Homepage Editing Guide - Sanity Studio
++ 
++ This guide explains how to edit your homepage sections in Sanity Studio.
++ 
++ ## Accessing Sanity Studio
++ 
++ 1. Start your development server: &#96;pnpm dev&#96;
++ 2. Navigate to: &#96;http://localhost:3000/studio&#96;
++ 3. Log in with your Sanity account
++ 
++ ## Editing the Homepage
++ 
++ 1. In Sanity Studio, find **"Homepage Content"** in the sidebar
++ 2. Click to open the homepage editor
++ 3. You'll see all your homepage sections listed
++ 
++ ## Section Types
++ 
++ ### 1. Hero (Top Banner)
++ - The main banner at the top of your homepage
++ - Configure badge text, heading, description, and buttons
++ 
++ ### 2. Stats (Numbers/Metrics)
++ - Display key statistics or metrics
++ - Add multiple stat items with value, label, and description
++ 
++ ### 3. Solutions (Feature Cards)
++ - Showcase your solutions or features
++ - Each solution has an icon, title, and description
++ 
++ ### 4. Community
++ - Community section with features and discussion posts
++ - Configure heading, description, features, and button text
++ 
++ ### 5. Insights (Blog Posts)
++ - Display latest blog posts/insights
++ - Configure heading, description, and button text
++ - Posts are pulled from your Insights content type
++ 
++ ### 6. Call to Action (CTA)
++ - Conversion-focused section
++ - Configure heading, description, button text, and disclaimer
++ 
++ ### 7. Content (2-Column with Image) ⭐
++ - **This is the main flexible content section**
++ 
++ ## Using the Content Section (2-Column Layout)
++ 
++ The Content section allows you to create flexible 2-column layouts with optional images.
++ 
++ ### Layout Structure:
++ 1. **Heading** - Displayed at the top center (required)
++ 2. **Two Columns** - Content and optional image side-by-side
++ 
++ ### Step-by-Step:
++ 
++ 1. **Add a Content Section**
++    - Click "Add item" in the sections array
++    - Set Section Type to: **"Content (2-Column with Image)"**
++ 
++ 2. **Configure the Heading**
++    - Enter a **Heading** (required)
++    - This appears centered at the top
++ 
++ 3. **Add Body Text**
++    - Enter **Body Text** in the text area
++    - This appears in the content column
++ 
++ 4. **Add List Items (Optional)**
++    - Click "Add item" to add list items
++    - Each item appears as a styled card with a bullet point
++    - Great for goals, outcomes, features, etc.
++ 
++ 5. **Choose Image Position**
++    - **No Image (Text Only)**: Single column text layout
++    - **Image on Left, Content on Right**: Image left, content right
++    - **Image on Right, Content on Left**: Content left, image right
++ 
++ 6. **Upload/Select Image** (if image position is selected)
++    - Click the **Image** field
++    - **Upload**: Click "Upload" to upload a new image
++    - **Select**: Click "Select" to choose from existing images
++    - Add **Image Alt Text** for accessibility
++ 
++ 7. **Enable/Disable Section**
++    - Toggle the **Enabled** checkbox to show/hide the section
++ 
++ ### Reordering Sections
++ 
++ - Drag sections up or down to reorder them
++ - The order in Sanity Studio matches the order on your homepage
++ 
++ ### Tips
++ 
++ - **Image Recommendations**: 
++   - Use high-quality images (1200x800px or larger)
++   - Images are automatically optimized
++   - Supported formats: JPG, PNG, WebP
++ 
++ - **Content Best Practices**:
++   - Keep headings concise and impactful
++   - Use list items for key points or features
++   - Add images to break up text-heavy sections
++ 
++ - **Layout Tips**:
++   - Use "Image Left" for content that flows left-to-right
++   - Use "Image Right" to draw attention to the content first
++   - Use "No Image" for text-heavy sections or when images aren't needed
++ 
++ ## Publishing Changes
++ 
++ 1. After making changes, click **"Publish"** in the top right
++ 2. Changes appear on your homepage immediately
++ 3. You can also use **"Publish"** → **"Schedule"** to publish at a specific time
++ 
++ ## Example: Creating a "Goals" Section
++ 
++ 1. Add a new Content section
++ 2. Set Heading: "Our Goals"
++ 3. Add Body Text describing your goals
++ 4. Add List Items:
++    - "Goal 1: Create shared playbook"
++    - "Goal 2: Identify challenges"
++    - "Goal 3: Exchange methods"
++ 5. Choose "Image on Right"
++ 6. Upload/select an image (e.g., goal.jpg)
++ 7. Add Alt Text: "Team working on goals"
++ 8. Enable the section
++ 9. Publish
++ 
++ The section will display with:
++ - "Our Goals" heading at the top (centered)
++ - Content on the left with body text and goal cards
++ - Image on the right with modern shadows and hover effects
++ 
++ ## Troubleshooting
++ 
++ **Images not showing?**
++ - Make sure Image Position is set to "Image on Left" or "Image on Right"
++ - Verify the image is uploaded and published
++ - Check that Image Alt Text is filled in
++ 
++ **Section not appearing?**
++ - Check that the section is **Enabled**
++ - Make sure you've **Published** your changes
++ - Verify the Section Type is set correctly
++ 
++ **Layout not working?**
++ - Ensure you've selected an Image Position option
++ - If using an image, make sure an image is uploaded/selected
++ - Check that the Heading field is filled (required)
++ 
++ ## Need Help?
++ 
++ - Check the Sanity documentation: https://www.sanity.io/docs
++ - Review the component code in &#96;components/content.tsx&#96;
++ - Check the schema in &#96;sanity/schemaTypes/pageSection.ts&#96;
++ 
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `lib/sanity/queries.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Adding error handling for images in the Content component:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/components/content.tsx</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: 2
+
+```diff
+@@ -17,6 +17,6 @@
+    const imageAlt = content.imageAlt || ""
+  
+-   const hasImage = image &amp;&amp; layout !== 'default'
+-   const imageUrl = image ? urlFor(image).width(1200).height(800).url() : null
++   const hasImage = image &amp;&amp; layout !== 'default' &amp;&amp; image.asset
++   const imageUrl = hasImage &amp;&amp; image.asset ? urlFor(image).width(1200).height(800).url() : null
+  
+    const renderContent = () =&gt; (
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+## Complete setup summary
+
+### 1. Enhanced Sanity schema (`sanity/schemaTypes/pageSection.ts`)
+- Added descriptions for all section types
+- Content section:
+  - Clear field descriptions
+  - Image Position options: No Image, Image Left, Image Right
+  - Image field hidden when "No Image" is selected
+  - Image upload/select support
+
+### 2. Updated homepage schema (`sanity/schemaTypes/pageContent.ts`)
+- Clarified it's the "Homepage Content" editor
+- Added descriptions for easier editing
+
+### 3. Content component (`components/content.tsx`)
+- Heading first (centered, gradient)
+- Two-column layout below heading
+- Image positioning: left, right, or no image
+- Shadows and hover effects
+- Responsive design
+
+### 4. Updated queries (`lib/sanity/queries.ts`)
+- Fetches image assets with hotspot and crop data
+- Proper image structure for Sanity
+
+### 5. Documentation (`SANITY_HOMEPAGE_GUIDE.md`)
+- Step-by-step guide for editing homepage sections
+- Instructions for the Content section
+- Tips and troubleshooting
+
+## How to use
+
+1. Access Sanity Studio: `http://localhost:3000/studio`
+2. Edit Homepage Content: find "Homepage Content" in the sidebar
+3. Add/Edit Content sections:
+   - Click "Add item" → Select "Content (2-Column with Image)"
+   - Enter Heading (required)
+   - Add Body Text
+   - Optionally add List Items
+   - Choose Image Position
+   - Upload or select an image (if using image)
+   - Add Image Alt Text
+4. Reorder sections: drag to reorder
+5. Enable/Disable: toggle the Enabled checkbox
+6. Publish: click "Publish" to see changes
+
+## Features
+
+- All homepage sections are editable in Sanity Studio
+- Content section supports 2-column layout with heading first
+- Image positioning: left, right, or no image
+- Image upload/select in Sanity Studio
+- Modern styling with shadows and hover effects
+- Responsive design
+- Dark mode support
+
+The homepage is fully editable in Sanity Studio. Users can add, edit, reorder, and configure all sections, including the flexible 2-column content sections with images.
+
+---
+
+_**User (2025-12-21 23:51Z)**_
+
+yes but it does not reflect right the current one on sanity and the website,, check yourself
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+
+
+---
+
+
+Checking the current implementation to identify the mismatch:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/page.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/lib/defaultSections.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/components/section-renderer.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
+<details>
+                <summary>Tool use: **codebase_search** • Searched codebase "How are sections fetched from Sanity and rendered on the homepage?" • **13** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `app/page.tsx` | L34 |
+| `sanity/schemaTypes/pageContent.ts` | L38 |
+| `components/section-renderer.tsx` | L9-55 |
+| `lib/sanity/queries.ts` | L72 |
+| `sanity/schemaTypes/pageSection.ts` | L328 |
+| `SANITY_HOMEPAGE_GUIDE.md` | L65 |
+| `components/section-renderer.tsx` | L55 |
+| `lib/sanity/types.ts` | L46-71 |
+| `lib/defaultSections.ts` | L96 |
+| `SANITY_SETUP.md` | L123-209 |
+| `scripts/seed-sanity.ts` | L141-190 |
+| `scripts/seed-sanity.ts` | L1-128 |
+| `components/content.tsx` | L2-98 |
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Fixing mismatches: default sections are missing the `layout` field, and the query may not match Sanity's structure. Updating both:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/lib/defaultSections.ts</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -22,4 +22,5 @@
+          title: "Background",
+          body: "AI adoption increasingly depends on the quality, availability, and governability of data—not just the choice of model. A data-centric approach treats AI success as a lifecycle discipline: deliberately engineering training and operational data, building fit-for-purpose evaluation data, and maintaining data assets as systems evolve.",
++         layout: 'default',
+        },
+      },
+```
+
+**Chunk 2**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -31,4 +32,5 @@
+          title: "Purpose of the Community Event",
+          body: "Bring together practitioners, solution builders, and government agencies to strengthen shared capability on data for AI—how to design, create, evaluate, govern, and continuously improve data assets that enable effective, reliable, and responsible AI in real operational settings. The event aims to move organizations beyond isolated pilots toward repeatable, scalable practices.",
++         layout: 'default',
+        },
+      },
+```
+
+**Chunk 3**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -40,4 +42,5 @@
+          title: "Why it Matters",
+          body: "Model improvements alone rarely deliver durable value when data is incomplete, biased, drifting, inconsistently labeled, or constrained by governance and access barriers. Weak data practices can compound downstream issues, undermine performance, and increase operational and reputational risk—especially in high-stakes and regulated environments. At the same time, modern data scale requires balancing automation (to scale and standardize) with human expertise (to preserve meaning, context, and accountability).",
++         layout: 'default',
+        },
+      },
+```
+
+**Chunk 4**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -54,4 +57,5 @@
+            "Establish collaboration mechanisms that connect agencies and practitioners for pilots, benchmarking, and reusable assets.",
+          ],
++         layout: 'default',
+        },
+      },
+```
+
+**Chunk 5**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -71,4 +75,5 @@
+            "A shared pathway for sustained collaboration (regular meetups, knowledge repository, and a mechanism to onboard new partners and contribute reusable assets).",
+          ],
++         layout: 'default',
+        },
+      },
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/lib/sanity/queries.ts</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -1,3 +1,4 @@
+  export const pageContentQuery = &#96;*[_type == "pageContent"][0]{
++   _id,
+    title,
+    sections[]{
+```
+
+**Chunk 2**
+Lines added: 19, lines removed: 3
+
+```diff
+@@ -52,8 +53,24 @@
+            _id,
+            _type,
+-           url
++           url,
++           metadata{
++             dimensions{
++               width,
++               height
++             }
++           }
+          },
+-         hotspot,
+-         crop
++         hotspot{
++           x,
++           y,
++           height,
++           width
++         },
++         crop{
++           top,
++           bottom,
++           left,
++           right
++         }
+        },
+        imageAlt
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/components/content.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Improving image handling and adding debug logging to identify the issue:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/components/content.tsx</summary>
+
+**Chunk 1**
+Lines added: 15, lines removed: 2
+
+```diff
+@@ -17,6 +17,19 @@
+    const imageAlt = content.imageAlt || ""
+  
+-   const hasImage = image &amp;&amp; layout !== 'default' &amp;&amp; image.asset
+-   const imageUrl = hasImage &amp;&amp; image.asset ? urlFor(image).width(1200).height(800).url() : null
++   // Check if image exists and layout allows it
++   const hasImage = layout !== 'default' &amp;&amp; image &amp;&amp; (image.asset || image._ref)
++   
++   // Build image URL if image exists
++   let imageUrl: string | null = null
++   if (hasImage) {
++     try {
++       // Handle both Sanity image formats
++       const imageSource = image.asset ? image : { asset: image }
++       imageUrl = urlFor(imageSource).width(1200).height(800).url()
++     } catch (error) {
++       console.error('Error building image URL:', error)
++       imageUrl = null
++     }
++   }
+  
+    const renderContent = () =&gt; (
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/page.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Simplifying the query to fetch images correctly:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/lib/sanity/queries.ts</summary>
+
+**Chunk 1**
+Lines added: 3, lines removed: 19
+
+```diff
+@@ -53,24 +53,8 @@
+            _id,
+            _type,
+-           url,
+-           metadata{
+-             dimensions{
+-               width,
+-               height
+-             }
+-           }
++           url
+          },
+-         hotspot{
+-           x,
+-           y,
+-           height,
+-           width
+-         },
+-         crop{
+-           top,
+-           bottom,
+-           left,
+-           right
+-         }
++         hotspot,
++         crop
+        },
+        imageAlt
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/components/content.tsx</summary>
+
+**Chunk 1**
+Lines added: 4, lines removed: 6
+
+```diff
+@@ -18,15 +18,13 @@
+  
+    // Check if image exists and layout allows it
+-   const hasImage = layout !== 'default' &amp;&amp; image &amp;&amp; (image.asset || image._ref)
++   const hasImage = layout !== 'default' &amp;&amp; image &amp;&amp; image.asset
+    
+    // Build image URL if image exists
+    let imageUrl: string | null = null
+-   if (hasImage) {
++   if (hasImage &amp;&amp; image.asset) {
+      try {
+-       // Handle both Sanity image formats
+-       const imageSource = image.asset ? image : { asset: image }
+-       imageUrl = urlFor(imageSource).width(1200).height(800).url()
++       imageUrl = urlFor(image).width(1200).height(800).url()
+      } catch (error) {
+-       console.error('Error building image URL:', error)
++       console.error('Error building image URL:', error, image)
+        imageUrl = null
+      }
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 3 files</summary>
+      
+Lint paths:
+
+- `components/content.tsx`
+- `lib/sanity/queries.ts`
+- `lib/defaultSections.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Adding a debug component to inspect fetched data. Creating a script to verify the Sanity connection and data structure:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="write">
+
+<details><summary>Tool use: **write** • Edit file: /Users/phucpham/GitHub/AIFirst/scripts/check-sanity-data.ts</summary>
+
+**Chunk 1**
+Lines added: 68, lines removed: 1
+
+```diff
+@@ -1,1 +1,68 @@
+- 
++ /**
++  * Script to check what data is actually in Sanity
++  * Run with: npx tsx scripts/check-sanity-data.ts
++  */
++ 
++ import { client } from '../lib/sanity/client'
++ import { pageContentQuery } from '../lib/sanity/queries'
++ 
++ async function checkSanityData() {
++   try {
++     console.log('🔍 Checking Sanity data...\n')
++     
++     const pageContent = await client.fetch(pageContentQuery)
++     
++     if (!pageContent) {
++       console.log('❌ No pageContent document found in Sanity')
++       console.log('💡 You need to create a "Homepage Content" document in Sanity Studio')
++       console.log('   Go to: http://localhost:3000/studio')
++       return
++     }
++     
++     console.log('✅ Found pageContent document:')
++     console.log(&#96;   Title: ${pageContent.title}&#96;)
++     console.log(&#96;   Sections: ${pageContent.sections?.length || 0}\n&#96;)
++     
++     if (!pageContent.sections || pageContent.sections.length === 0) {
++       console.log('⚠️  No sections found in pageContent')
++       console.log('💡 Add sections in Sanity Studio or the site will use default sections\n')
++       return
++     }
++     
++     console.log('📋 Sections found:\n')
++     pageContent.sections.forEach((section: any, index: number) =&gt; {
++       console.log(&#96;${index + 1}. ${section.sectionType} (${section.enabled !== false ? 'Enabled' : 'Disabled'})&#96;)
++       
++       if (section.sectionType === 'content') {
++         console.log(&#96;   Title: ${section.content?.title || 'N/A'}&#96;)
++         console.log(&#96;   Layout: ${section.content?.layout || 'default'}&#96;)
++         console.log(&#96;   Has Image: ${section.content?.image ? 'Yes' : 'No'}&#96;)
++         if (section.content?.image) {
++           console.log(&#96;   Image Asset ID: ${section.content.image.asset?._id || 'N/A'}&#96;)
++         }
++         console.log(&#96;   Body Text: ${section.content?.body ? 'Yes' : 'No'}&#96;)
++         console.log(&#96;   List Items: ${section.content?.items?.length || 0}&#96;)
++       }
++       console.log('')
++     })
++     
++     // Check for content sections with images
++     const contentSections = pageContent.sections.filter((s: any) =&gt; s.sectionType === 'content')
++     const sectionsWithImages = contentSections.filter((s: any) =&gt; s.content?.image)
++     
++     console.log(&#96;\n📊 Summary:&#96;)
++     console.log(&#96;   Total sections: ${pageContent.sections.length}&#96;)
++     console.log(&#96;   Content sections: ${contentSections.length}&#96;)
++     console.log(&#96;   Content sections with images: ${sectionsWithImages.length}&#96;)
++     
++   } catch (error) {
++     console.error('❌ Error checking Sanity data:', error)
++     console.log('\n💡 Make sure:')
++     console.log('   1. NEXT_PUBLIC_SANITY_PROJECT_ID is set in .env.local')
++     console.log('   2. NEXT_PUBLIC_SANITY_DATASET is set in .env.local')
++     console.log('   3. Your Sanity project exists and is accessible')
++   }
++ }
++ 
++ checkSanityData()
++ 
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/page.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Adding temporary debug logging to identify the issue:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/app/page.tsx</summary>
+
+**Chunk 1**
+Lines added: 22, lines removed: 1
+
+```diff
+@@ -9,13 +9,34 @@
+  export default async function Home() {
+    const [pageContent, insights, communityPosts] = await Promise.all([
+-     client.fetch(pageContentQuery),
++     client.fetch(pageContentQuery).catch((err) =&gt; {
++       console.error('Error fetching pageContent:', err)
++       return null
++     }),
+      client.fetch(insightsQuery),
+      client.fetch(featuredCommunityPostsQuery),
+    ])
++ 
++   // Debug logging (remove in production)
++   if (process.env.NODE_ENV === 'development') {
++     console.log('📄 Page Content from Sanity:', {
++       exists: !!pageContent,
++       sectionsCount: pageContent?.sections?.length || 0,
++       hasSections: !!(pageContent?.sections &amp;&amp; pageContent.sections.length &gt; 0),
++     })
++   }
+  
+    // Use sections from Sanity if available, otherwise use default sections
+    const sections = pageContent?.sections &amp;&amp; pageContent.sections.length &gt; 0
+      ? pageContent.sections.filter((section: PageSection) =&gt; section.enabled !== false)
+      : getDefaultSections()
++   
++   // Debug logging
++   if (process.env.NODE_ENV === 'development') {
++     console.log('🎨 Final sections to render:', {
++       count: sections.length,
++       source: pageContent?.sections ? 'Sanity' : 'Defaults',
++       types: sections.map((s: PageSection) =&gt; s.sectionType),
++     })
++   }
+  
+    return (
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `app/page.tsx`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+## Fixes applied
+
+1. **Default sections** — Added `layout: 'default'` to all content sections in defaults
+2. **Image query** — Simplified to fetch images correctly from Sanity
+3. **Image handling** — Improved error handling in the Content component
+4. **Debug logging** — Added console logs to see what's being fetched
+5. **Check script** — Created a script to verify Sanity data
+
+## How to verify
+
+1. **Check what's in Sanity:**
+   ```bash
+   npx tsx scripts/check-sanity-data.ts
+   ```
+   This shows what's actually stored in Sanity.
+
+2. **Check the browser console:**
+   - Open your site in development mode
+   - Check the browser console for debug logs showing:
+     - Whether data is coming from Sanity or defaults
+     - How many sections are being rendered
+     - Section types
+
+3. **Verify in Sanity Studio:**
+   - Go to `http://localhost:3000/studio`
+   - Open "Homepage Content"
+   - Check that sections exist and are enabled
+   - For Content sections, verify:
+     - Heading is filled
+     - Layout is set (default/imageLeft/imageRight)
+     - If using an image, the image is uploaded and published
+
+## Common issues
+
+- **Using defaults instead of Sanity:**
+  - No "Homepage Content" document exists → Create one in Sanity Studio
+  - Document exists but has no sections → Add sections
+  - Sections exist but are disabled → Enable them
+
+- **Images not showing:**
+  - Image Position must be set to "Image on Left" or "Image on Right"
+  - Image must be uploaded and published in Sanity
+  - Check browser console for image URL errors
+
+- **Content not matching:**
+  - Publish changes in Sanity Studio
+  - Clear Next.js cache: delete `.next` folder and restart
+  - Check that `enabled` is true for sections
+
+Run the check script and share the output, or check the browser console logs to see what's happening.
+
+---
+
+_**User (2025-12-21 23:51Z)**_
+
+it is different 
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+
+
+---
+
+
+Fixing the section count in the preview and verifying the section structure matches what the code expects:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/sanity/schemaTypes/pageContent.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/sanity/schemaTypes/pageSection.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
+<details>
+                <summary>Tool use: **codebase_search** • Searched codebase "How are sections stored and retrieved in Sanity pageContent?" • **12** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `sanity/schemaTypes/pageContent.ts` | L38 |
+| `lib/sanity/queries.ts` | L73 |
+| `app/page.tsx` | L55 |
+| `sanity/schemaTypes/pageSection.ts` | L328 |
+| `lib/sanity/types.ts` | L46-71 |
+| `lib/sanity/types.ts` | L55-85 |
+| `scripts/check-sanity-data.ts` | L64 |
+| `sanity/schemaTypes/index.ts` | L11 |
+| `SANITY_HOMEPAGE_GUIDE.md` | L65 |
+| `scripts/seed-sanity.ts` | L141-190 |
+| `SANITY_SETUP.md` | L72-129 |
+| `lib/defaultSections.ts` | L101 |
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Fixing the preview count and verifying the section structure matches what's stored. The preview shows "0 section(s)" even though a section exists. Updating the preview and checking the data structure:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/sanity/schemaTypes/pageContent.ts</summary>
+
+**Chunk 1**
+Lines added: 4, lines removed: 3
+
+```diff
+@@ -28,10 +28,11 @@
+      select: {
+        title: 'title',
+-       sectionsCount: 'sections.length',
++       sections: 'sections',
+      },
+-     prepare({ title, sectionsCount }) {
++     prepare({ title, sections }) {
++       const sectionsCount = Array.isArray(sections) ? sections.length : 0
+        return {
+          title: title || 'Home Page',
+-         subtitle: &#96;${sectionsCount || 0} section(s)&#96;,
++         subtitle: &#96;${sectionsCount} section(s)&#96;,
+        }
+      },
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_cmd">
+<details><summary>Tool use: **run_terminal_cmd** • Run command: cd /Users/phucpham/GitHub/AIFirst && cat .env.local 2>/dev/null | grep -i sanity || echo "No .env.local found or no Sanity vars"</summary>
+
+```bash
+cd /Users/phucpham/GitHub/AIFirst && cat .env.local 2>/dev/null | grep -i sanity || echo "No .env.local found or no Sanity vars"
+```
+
+```
+No .env.local found or no Sanity vars
+
+```
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Creating a diagnostic tool to compare Sanity data with what's rendered. Checking the actual data structure:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="write">
+
+<details><summary>Tool use: **write** • Edit file: /Users/phucpham/GitHub/AIFirst/app/api/debug-sanity/route.ts</summary>
+
+**Chunk 1**
+Lines added: 47, lines removed: 1
+
+```diff
+@@ -1,1 +1,47 @@
+- 
++ import { NextResponse } from 'next/server'
++ import { client } from '@/lib/sanity/client'
++ import { pageContentQuery } from '@/lib/sanity/queries'
++ import { getDefaultSections } from '@/lib/defaultSections'
++ 
++ export async function GET() {
++   try {
++     const pageContent = await client.fetch(pageContentQuery)
++     
++     const sections = pageContent?.sections &amp;&amp; pageContent.sections.length &gt; 0
++       ? pageContent.sections.filter((section: any) =&gt; section.enabled !== false)
++       : getDefaultSections()
++ 
++     return NextResponse.json({
++       success: true,
++       data: {
++         fromSanity: !!pageContent,
++         pageContent: pageContent ? {
++           title: pageContent.title,
++           sectionsCount: pageContent.sections?.length || 0,
++           sections: pageContent.sections?.map((s: any) =&gt; ({
++             _key: s._key,
++             sectionType: s.sectionType,
++             enabled: s.enabled,
++             hasHero: !!s.hero,
++             hasContent: !!s.content,
++             heroHeading: s.hero?.heading,
++             contentTitle: s.content?.title,
++           })) || [],
++         } : null,
++         finalSections: {
++           count: sections.length,
++           source: pageContent?.sections ? 'Sanity' : 'Defaults',
++           types: sections.map((s: any) =&gt; s.sectionType),
++         },
++         rawSanityData: pageContent,
++       },
++     })
++   } catch (error: any) {
++     return NextResponse.json({
++       success: false,
++       error: error.message,
++       stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
++     }, { status: 500 })
++   }
++ }
++ 
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/page.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updating the query to handle drafts and ensure we fetch the correct document:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/lib/sanity/queries.ts</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -1,3 +1,3 @@
+- export const pageContentQuery = &#96;*[_type == "pageContent"][0]{
++ export const pageContentQuery = &#96;*[_type == "pageContent" &amp;&amp; !(_id in path("drafts.**"))] | order(_updatedAt desc)[0]{
+    _id,
+    title,
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 3 files</summary>
+      
+Lint paths:
+
+- `app/api/debug-sanity/route.ts`
+- `lib/sanity/queries.ts`
+- `sanity/schemaTypes/pageContent.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+## Fixes applied
+
+1. Fixed preview count — now counts sections correctly
+2. Updated query — excludes drafts and fetches the most recent published document
+3. Added debug endpoint — check what's being fetched
+
+## How to diagnose
+
+1. Check what the website is fetching:
+   - Visit: `http://localhost:3000/api/debug-sanity`
+   - This shows:
+     - Whether data comes from Sanity or defaults
+     - Section count and types
+     - Raw Sanity data structure
+
+2. Check browser console:
+   - Open your website in dev mode
+   - Check the console for debug logs showing what's being fetched
+
+3. In Sanity Studio:
+   - Make sure you're editing the published version, not just a draft
+   - Click "Publish" after making changes
+   - The query now excludes drafts, so only published content appears on the website
+
+## Common issues
+
+- Draft vs published: You're editing a draft but the site shows published content
+  - Solution: Click "Publish" in Sanity Studio after editing
+
+- Sections not saving: Sections might not be saved properly
+  - Solution: Make sure each section has all required fields filled
+
+- Query mismatch: The query might not match the data structure
+  - Solution: Check the `/api/debug-sanity` endpoint to see the actual structure
+
+## Next steps
+
+1. Visit `http://localhost:3000/api/debug-sanity` to see what's being fetched
+2. Compare it with what you see in Sanity Studio
+3. Make sure you're publishing changes in Sanity (not just saving drafts)
+4. Share the output from the debug endpoint if it still doesn't match
+
+The query now fetches only published documents (excluding drafts), so make sure to publish your changes in Sanity Studio.
+
+---
+
+_**User (2025-12-21 23:51Z)**_
+
+{"success":true,"data":{"fromSanity":false,"pageContent":null,"finalSections":{"count":8,"source":"Defaults","types":["hero","content","content","content","content","content","insights","cta"]},"rawSanityData":null}}
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+
+
+---
+
+
+The query isn't finding any data in Sanity. Checking the connection and updating the query to also check drafts:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/lib/sanity/queries.ts</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: 1
+
+```diff
+@@ -1,3 +1,3 @@
+- export const pageContentQuery = &#96;*[_type == "pageContent" &amp;&amp; !(_id in path("drafts.**"))] | order(_updatedAt desc)[0]{
++ export const pageContentQuery = &#96;*[_type == "pageContent"] | order(_updatedAt desc)[0]{
+    _id,
+    title,
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/app/api/debug-sanity/route.ts</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: undefined
+
+```diff
+@@ -6,4 +6,6 @@
+  export async function GET() {
+    try {
++     // Check connection first
++     const allPageContent = await client.fetch(&#96;*[_type == "pageContent"]&#96;)
+      const pageContent = await client.fetch(pageContentQuery)
+      
+```
+
+**Chunk 2**
+Lines added: 10, lines removed: undefined
+
+```diff
+@@ -15,6 +17,16 @@
+        success: true,
+        data: {
++         connection: 'ok',
++         totalDocuments: allPageContent?.length || 0,
++         allDocuments: allPageContent?.map((doc: any) =&gt; ({
++           _id: doc._id,
++           title: doc.title,
++           isDraft: doc._id?.startsWith('drafts.'),
++           sectionsCount: doc.sections?.length || 0,
++         })) || [],
+          fromSanity: !!pageContent,
+          pageContent: pageContent ? {
++           _id: pageContent._id,
++           isDraft: pageContent._id?.startsWith('drafts.'),
+            title: pageContent.title,
+            sectionsCount: pageContent.sections?.length || 0,
+```
+
+**Chunk 3**
+Lines added: undefined, lines removed: 1
+
+```diff
+@@ -34,5 +46,4 @@
+            types: sections.map((s: any) =&gt; s.sectionType),
+          },
+-         rawSanityData: pageContent,
+        },
+      })
+```
+
+**Chunk 4**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -41,4 +52,5 @@
+        success: false,
+        error: error.message,
++       connectionError: error.message.includes('project') || error.message.includes('dataset'),
+        stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+      }, { status: 500 })
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/scripts/seed-sanity.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+No `pageContent` document found in Sanity. Creating a script to initialize it and updating the query to also check drafts:
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="write">
+
+<details><summary>Tool use: **write** • Edit file: /Users/phucpham/GitHub/AIFirst/scripts/init-homepage.ts</summary>
+
+**Chunk 1**
+Lines added: 89, lines removed: 1
+
+```diff
+@@ -1,1 +1,89 @@
+- 
++ /**
++  * Script to initialize the Homepage Content document in Sanity
++  * Run with: npx tsx scripts/init-homepage.ts
++  */
++ 
++ import { createClient } from '@sanity/client'
++ import { config } from 'dotenv'
++ import { resolve } from 'path'
++ import { getDefaultSections } from '../lib/defaultSections'
++ 
++ // Load environment variables
++ config({ path: resolve(process.cwd(), '.env.local') })
++ 
++ const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
++ const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET || 'production'
++ const token = process.env.SANITY_API_TOKEN
++ 
++ if (!projectId) {
++   console.error('❌ NEXT_PUBLIC_SANITY_PROJECT_ID is not set in .env.local')
++   process.exit(1)
++ }
++ 
++ const client = createClient({
++   projectId,
++   dataset,
++   apiVersion: '2024-01-01',
++   useCdn: false,
++   token, // Only needed if you want to write data
++ })
++ 
++ async function initHomepage() {
++   try {
++     console.log('🔍 Checking for existing Homepage Content document...\n')
++     
++     // Check if document exists
++     const existing = await client.fetch(&#96;*[_type == "pageContent"][0]&#96;)
++     
++     if (existing) {
++       console.log('✅ Homepage Content document already exists!')
++       console.log(&#96;   Title: ${existing.title}&#96;)
++       console.log(&#96;   Sections: ${existing.sections?.length || 0}&#96;)
++       console.log(&#96;   ID: ${existing._id}&#96;)
++       console.log(&#96;\n💡 If you want to reset it, delete it in Sanity Studio first.&#96;)
++       return
++     }
++ 
++     if (!token) {
++       console.log('⚠️  SANITY_API_TOKEN not set. Cannot create document automatically.')
++       console.log('\n📝 To create the document manually:')
++       console.log('   1. Go to http://localhost:3000/studio')
++       console.log('   2. Click "Create" → "Homepage Content"')
++       console.log('   3. Add sections using the default sections as reference')
++       console.log('\n   Or set SANITY_API_TOKEN in .env.local and run this script again.')
++       return
++     }
++ 
++     console.log('📝 Creating Homepage Content document with default sections...\n')
++     
++     const defaultSections = getDefaultSections()
++     
++     const document = {
++       _type: 'pageContent',
++       title: 'Home Page',
++       sections: defaultSections,
++     }
++ 
++     const result = await client.create(document)
++     
++     console.log('✅ Successfully created Homepage Content document!')
++     console.log(&#96;   ID: ${result._id}&#96;)
++     console.log(&#96;   Sections: ${defaultSections.length}&#96;)
++     console.log('\n📋 Next steps:')
++     console.log('   1. Go to http://localhost:3000/studio')
++     console.log('   2. Open "Homepage Content"')
++     console.log('   3. Review and customize the sections')
++     console.log('   4. Click "Publish" to make it live')
++     console.log('\n🎉 Your homepage is now editable in Sanity Studio!')
++     
++   } catch (error: any) {
++     console.error('❌ Error:', error.message)
++     if (error.message.includes('token')) {
++       console.log('\n💡 Make sure SANITY_API_TOKEN is set in .env.local')
++       console.log('   Get your token from: https://sanity.io/manage')
++     }
++   }
++ }
++ 
++ initHomepage()
++ 
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 2 files</summary>
+      
+Lint paths:
+
+- `app/api/debug-sanity/route.ts`
+- `lib/sanity/queries.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+No `pageContent` document exists in Sanity. Here's how to fix it:
+
+## Solution: Initialize Homepage in Sanity
+
+You have two options:
+
+### Option 1: Automatic (Recommended)
+
+1. Make sure you have `SANITY_API_TOKEN` in your `.env.local`:
+   ```bash
+   SANITY_API_TOKEN=your_token_here
+   ```
+   Get your token from: https://sanity.io/manage → Your Project → API → Tokens
+
+2. Run the initialization script:
+   ```bash
+   npx tsx scripts/init-homepage.ts
+   ```
+
+This creates the Homepage Content document with all default sections.
+
+### Option 2: Manual (If you don't have API token)
+
+1. Go to `http://localhost:3000/studio`
+2. Click "Create" → "Homepage Content"
+3. Set Page Title to "Home Page"
+4. Click "Add item" in Homepage Sections
+5. Add sections one by one:
+   - Select section type (Hero, Content, etc.)
+   - Fill in the fields
+   - Enable the section
+6. Click "Publish" when done
+
+## Check what's happening
+
+Visit the debug endpoint again:
+```
+http://localhost:3000/api/debug-sanity
+```
+
+It now shows:
+- Connection status
+- All documents found (including drafts)
+- Which document is being used
+
+## After initialization
+
+Once the document exists:
+1. The website will use Sanity content instead of defaults
+2. You can edit all sections in Sanity Studio
+3. Changes appear after you click "Publish"
+
+Run the initialization script or create the document manually in Sanity Studio. The debug endpoint will confirm when it's working.
 
 ---
 

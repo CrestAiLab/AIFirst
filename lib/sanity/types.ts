@@ -3,7 +3,11 @@ export interface HeroConfig {
   heading?: string
   description?: string
   primaryButton?: string
+  primaryButtonUrl?: string
   secondaryButton?: string
+  secondaryButtonUrl?: string
+  showPrimaryButton?: boolean
+  showSecondaryButton?: boolean
 }
 
 export interface StatItem {
@@ -28,6 +32,7 @@ export interface CommunityConfig {
   heading?: string
   description?: string
   buttonText?: string
+  buttonUrl?: string
   features?: CommunityFeature[]
 }
 
@@ -35,25 +40,46 @@ export interface InsightsConfig {
   heading?: string
   description?: string
   buttonText?: string
+  buttonUrl?: string
 }
 
 export interface CTAConfig {
   heading?: string
   description?: string
   buttonText?: string
+  buttonUrl?: string
   disclaimer?: string
+}
+
+export interface ContentConfig {
+  title?: string
+  body?: string
+  items?: string[]
+  layout?: 'default' | 'imageLeft' | 'imageRight'
+  image?: any
+  imageAlt?: string
+}
+
+export interface ShowMoreConfig {
+  enabled?: boolean
+  text?: string
+  linkType?: 'internal' | 'external'
+  internalPage?: string
+  externalUrl?: string
 }
 
 export interface PageSection {
   _key?: string
-  sectionType: 'hero' | 'stats' | 'solutions' | 'community' | 'insights' | 'cta'
+  sectionType: 'hero' | 'stats' | 'solutions' | 'community' | 'insights' | 'cta' | 'content'
   enabled?: boolean
+  showMore?: ShowMoreConfig
   hero?: HeroConfig
   stats?: StatItem[]
   solutions?: SolutionItem[]
   community?: CommunityConfig
   insights?: InsightsConfig
   cta?: CTAConfig
+  content?: ContentConfig
 }
 
 export interface PageContent {

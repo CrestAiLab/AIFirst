@@ -43,7 +43,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <div className="h-8 w-8 rounded-lg bg-primary shadow-md dark:shadow-lg border border-primary/20" />
           <span className="text-xl font-bold bg-gradient-to-r from-foreground to-accent bg-clip-text text-transparent">
-            InfraAI
+            AIDFest
           </span>
         </Link>
 
@@ -51,17 +51,17 @@ export function Header() {
           {isHomePage ? (
             <>
               <a
-                href="#solutions"
+                href="#why-it-matters"
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
               >
-                Solutions
+                About
               </a>
-              <a
-                href="#community"
+              <Link
+                href="/community"
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
               >
                 Community
-              </a>
+              </Link>
               <a
                 href="#insights"
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
@@ -72,13 +72,13 @@ export function Header() {
           ) : (
             <>
               <Link
-                href="/#solutions"
+                href="/#why-it-matters"
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
               >
-                Solutions
+                About
               </Link>
               <Link
-                href="/#community"
+                href="/community"
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
               >
                 Community

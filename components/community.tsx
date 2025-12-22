@@ -2,12 +2,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { getIcon } from "@/lib/iconMap"
 import { urlFor } from "@/lib/sanity/image"
-import type { CommunityPost, CommunityConfig } from "@/lib/sanity/types"
+import { ShowMoreButton } from "@/components/show-more-button"
+import type { CommunityPost, CommunityConfig, ShowMoreConfig } from "@/lib/sanity/types"
 import Image from "next/image"
+import Link from "next/link"
 
 interface CommunityProps {
   community?: CommunityConfig
   featuredPosts?: CommunityPost[]
+  showMore?: ShowMoreConfig
 }
 
 const defaultFeatures = [
@@ -33,10 +36,11 @@ const defaultFeatures = [
   },
 ]
 
-export function Community({ community, featuredPosts = [] }: CommunityProps) {
+export function Community({ community, featuredPosts = [], showMore }: CommunityProps) {
   const heading = community?.heading || "Join a thriving community of innovators"
   const description = community?.description || "Connect with like-minded professionals, share knowledge, and collaborate on groundbreaking projects. Our community is where innovation happens."
   const buttonText = community?.buttonText || "Join Community"
+  const buttonUrl = community?.buttonUrl || "/community"
   const features = community?.features && community.features.length > 0 ? community.features : defaultFeatures
   const displayPosts = featuredPosts.slice(0, 3)
 
@@ -86,12 +90,26 @@ export function Community({ community, featuredPosts = [] }: CommunityProps) {
               })}
             </div>
 
-            <Button
-              size="lg"
-              className="shadow-lg dark:shadow-xl hover:shadow-xl dark:hover:shadow-2xl hover:shadow-accent/20 dark:hover:shadow-accent/30 transition-all hover:-translate-y-0.5"
-            >
-              {buttonText}
-            </Button>
+            {buttonUrl.startsWith("/") || buttonUrl.startsWith("#") ? (
+              <Link href={buttonUrl}>
+                <Button
+                  size="lg"
+                  className="shadow-lg dark:shadow-xl hover:shadow-xl dark:hover:shadow-2xl hover:shadow-accent/20 dark:hover:shadow-accent/30 transition-all hover:-translate-y-0.5"
+                >
+                  {buttonText}
+                </Button>
+              </Link>
+            ) : (
+              <Button
+                size="lg"
+                className="shadow-lg dark:shadow-xl hover:shadow-xl dark:hover:shadow-2xl hover:shadow-accent/20 dark:hover:shadow-accent/30 transition-all hover:-translate-y-0.5"
+                asChild
+              >
+                <a href={buttonUrl} target="_blank" rel="noopener noreferrer">
+                  {buttonText}
+                </a>
+              </Button>
+            )}
           </div>
 
           <div className="relative">
@@ -143,6 +161,7 @@ export function Community({ community, featuredPosts = [] }: CommunityProps) {
             </Card>
           </div>
         </div>
+        <ShowMoreButton config={showMore} />
       </div>
     </section>
   )

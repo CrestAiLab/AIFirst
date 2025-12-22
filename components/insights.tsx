@@ -2,21 +2,46 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import { urlFor } from "@/lib/sanity/image"
+import { ShowMoreButton } from "@/components/show-more-button"
 import Link from "next/link"
-import type { Insight, InsightsConfig } from "@/lib/sanity/types"
+import type { Insight, InsightsConfig, ShowMoreConfig } from "@/lib/sanity/types"
 import Image from "next/image"
 
 interface InsightsProps {
   insights?: Insight[]
   sectionConfig?: InsightsConfig
+  showMore?: ShowMoreConfig
 }
 
-export function Insights({ insights = [], sectionConfig }: InsightsProps) {
+export function Insights({ insights = [], sectionConfig, showMore }: InsightsProps) {
   const heading = sectionConfig?.heading || "Latest insights"
   const description = sectionConfig?.description || "Stay ahead with industry trends and expert perspectives"
   const buttonText = sectionConfig?.buttonText || "View All"
+  const buttonUrl = sectionConfig?.buttonUrl || "/insights"
 
   const displayInsights = insights.slice(0, 3)
+
+  const renderButton = () => {
+    if (buttonUrl.startsWith("/") || buttonUrl.startsWith("#")) {
+      return (
+        <Link href={buttonUrl}>
+          <Button variant="outline" className="hidden md:flex gap-2 bg-transparent">
+            {buttonText}
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        </Link>
+      )
+    } else {
+      return (
+        <Button variant="outline" className="hidden md:flex gap-2 bg-transparent" asChild>
+          <a href={buttonUrl} target="_blank" rel="noopener noreferrer">
+            {buttonText}
+            <ArrowRight className="h-4 w-4" />
+          </a>
+        </Button>
+      )
+    }
+  }
 
   return (
     <section id="insights" className="py-20 md:py-28 bg-muted/30">
@@ -26,12 +51,7 @@ export function Insights({ insights = [], sectionConfig }: InsightsProps) {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">{heading}</h2>
             <p className="text-lg text-muted-foreground">{description}</p>
           </div>
-          <Link href="/insights">
-            <Button variant="outline" className="hidden md:flex gap-2 bg-transparent">
-              {buttonText}
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
+          {renderButton()}
         </div>
 
         {displayInsights.length > 0 ? (
@@ -89,13 +109,23 @@ export function Insights({ insights = [], sectionConfig }: InsightsProps) {
         )}
 
         <div className="text-center md:hidden">
-          <Link href="/insights">
-            <Button variant="outline" className="gap-2 bg-transparent">
-              {buttonText}
-              <ArrowRight className="h-4 w-4" />
+          {buttonUrl.startsWith("/") || buttonUrl.startsWith("#") ? (
+            <Link href={buttonUrl}>
+              <Button variant="outline" className="gap-2 bg-transparent">
+                {buttonText}
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
+          ) : (
+            <Button variant="outline" className="gap-2 bg-transparent" asChild>
+              <a href={buttonUrl} target="_blank" rel="noopener noreferrer">
+                {buttonText}
+                <ArrowRight className="h-4 w-4" />
+              </a>
             </Button>
-          </Link>
+          )}
         </div>
+        <ShowMoreButton config={showMore} />
       </div>
     </section>
   )

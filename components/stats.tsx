@@ -1,7 +1,9 @@
-import type { StatItem } from "@/lib/sanity/types"
+import { ShowMoreButton } from "@/components/show-more-button"
+import type { StatItem, ShowMoreConfig } from "@/lib/sanity/types"
 
 interface StatsProps {
   stats?: StatItem[]
+  showMore?: ShowMoreConfig
 }
 
 const defaultStats = [
@@ -27,7 +29,7 @@ const defaultStats = [
   },
 ]
 
-export function Stats({ stats }: StatsProps) {
+export function Stats({ stats, showMore }: StatsProps) {
   const displayStats = stats && stats.length > 0 ? stats : defaultStats
 
   return (
@@ -47,6 +49,7 @@ export function Stats({ stats }: StatsProps) {
             </div>
           ))}
         </div>
+        <ShowMoreButton config={showMore} />
       </div>
     </section>
   )

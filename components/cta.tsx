@@ -1,15 +1,19 @@
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import type { CTAConfig } from "@/lib/sanity/types"
+import { ShowMoreButton } from "@/components/show-more-button"
+import type { CTAConfig, ShowMoreConfig } from "@/lib/sanity/types"
+import Link from "next/link"
 
 interface CTAProps {
   cta?: CTAConfig
+  showMore?: ShowMoreConfig
 }
 
-export function CTA({ cta }: CTAProps) {
+export function CTA({ cta, showMore }: CTAProps) {
   const heading = cta?.heading || "Ready to transform your infrastructure?"
   const description = cta?.description || "Join thousands of forward-thinking companies building the future with AI-powered solutions"
   const buttonText = cta?.buttonText || "Get Started"
+  const buttonUrl = cta?.buttonUrl || "#"
   const disclaimer = cta?.disclaimer || "No credit card required • Free 14-day trial"
 
   return (
@@ -31,17 +35,32 @@ export function CTA({ cta }: CTAProps) {
                 placeholder="Enter your email"
                 className="flex-1 shadow-lg dark:shadow-xl border-border/50 focus:border-accent/50 focus:shadow-[0_0_20px_rgba(0,0,0,0.1)] dark:focus:shadow-[0_0_20px_rgba(255,255,255,0.1)] transition-all"
               />
-              <Button
-                size="lg"
-                className="sm:w-auto shadow-lg dark:shadow-xl hover:shadow-xl dark:hover:shadow-2xl hover:shadow-accent/20 dark:hover:shadow-accent/30 transition-all hover:-translate-y-0.5"
-              >
-                {buttonText}
-              </Button>
+              {buttonUrl.startsWith("/") || buttonUrl.startsWith("#") ? (
+                <Link href={buttonUrl}>
+                  <Button
+                    size="lg"
+                    className="sm:w-auto shadow-lg dark:shadow-xl hover:shadow-xl dark:hover:shadow-2xl hover:shadow-accent/20 dark:hover:shadow-accent/30 transition-all hover:-translate-y-0.5"
+                  >
+                    {buttonText}
+                  </Button>
+                </Link>
+              ) : (
+                <Button
+                  size="lg"
+                  className="sm:w-auto shadow-lg dark:shadow-xl hover:shadow-xl dark:hover:shadow-2xl hover:shadow-accent/20 dark:hover:shadow-accent/30 transition-all hover:-translate-y-0.5"
+                  asChild
+                >
+                  <a href={buttonUrl} target="_blank" rel="noopener noreferrer">
+                    {buttonText}
+                  </a>
+                </Button>
+              )}
             </div>
 
             <p className="text-xs text-muted-foreground mt-4">{disclaimer}</p>
           </div>
         </div>
+        <ShowMoreButton config={showMore} />
       </div>
     </section>
   )

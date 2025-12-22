@@ -1,9 +1,11 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { getIcon } from "@/lib/iconMap"
-import type { SolutionItem } from "@/lib/sanity/types"
+import { ShowMoreButton } from "@/components/show-more-button"
+import type { SolutionItem, ShowMoreConfig } from "@/lib/sanity/types"
 
 interface SolutionsProps {
   solutions?: SolutionItem[]
+  showMore?: ShowMoreConfig
 }
 
 const defaultSolutions = [
@@ -32,7 +34,7 @@ const defaultSolutions = [
   },
 ]
 
-export function Solutions({ solutions }: SolutionsProps) {
+export function Solutions({ solutions, showMore }: SolutionsProps) {
   const displaySolutions = solutions && solutions.length > 0 ? solutions : defaultSolutions
 
   return (
@@ -70,6 +72,7 @@ export function Solutions({ solutions }: SolutionsProps) {
             )
           })}
         </div>
+        <ShowMoreButton config={showMore} />
       </div>
     </section>
   )

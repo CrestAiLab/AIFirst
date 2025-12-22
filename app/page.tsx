@@ -8,15 +8,36 @@ import type { PageSection } from "@/lib/sanity/types"
 
 export default async function Home() {
   const [pageContent, insights, communityPosts] = await Promise.all([
-    client.fetch(pageContentQuery),
+    client.fetch(pageContentQuery).catch((err) => {
+      console.error('Error fetching pageContent:', err)
+      return null
+    }),
     client.fetch(insightsQuery),
     client.fetch(featuredCommunityPostsQuery),
   ])
+
+  // Debug logging (remove in production)
+  if (process.env.NODE_ENV === 'development') {
+    console.log('📄 Page Content from Sanity:', {
+      exists: !!pageContent,
+      sectionsCount: pageContent?.sections?.length || 0,
+      hasSections: !!(pageContent?.sections && pageContent.sections.length > 0),
+    })
+  }
 
   // Use sections from Sanity if available, otherwise use default sections
   const sections = pageContent?.sections && pageContent.sections.length > 0
     ? pageContent.sections.filter((section: PageSection) => section.enabled !== false)
     : getDefaultSections()
+  
+  // Debug logging
+  if (process.env.NODE_ENV === 'development') {
+    console.log('🎨 Final sections to render:', {
+      count: sections.length,
+      source: pageContent?.sections ? 'Sanity' : 'Defaults',
+      types: sections.map((s: PageSection) => s.sectionType),
+    })
+  }
 
   return (
     <main className="min-h-screen">
