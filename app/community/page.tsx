@@ -8,6 +8,9 @@ import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import Image from "next/image"
 
+// Revalidate every hour as fallback (webhook handles instant updates)
+export const revalidate = 3600
+
 export default async function CommunityPage() {
   const communityPosts = await client.fetch(communityPostsQuery)
 

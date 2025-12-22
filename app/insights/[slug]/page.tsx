@@ -15,6 +15,9 @@ interface PageProps {
   params: Promise<{ slug: string }>
 }
 
+// Revalidate every hour as fallback (webhook handles instant updates)
+export const revalidate = 3600
+
 export async function generateStaticParams() {
   try {
     const insights = await client.fetch(allInsightsQuery)

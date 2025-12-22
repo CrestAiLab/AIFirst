@@ -6,6 +6,9 @@ import { pageContentQuery, insightsQuery, featuredCommunityPostsQuery } from "@/
 import { getDefaultSections } from "@/lib/defaultSections"
 import type { PageSection } from "@/lib/sanity/types"
 
+// Revalidate every hour as fallback (webhook handles instant updates)
+export const revalidate = 3600
+
 export default async function Home() {
   const [pageContent, insights, communityPosts] = await Promise.all([
     client.fetch(pageContentQuery).catch((err) => {

@@ -62,12 +62,12 @@ export function Header() {
               >
                 Community
               </Link>
-              <a
-                href="#insights"
+              <Link
+                href="/insights"
                 className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors hover:drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
               >
                 Insights
-              </a>
+              </Link>
             </>
           ) : (
             <>

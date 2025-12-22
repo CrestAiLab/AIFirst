@@ -52,12 +52,15 @@ git push origin main
    NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id_here
    NEXT_PUBLIC_SANITY_DATASET=production
    SANITY_API_TOKEN=your_api_token_here
+   SANITY_REVALIDATE_SECRET=your_random_secret_here
    ```
 
    ⚠️ **Important**: 
    - Replace `your_project_id_here` with your actual Sanity Project ID
    - Replace `your_api_token_here` with your actual API Token
+   - Replace `your_random_secret_here` with a random secret string (e.g., generate with `openssl rand -hex 32`)
    - The `NEXT_PUBLIC_` prefix is required for client-side access
+   - `SANITY_REVALIDATE_SECRET` is used to secure the webhook endpoint
 
 4. **Deploy**
    - Click "Deploy"
@@ -85,6 +88,12 @@ git push origin main
    vercel env add NEXT_PUBLIC_SANITY_PROJECT_ID
    vercel env add NEXT_PUBLIC_SANITY_DATASET
    vercel env add SANITY_API_TOKEN
+   vercel env add SANITY_REVALIDATE_SECRET
+   ```
+   
+   For `SANITY_REVALIDATE_SECRET`, generate a random secret:
+   ```bash
+   openssl rand -hex 32
    ```
 
 5. **Redeploy with environment variables**:
@@ -109,14 +118,57 @@ After deployment, you need to allow your Vercel domain to access Sanity:
 If you have a custom domain, also add:
 - `https://your-custom-domain.com`
 
-## Step 5: Access Your Deployed Site
+## Step 5: Set Up Sanity Webhook for On-Demand Revalidation (Critical!)
+
+To ensure your Vercel site updates immediately when you publish content in Sanity, you need to set up a webhook:
+
+1. **Get Your Revalidation Secret**
+   - In Vercel dashboard, go to your project → **Settings** → **Environment Variables**
+   - Copy the value of `SANITY_REVALIDATE_SECRET` (or generate one if you haven't: `openssl rand -hex 32`)
+
+2. **Get Your Vercel URL**
+   - Your webhook URL will be: `https://your-project.vercel.app/api/revalidate?secret=YOUR_SECRET`
+   - Replace `your-project.vercel.app` with your actual Vercel domain
+   - Replace `YOUR_SECRET` with your `SANITY_REVALIDATE_SECRET` value
+
+3. **Configure Webhook in Sanity**
+   - Go to [sanity.io/manage](https://sanity.io/manage)
+   - Select your project
+   - Go to **Settings** → **API** → **Webhooks**
+   - Click **Create webhook**
+   - Configure:
+     - **Name**: `Vercel Revalidation`
+     - **URL**: `https://your-project.vercel.app/api/revalidate?secret=YOUR_SECRET`
+     - **Dataset**: `production` (or your dataset name)
+     - **Trigger on**: Select:
+       - ✅ **Create**
+       - ✅ **Update**
+       - ✅ **Delete**
+     - **Filter**: Leave empty (or use `_type == "pageContent" || _type == "insight" || _type == "communityPost"` to only trigger on specific types)
+     - **HTTP method**: `POST`
+     - **API version**: `v2021-06-07` or later
+     - **Secret**: Leave empty (we use query param instead)
+   - Click **Save**
+
+4. **Test the Webhook**
+   - Make a small change in Sanity Studio (e.g., update homepage content)
+   - Publish the change
+   - Check your Vercel deployment logs to see if revalidation was triggered
+   - Your site should update within seconds!
+
+⚠️ **Important Notes**:
+- The webhook ensures instant updates when you publish in Sanity
+- Without the webhook, pages will still update, but only after the ISR revalidation period (60 seconds)
+- If you have a custom domain, use that domain in the webhook URL instead of the `.vercel.app` domain
+
+## Step 6: Access Your Deployed Site
 
 After deployment:
 
 - **Your Website**: `https://your-project.vercel.app`
 - **Sanity Studio**: `https://your-project.vercel.app/studio`
 
-## Step 6: Seed Your Content (Optional)
+## Step 7: Seed Your Content (Optional)
 
 If you want to populate Sanity with default content:
 
@@ -135,7 +187,7 @@ If you want to populate Sanity with default content:
 
 3. **Or manually create content** in Sanity Studio at `/studio`
 
-## Step 7: Set Up Custom Domain (Optional)
+## Step 8: Set Up Custom Domain (Optional)
 
 1. In Vercel dashboard, go to your project
 2. Click **Settings** → **Domains**
@@ -167,7 +219,19 @@ If you want to populate Sanity with default content:
 
 - Verify you've published content in Sanity Studio
 - Check that environment variables match your Sanity project
+- Ensure the webhook is configured correctly (see Step 5)
+- Check Vercel function logs for revalidation errors
 - Clear Vercel cache and redeploy if needed
+- Wait up to 60 seconds for ISR to kick in, or trigger webhook manually
+
+### Content Updates Not Reflecting
+
+- **Check webhook configuration**: Ensure the webhook URL in Sanity matches your Vercel domain
+- **Verify secret**: Make sure `SANITY_REVALIDATE_SECRET` in Vercel matches the secret in the webhook URL
+- **Check webhook logs**: In Sanity, go to Settings → API → Webhooks → View logs
+- **Check Vercel logs**: In Vercel dashboard, check Function logs for `/api/revalidate`
+- **Manual revalidation**: You can manually trigger revalidation by visiting: `https://your-project.vercel.app/api/revalidate?secret=YOUR_SECRET`
+- **ISR fallback**: Even without webhook, pages will update every 60 seconds via ISR
 
 ## Environment Variables Reference
 
@@ -176,6 +240,7 @@ If you want to populate Sanity with default content:
 | `NEXT_PUBLIC_SANITY_PROJECT_ID` | ✅ Yes | Your Sanity project ID |
 | `NEXT_PUBLIC_SANITY_DATASET` | ✅ Yes | Your Sanity dataset (usually "production") |
 | `SANITY_API_TOKEN` | ⚠️ Optional | Only needed for write operations (seeding) |
+| `SANITY_REVALIDATE_SECRET` | ✅ Yes | Random secret for securing webhook endpoint (generate with `openssl rand -hex 32`) |
 
 ## Continuous Deployment
 
