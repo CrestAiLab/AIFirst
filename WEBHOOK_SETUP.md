@@ -68,15 +68,24 @@ Replace:
 
 ### Content Still Not Updating
 
-- **ISR Fallback**: Even without webhook, pages update every 60 seconds via ISR
-- **Wait 60 seconds**: If webhook fails, wait up to 60 seconds for automatic revalidation
+- **ISR Fallback**: Even without webhook, pages update every hour via ISR
+- **Wait 1 hour**: If webhook fails, wait up to 1 hour for automatic revalidation
 - **Clear cache**: In Vercel dashboard, you can clear cache and redeploy
+- **See detailed troubleshooting**: Check `WEBHOOK_TROUBLESHOOTING.md` for step-by-step debugging
 
 ## How It Works
 
-1. **ISR (Incremental Static Regeneration)**: Pages are regenerated every 60 seconds automatically
-2. **On-Demand Revalidation**: Webhook triggers immediate revalidation when you publish in Sanity
-3. **Best of Both Worlds**: You get instant updates via webhook, with automatic fallback via ISR
+1. **On-Demand Revalidation (Primary)**: Webhook triggers immediate revalidation when you publish in Sanity - this is the main method
+2. **ISR Fallback (Safety Net)**: Pages are regenerated every hour automatically as a backup if webhook fails
+3. **CDN Disabled**: Sanity client bypasses CDN to ensure fresh data is always fetched
+
+## Detailed Troubleshooting
+
+If you're still having issues, see `WEBHOOK_TROUBLESHOOTING.md` for:
+- Step-by-step debugging guide
+- How to check webhook logs
+- How to test the endpoint manually
+- Common issues and solutions
 
 ## Security
 

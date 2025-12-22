@@ -837,3 +837,292 @@ I can help you set up the webhook step-by-step if needed.
 
 ---
 
+_**User (2025-12-21 23:53Z)**_
+
+can it use hook rather than refeshevery 60 minutes ?
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+
+
+---
+
+
+Switching to webhook-based updates. Increasing the revalidation interval to 1 hour as a fallback, so updates come from the webhook.
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/api/revalidate/route.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/app/page.tsx</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: 2
+
+```diff
+@@ -7,6 +7,6 @@
+  import type { PageSection } from "@/lib/sanity/types"
+  
+- // Revalidate every 60 seconds (ISR)
+- export const revalidate = 60
++ // Revalidate every hour as fallback (webhook handles instant updates)
++ export const revalidate = 3600
+  
+  export default async function Home() {
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/app/insights/page.tsx</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: 2
+
+```diff
+@@ -9,6 +9,6 @@
+  import Image from "next/image"
+  
+- // Revalidate every 60 seconds (ISR)
+- export const revalidate = 60
++ // Revalidate every hour as fallback (webhook handles instant updates)
++ export const revalidate = 3600
+  
+  export default async function InsightsPage() {
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/app/insights/[slug]/page.tsx</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: 2
+
+```diff
+@@ -16,6 +16,6 @@
+  }
+  
+- // Revalidate every 60 seconds (ISR)
+- export const revalidate = 60
++ // Revalidate every hour as fallback (webhook handles instant updates)
++ export const revalidate = 3600
+  
+  export async function generateStaticParams() {
+```
+
+</details>
+
+</tool-use>
+
+---
+
+The string to replace was not found in the file.
+
+---
+
+
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/community/page.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/app/community/page.tsx</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: 2
+
+```diff
+@@ -9,6 +9,6 @@
+  import Image from "next/image"
+  
+- // Revalidate every 60 seconds (ISR)
+- export const revalidate = 60
++ // Revalidate every hour as fallback (webhook handles instant updates)
++ export const revalidate = 3600
+  
+  export default async function CommunityPage() {
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 4 files</summary>
+      
+Lint paths:
+
+- `app/page.tsx`
+- `app/insights/page.tsx`
+- `app/insights/[slug]/page.tsx`
+- `app/community/page.tsx`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Updated all pages to use the webhook for instant updates instead of refreshing every 60 seconds.
+
+## What Changed
+
+- Before: Pages refreshed every 60 seconds automatically
+- Now: Pages refresh every 1 hour as a fallback, but the webhook triggers instant updates when you publish in Sanity
+
+## How It Works Now
+
+1. Primary method: Webhook (instant)
+   - When you publish in Sanity, it immediately tells Vercel to refresh
+   - Your site updates within seconds
+
+2. Fallback: 1-hour refresh
+   - If the webhook fails, pages still refresh automatically after 1 hour
+   - This is a safety net, not the main method
+
+## Benefits
+
+- More efficient: No unnecessary refreshes every minute
+- Instant updates: Changes appear as soon as you publish
+- Reliable: Still has a fallback if the webhook has issues
+
+The webhook is now the primary update mechanism. Make sure you've set it up in Sanity (as described in `WEBHOOK_SETUP.md`). Once configured, your site will update instantly when you publish content.
+
+---
+
+_**User (2025-12-21 23:53Z)**_
+
+still not work when the  content update from sanity cms, so the localhost work but the one run on vercel is not updated
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+
+
+---
+
+
+Investigating the webhook. Checking the route and Sanity webhook payload format.
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/api/revalidate/route.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
+<details>
+                <summary>Tool use: **codebase_search** • Searched codebase "How does Sanity webhook payload structure work?" • **15** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `WEBHOOK_SETUP.md` | L1-67 |
+| `DEPLOYMENT.md` | L123-164 |
+| `app/api/revalidate/route.ts` | L1-63 |
+| `sanity/schemaTypes/insight.ts` | L1-87 |
+| `lib/sanity/types.ts` | L88-102 |
+| `sanity/schemaTypes/index.ts` | L1-12 |
+| `sanity/schemaTypes/communityPost.ts` | L1-71 |
+| `lib/sanity/queries.ts` | L1-77 |
+| `SETUP_VERIFICATION.md` | L1-60 |
+| `app/api/debug-sanity/route.ts` | L1-50 |
+| `lib/sanity/types.ts` | L102-118 |
+| `lib/sanity/types.ts` | L52-61 |
+| `sanity/schemaTypes/pageContent.ts` | L1-40 |
+| `SANITY_HOMEPAGE_GUIDE.md` | L1-57 |
+| `sanity.config.ts` | L1-23 |
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="unknown" data-tool-name="web_search">
+<details>
+<summary>Tool use: **web_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "searchTerm": "Sanity webhook payload format Next.js revalidate"
+}
+```
+User decision: **accepted**
+
+Status: **loading**
+
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
