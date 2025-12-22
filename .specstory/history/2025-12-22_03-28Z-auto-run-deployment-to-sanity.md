@@ -371,3 +371,88 @@ The workflow includes error checking and will fail fast if secrets are missing. 
 
 ---
 
+_**User (2025-12-21 23:53Z)**_
+
+repo secret or env secret ?
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+
+
+---
+
+
+Use repository secrets for this workflow. Updating the documentation to clarify:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/DEPLOYMENT.md</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Clarifying in the documentation: use repository secrets (not environment secrets).
+
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/DEPLOYMENT.md</summary>
+
+**Chunk 1**
+Lines added: 3, lines removed: 2
+
+```diff
+@@ -193,9 +193,10 @@
+  #### Setup GitHub Secrets
+  
+- To enable automatic Sanity deployment, you need to add the following secrets to your GitHub repository:
++ To enable automatic Sanity deployment, you need to add the following **repository secrets** (not environment secrets) to your GitHub repository:
+  
+  1. **Go to your GitHub repository**
+  2. **Navigate to**: Settings → Secrets and variables → Actions
+- 3. **Click "New repository secret"** and add these secrets:
++ 3. **Make sure you're on the "Secrets" tab** (not "Variables" or "Environments")
++ 4. **Click "New repository secret"** and add these secrets:
+  
+     - **&#96;SANITY_PROJECT_ID&#96;**: Your Sanity project ID
+```
+
+</details>
+
+</tool-use>
+
+---
+
+
+
+---
+
+
+Use repository secrets (not environment secrets).
+
+Why:
+- Repository secrets are simpler and work for single-environment deployments
+- Environment secrets are for multiple environments (staging/production) with different configs
+- The workflow uses `${{ secrets.SANITY_PROJECT_ID }}`, which reads from repository secrets
+
+Where to add them:
+- Settings → Secrets and variables → Actions → Secrets tab
+- Click "New repository secret" (not "New environment secret")
+
+The documentation has been updated to clarify this.
+
+---
+

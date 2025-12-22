@@ -205,7 +205,7 @@ To enable automatic Sanity deployment, you need to add the following **repositor
    - **`SANITY_DATASET`**: Your Sanity dataset name (usually `production`)
      - Optional: defaults to `production` if not set
    
-   - **`SANITY_AUTH_TOKEN`**: Your Sanity authentication token
+   - **`SANITY_API_TOKEN`**: Your Sanity API token
      - Get it from [sanity.io/manage](https://sanity.io/manage) → Your project → API → Tokens
      - Create a new token with **Editor** permissions
      - Name it something like "GitHub Actions Deploy Token"
