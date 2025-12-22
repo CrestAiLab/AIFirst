@@ -11,12 +11,18 @@ export const revalidate = 3600
 
 export default async function Home() {
   const [pageContent, insights, communityPosts] = await Promise.all([
-    client.fetch(pageContentQuery).catch((err) => {
+    client.fetch(pageContentQuery, {}, {
+      next: { tags: ['homepage', 'pageContent'] }
+    }).catch((err) => {
       console.error('Error fetching pageContent:', err)
       return null
     }),
-    client.fetch(insightsQuery),
-    client.fetch(featuredCommunityPostsQuery),
+    client.fetch(insightsQuery, {}, {
+      next: { tags: ['homepage', 'insights'] }
+    }),
+    client.fetch(featuredCommunityPostsQuery, {}, {
+      next: { tags: ['homepage', 'community'] }
+    }),
   ])
 
   // Debug logging (remove in production)

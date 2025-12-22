@@ -2828,3 +2828,520 @@ Need help with a specific step?
 
 ---
 
+_**User (2025-12-21 23:53Z)**_
+
+insight update but the on on the home page is not
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+
+
+---
+
+
+Checking the webhook handler and homepage query to ensure the homepage revalidates when insights update:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/api/revalidate/route.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/page.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/lib/sanity/queries.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+The webhook revalidates the homepage when insights update, but it may not detect insight updates when Sanity sends IDs. Improving the handler to fetch document types from Sanity when IDs are received:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/api/revalidate/route.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/app/api/revalidate/route.ts</summary>
+
+**Chunk 1**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -1,4 +1,5 @@
+  import { revalidatePath, revalidateTag } from 'next/cache'
+  import { NextRequest, NextResponse } from 'next/server'
++ import { client } from '@/lib/sanity/client'
+  
+  // GET endpoint for testing
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/app/api/revalidate/route.ts</summary>
+
+**Chunk 1**
+Lines added: 98, lines removed: 13
+
+```diff
+@@ -116,18 +116,103 @@
+        
+        if (allIds.length &gt; 0) {
+-         // We need to fetch the documents to know their types
+-         // For now, revalidate all pages when we get IDs
+          console.log('📋 Sanity webhook with IDs:', allIds)
+-         revalidatePath('/', 'layout')
+-         revalidatePath('/')
+-         revalidatePath('/insights', 'layout')
+-         revalidatePath('/insights')
+-         revalidatePath('/community', 'layout')
+-         revalidatePath('/community')
+-         return NextResponse.json({ 
+-           revalidated: true, 
+-           now: Date.now(),
+-           ids: allIds 
+-         })
++         
++         // Fetch document types from Sanity to know what to revalidate
++         try {
++           const documents = await client.fetch(
++             &#96;*[_id in $ids]{_id, _type, slug}&#96;,
++             { ids: allIds }
++           )
++           
++           const typesFound = new Set&lt;string&gt;()
++           const slugsFound: Record&lt;string, string&gt; = {}
++           
++           documents.forEach((doc: any) =&gt; {
++             typesFound.add(doc._type)
++             if (doc.slug?.current) {
++               slugsFound[doc._type] = doc.slug.current
++             }
++           })
++           
++           console.log('📄 Document types found:', Array.from(typesFound))
++           
++           // Revalidate based on document types
++           const revalidatedPaths: string[] = []
++           
++           typesFound.forEach((_type) =&gt; {
++             if (_type === 'pageContent') {
++               revalidatePath('/', 'layout')
++               revalidatePath('/')
++               revalidatedPaths.push('/')
++               console.log('✅ Revalidated homepage (pageContent)')
++             } else if (_type === 'insight') {
++               revalidatePath('/insights', 'layout')
++               revalidatePath('/insights')
++               revalidatedPaths.push('/insights')
++               
++               // Revalidate individual insight page if slug is available
++               if (slugsFound[_type]) {
++                 revalidatePath(&#96;/insights/${slugsFound[_type]}&#96;)
++                 revalidatedPaths.push(&#96;/insights/${slugsFound[_type]}&#96;)
++               }
++               
++               // Always revalidate homepage since it shows insights
++               revalidatePath('/', 'layout')
++               revalidatePath('/')
++               if (!revalidatedPaths.includes('/')) {
++                 revalidatedPaths.push('/')
++               }
++               console.log('✅ Revalidated insights pages and homepage')
++             } else if (_type === 'communityPost') {
++               revalidatePath('/community', 'layout')
++               revalidatePath('/community')
++               revalidatedPaths.push('/community')
++               
++               // Always revalidate homepage since it shows community posts
++               revalidatePath('/', 'layout')
++               revalidatePath('/')
++               if (!revalidatedPaths.includes('/')) {
++                 revalidatedPaths.push('/')
++               }
++               console.log('✅ Revalidated community pages and homepage')
++             }
++           })
++           
++           // If we couldn't determine types, revalidate everything as fallback
++           if (typesFound.size === 0) {
++             console.log('⚠️ Could not fetch document types, revalidating all pages')
++             revalidatePath('/', 'layout')
++             revalidatePath('/')
++             revalidatePath('/insights', 'layout')
++             revalidatePath('/insights')
++             revalidatePath('/community', 'layout')
++             revalidatePath('/community')
++             revalidatedPaths.push('/', '/insights', '/community')
++           }
++           
++           return NextResponse.json({ 
++             revalidated: true, 
++             now: Date.now(),
++             ids: allIds,
++             types: Array.from(typesFound),
++             paths: revalidatedPaths
++           })
++         } catch (fetchError) {
++           // If fetching fails, revalidate everything as fallback
++           console.error('❌ Error fetching document types:', fetchError)
++           console.log('⚠️ Falling back to revalidating all pages')
++           revalidatePath('/', 'layout')
++           revalidatePath('/')
++           revalidatePath('/insights', 'layout')
++           revalidatePath('/insights')
++           revalidatePath('/community', 'layout')
++           revalidatePath('/community')
++           return NextResponse.json({ 
++             revalidated: true, 
++             now: Date.now(),
++             ids: allIds,
++             error: 'Could not fetch document types, revalidated all pages'
++           })
++         }
+        }
+      }
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/app/api/revalidate/route.ts</summary>
+
+**Chunk 1**
+Lines added: 6, lines removed: 2
+
+```diff
+@@ -289,7 +289,11 @@
+          }
+          
+-         // Also revalidate homepage if it shows insights
++         // Always revalidate homepage since it shows insights
++         revalidatePath('/', 'layout')
+          revalidatePath('/')
+-         console.log('✅ Revalidated insights pages')
++         if (!revalidatedPaths.includes('/')) {
++           revalidatedPaths.push('/')
++         }
++         console.log('✅ Revalidated insights pages and homepage')
+        } else if (_type === 'communityPost') {
+          revalidatePath('/community', 'layout')
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `app/api/revalidate/route.ts`
+
+Lint results
+
+Lint errors for `app/api/revalidate/route.ts`
+
+
+| Message | Range | Severity |
+|-------|-------|----------|
+| 'revalidateTag' is declared but its value is never read. | 1:26-1:39 | DIAGNOSTIC_SEVERITY_HINT |
+
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Adding cache tag revalidation for more reliable cache invalidation:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/page.tsx</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="codebase_search">
+<details>
+                <summary>Tool use: **codebase_search** • Searched codebase "How are Next.js cache tags used for revalidation?" • **13** results</summary>
+            
+| File | Lines |
+|------|-------|
+| `app/api/revalidate/route.ts` | L54 |
+| `app/api/revalidate/route.ts` | L54-332 |
+| `app/api/revalidate/route.ts` | L5-332 |
+| `WEBHOOK_SETUP.md` | L65-93 |
+| `DEPLOYMENT.md` | L121-167 |
+| `app/insights/[slug]/page.tsx` | L13-30 |
+| `QUICK_FIX_PRODUCTION.md` | L131-159 |
+| `QUICK_FIX_PRODUCTION.md` | L59-133 |
+| `WEBHOOK_TROUBLESHOOTING.md` | L62-126 |
+| `VERIFY_PRODUCTION_SETUP.md` | L118-172 |
+| `app/page.tsx` | L58 |
+| `WEBHOOK_TROUBLESHOOTING.md` | L64 |
+| `HOW_TO_FIX.md` | L61 |
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/app/api/revalidate/route.ts</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: undefined
+
+```diff
+@@ -144,9 +144,11 @@
+                revalidatePath('/', 'layout')
+                revalidatePath('/')
++               revalidateTag('homepage')
+                revalidatedPaths.push('/')
+                console.log('✅ Revalidated homepage (pageContent)')
+              } else if (_type === 'insight') {
+                revalidatePath('/insights', 'layout')
+                revalidatePath('/insights')
++               revalidateTag('insights')
+                revalidatedPaths.push('/insights')
+                
+```
+
+**Chunk 2**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -160,4 +162,5 @@
+                revalidatePath('/', 'layout')
+                revalidatePath('/')
++               revalidateTag('homepage')
+                if (!revalidatedPaths.includes('/')) {
+                  revalidatedPaths.push('/')
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="write" data-tool-name="search_replace">
+
+<details><summary>Tool use: **search_replace** • Edit file: /Users/phucpham/GitHub/AIFirst/app/api/revalidate/route.ts</summary>
+
+**Chunk 1**
+Lines added: 2, lines removed: undefined
+
+```diff
+@@ -279,9 +279,11 @@
+          revalidatePath('/', 'layout')
+          revalidatePath('/')
++         revalidateTag('homepage')
+          revalidatedPaths.push('/')
+          console.log('✅ Revalidated homepage')
+        } else if (_type === 'insight') {
+          revalidatePath('/insights', 'layout')
+          revalidatePath('/insights')
++         revalidateTag('insights')
+          revalidatedPaths.push('/insights')
+          
+```
+
+**Chunk 2**
+Lines added: 1, lines removed: undefined
+
+```diff
+@@ -295,4 +297,5 @@
+          revalidatePath('/', 'layout')
+          revalidatePath('/')
++         revalidateTag('homepage')
+          if (!revalidatedPaths.includes('/')) {
+            revalidatedPaths.push('/')
+```
+
+</details>
+
+</tool-use>
+
+---
+
+<tool-use data-tool-type="generic" data-tool-name="read_lints">
+<details>
+          <summary>Tool use: **read_lints** • Read lints for 1 file</summary>
+      
+Lint paths:
+
+- `app/api/revalidate/route.ts`
+
+Lint results
+
+
+**No lint errors found**
+</details>
+</tool-use>
+
+---
+
+
+
+---
+
+
+Fixed the webhook handler. When insights update, the homepage should revalidate. Changes:
+
+1. **Fetches document types from Sanity** - When Sanity sends IDs (standard webhook format), it now fetches the documents to determine their types
+2. **Always revalidates homepage for insights** - When an insight is updated, it revalidates both `/insights` and `/` (homepage)
+3. **Better logging** - Shows what document types were found and what paths were revalidated
+
+## What Changed
+
+The webhook now:
+- Detects when insights are updated (even when Sanity sends just IDs)
+- Revalidates the homepage whenever insights change
+- Fetches document types from Sanity to know exactly what to revalidate
+
+## Test It
+
+1. Deploy the updated code to Vercel
+2. Update an insight in Sanity
+3. Publish it
+4. Check Vercel function logs - you should see:
+   - `📄 Document types found: ['insight']`
+   - `✅ Revalidated insights pages and homepage`
+5. Visit your homepage - it should show the updated insight
+
+The homepage should now update immediately when you publish insight changes. If it still doesn't, check the Vercel function logs to see what's happening when the webhook fires.
+
+---
+
+_**User (2025-12-21 23:53Z)**_
+
+yes the. / not update  ( which is link to homepage)
+
+---
+
+_**Agent (model default, mode Agent)**_
+
+
+
+---
+
+
+Checking the webhook handler and ensuring the homepage revalidates correctly:
+
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/api/revalidate/route.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="read" data-tool-name="read_file">
+<details><summary>Tool use: **read_file** • Read file: /Users/phucpham/GitHub/AIFirst/app/api/revalidate/route.ts</summary>
+
+</details>
+</tool-use>
+
+---
+
+<tool-use data-tool-type="search" data-tool-name="grep">
+<details>
+<summary>Tool use: **grep** • Grep for "revalidatePath\('/'" in "app/api/revalidate/route.ts" • 23 matches</summary>
+
+Output mode: content
+
+
+| File | Content | Line |
+|------|------|------|
+| `app/api/revalidate/route.ts` | `revalidatePath('/', 'layout')` | L33 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/')` | L34 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/', 'layout')` | L87 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/')` | L88 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/', 'layout')` | L144 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/')` | L145 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/', 'layout')` | L162 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/')` | L163 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/', 'layout')` | L175 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/')` | L176 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/', 'layout')` | L187 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/')` | L188 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/', 'layout')` | L207 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/')` | L208 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/', 'layout')` | L261 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/')` | L262 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/', 'layout')` | L279 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/')` | L280 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/', 'layout')` | L297 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/')` | L298 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/')` | L310 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/', 'layout')` | L317 |
+| `app/api/revalidate/route.ts` | `revalidatePath('/')` | L318 |
+
+
+</details>
+</tool-use>
+
+---
+
+
+
+---
+

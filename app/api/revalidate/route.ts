@@ -1,5 +1,6 @@
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
+import { client } from '@/lib/sanity/client'
 
 // GET endpoint for testing
 export async function GET(request: NextRequest) {
@@ -114,20 +115,112 @@ export async function POST(request: NextRequest) {
       ]
       
       if (allIds.length > 0) {
-        // We need to fetch the documents to know their types
-        // For now, revalidate all pages when we get IDs
         console.log('📋 Sanity webhook with IDs:', allIds)
-        revalidatePath('/', 'layout')
-        revalidatePath('/')
-        revalidatePath('/insights', 'layout')
-        revalidatePath('/insights')
-        revalidatePath('/community', 'layout')
-        revalidatePath('/community')
-        return NextResponse.json({ 
-          revalidated: true, 
-          now: Date.now(),
-          ids: allIds 
-        })
+        
+        // Fetch document types from Sanity to know what to revalidate
+        try {
+          const documents = await client.fetch(
+            `*[_id in $ids]{_id, _type, slug}`,
+            { ids: allIds }
+          )
+          
+          const typesFound = new Set<string>()
+          const slugsFound: Record<string, string> = {}
+          
+          documents.forEach((doc: any) => {
+            typesFound.add(doc._type)
+            if (doc.slug?.current) {
+              slugsFound[doc._type] = doc.slug.current
+            }
+          })
+          
+          console.log('📄 Document types found:', Array.from(typesFound))
+          
+          // Revalidate based on document types
+          const revalidatedPaths: string[] = []
+          
+          typesFound.forEach((_type) => {
+            if (_type === 'pageContent') {
+              revalidatePath('/', 'layout')
+              revalidatePath('/')
+              revalidateTag('homepage')
+              revalidatedPaths.push('/')
+              console.log('✅ Revalidated homepage (pageContent)')
+            } else if (_type === 'insight') {
+              // Revalidate insights pages first
+              revalidatePath('/insights', 'layout')
+              revalidatePath('/insights')
+              revalidateTag('insights')
+              revalidatedPaths.push('/insights')
+              
+              // Revalidate individual insight page if slug is available
+              if (slugsFound[_type]) {
+                revalidatePath(`/insights/${slugsFound[_type]}`)
+                revalidatedPaths.push(`/insights/${slugsFound[_type]}`)
+              }
+              
+              // CRITICAL: Always revalidate homepage since it displays insights
+              // Use multiple methods to ensure it works
+              revalidatePath('/', 'layout')
+              revalidatePath('/')
+              revalidatePath('/', 'page') // Also revalidate as page type
+              revalidateTag('homepage')
+              revalidateTag('insights') // Homepage uses insights, so invalidate that tag too
+              if (!revalidatedPaths.includes('/')) {
+                revalidatedPaths.push('/')
+              }
+              console.log('✅ Revalidated insights pages and homepage (multiple methods)')
+            } else if (_type === 'communityPost') {
+              revalidatePath('/community', 'layout')
+              revalidatePath('/community')
+              revalidatedPaths.push('/community')
+              
+              // Always revalidate homepage since it shows community posts
+              revalidatePath('/', 'layout')
+              revalidatePath('/')
+              if (!revalidatedPaths.includes('/')) {
+                revalidatedPaths.push('/')
+              }
+              console.log('✅ Revalidated community pages and homepage')
+            }
+          })
+          
+          // If we couldn't determine types, revalidate everything as fallback
+          if (typesFound.size === 0) {
+            console.log('⚠️ Could not fetch document types, revalidating all pages')
+            revalidatePath('/', 'layout')
+            revalidatePath('/')
+            revalidatePath('/insights', 'layout')
+            revalidatePath('/insights')
+            revalidatePath('/community', 'layout')
+            revalidatePath('/community')
+            revalidatedPaths.push('/', '/insights', '/community')
+          }
+          
+          return NextResponse.json({ 
+            revalidated: true, 
+            now: Date.now(),
+            ids: allIds,
+            types: Array.from(typesFound),
+            paths: revalidatedPaths
+          })
+        } catch (fetchError) {
+          // If fetching fails, revalidate everything as fallback
+          console.error('❌ Error fetching document types:', fetchError)
+          console.log('⚠️ Falling back to revalidating all pages')
+          revalidatePath('/', 'layout')
+          revalidatePath('/')
+          revalidatePath('/insights', 'layout')
+          revalidatePath('/insights')
+          revalidatePath('/community', 'layout')
+          revalidatePath('/community')
+          return NextResponse.json({ 
+            revalidated: true, 
+            now: Date.now(),
+            ids: allIds,
+            error: 'Could not fetch document types, revalidated all pages'
+          })
+        }
       }
     }
 
@@ -189,11 +282,14 @@ export async function POST(request: NextRequest) {
       if (_type === 'pageContent') {
         revalidatePath('/', 'layout')
         revalidatePath('/')
+        revalidateTag('homepage')
         revalidatedPaths.push('/')
         console.log('✅ Revalidated homepage')
       } else if (_type === 'insight') {
+        // Revalidate insights pages first
         revalidatePath('/insights', 'layout')
         revalidatePath('/insights')
+        revalidateTag('insights')
         revalidatedPaths.push('/insights')
         
         // Revalidate individual insight page if slug is available
@@ -202,9 +298,17 @@ export async function POST(request: NextRequest) {
           revalidatedPaths.push(`/insights/${slugs[_type]}`)
         }
         
-        // Also revalidate homepage if it shows insights
+        // CRITICAL: Always revalidate homepage since it displays insights
+        // Use multiple methods to ensure it works
+        revalidatePath('/', 'layout')
         revalidatePath('/')
-        console.log('✅ Revalidated insights pages')
+        revalidatePath('/', 'page') // Also revalidate as page type
+        revalidateTag('homepage')
+        revalidateTag('insights') // Homepage uses insights, so invalidate that tag too
+        if (!revalidatedPaths.includes('/')) {
+          revalidatedPaths.push('/')
+        }
+        console.log('✅ Revalidated insights pages and homepage (multiple methods)')
       } else if (_type === 'communityPost') {
         revalidatePath('/community', 'layout')
         revalidatePath('/community')
