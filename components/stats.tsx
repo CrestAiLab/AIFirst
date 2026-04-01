@@ -6,50 +6,36 @@ interface StatsProps {
   showMore?: ShowMoreConfig
 }
 
-const defaultStats = [
-  {
-    value: "500K+",
-    label: "Active Users",
-    description: "Professionals worldwide trust our platform",
-  },
-  {
-    value: "99.9%",
-    label: "Uptime",
-    description: "Industry-leading reliability",
-  },
-  {
-    value: "150+",
-    label: "Countries",
-    description: "Global reach and impact",
-  },
-  {
-    value: "10M+",
-    label: "API Calls",
-    description: "Processed daily across infrastructure",
-  },
-]
-
 export function Stats({ stats, showMore }: StatsProps) {
-  const displayStats = stats && stats.length > 0 ? stats : defaultStats
+  const displayStats = stats && stats.length > 0 ? stats : []
+
+  if (displayStats.length === 0) return null
 
   return (
-    <section className="py-20 md:py-28">
-      <div className="container">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
+    <section className="relative overflow-hidden border-y border-border/50 bg-card py-12 backdrop-blur-md">
+      <div className="absolute inset-0 scanline opacity-30 mix-blend-overlay pointer-events-none" />
+      <div className="container relative z-10 mx-auto px-4">
+        <div className="flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-border/50 justify-center items-center">
           {displayStats.map((stat, index) => (
             <div
               key={stat?.label || index}
-              className="group text-center p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-accent/50 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] dark:hover:shadow-[0_8px_30px_rgb(0,0,0,0.4)] hover:shadow-accent/10 dark:hover:shadow-accent/20 hover:-translate-y-1"
+              className="flex-1 w-full text-center py-6 md:py-0 px-8 group transition-all"
             >
-              <div className="text-4xl md:text-5xl font-bold mb-2 text-foreground">
+              <div className="text-3xl md:text-4xl font-mono font-bold text-white mb-2 tracking-tight group-hover:text-primary transition-colors">
                 {stat?.value}
               </div>
-              <div className="text-sm md:text-base font-semibold mb-1 text-foreground">{stat?.label}</div>
-              <div className="text-xs md:text-sm text-muted-foreground text-balance">{stat?.description}</div>
+              <div className="text-sm uppercase tracking-widest text-primary font-bold mb-1">
+                {stat?.label}
+              </div>
+              <div className="text-xs text-muted-foreground text-balance">
+                {stat?.description}
+              </div>
             </div>
           ))}
         </div>
-        <ShowMoreButton config={showMore} />
+        <div className="mt-8 flex justify-center">
+          <ShowMoreButton config={showMore} />
+        </div>
       </div>
     </section>
   )

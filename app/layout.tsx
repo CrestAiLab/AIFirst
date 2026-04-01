@@ -1,11 +1,12 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Geist, Geist_Mono, Fira_Code } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const _geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" })
+const firaCode = Fira_Code({ subsets: ["latin"], variable: "--font-fira-code" })
 
 export const metadata: Metadata = {
   title: "AIDFest - Artificial Intelligence and Data Festival",
@@ -37,8 +38,8 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`font-sans antialiased`}>
+    <html lang="en" suppressHydrationWarning className="dark">
+      <body className={`font-sans antialiased ${firaCode.variable} ${_geistMono.variable} bg-background text-foreground`}>
         {children}
         <Analytics />
         <script

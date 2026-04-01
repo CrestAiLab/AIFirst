@@ -49,6 +49,16 @@ export const communityPost = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ type: 'string' }],
+      description: 'Add tags like #RAG, #CyberSecurity to categorize this post.',
+      options: {
+        layout: 'tags',
+      },
+    }),
+    defineField({
       name: 'replies',
       title: 'Number of Replies',
       type: 'number',

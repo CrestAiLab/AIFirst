@@ -5,6 +5,7 @@ import { Community } from "@/components/community"
 import { Insights } from "@/components/insights"
 import { CTA } from "@/components/cta"
 import { Content } from "@/components/content"
+import { CyberSecurity } from "@/components/cyber-security"
 import type { PageSection, Insight, CommunityPost } from "@/lib/sanity/types"
 
 interface SectionRendererProps {
@@ -27,6 +28,9 @@ export function SectionRenderer({ section, insights = [], communityPosts = [] }:
     
     case 'solutions':
       return <Solutions solutions={section.solutions} showMore={section.showMore} />
+    
+    case 'cyberSecurity':
+      return <CyberSecurity config={section.cyberSecurity} />
     
     case 'community':
       return (
