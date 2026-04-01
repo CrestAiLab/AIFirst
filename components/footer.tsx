@@ -28,19 +28,12 @@ export function Footer() {
           <div className="col-span-2">
             <div className="flex items-center gap-3 mb-4 group cursor-default">
               <div className="relative flex items-center justify-center w-10 h-10 flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
-                {/* Ambient Base Glow */}
-                <div className="absolute inset-1 bg-gradient-to-tr from-primary/40 to-accent/40 blur-md rounded-full group-hover:opacity-80 transition-opacity duration-500" />
-                
-                {/* Layer 1: Abstract Shape */}
-                <div className="absolute w-6 h-6 bg-gradient-to-br from-primary to-accent rounded-[8px] rotate-45 border border-white/20 shadow-glow" />
-                
-                {/* Layer 2: Glass Overlay */}
-                <div className="absolute w-6 h-6 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-[8px] rotate-[75deg] border border-white/30 group-hover:rotate-[90deg] transition-transform duration-700 shadow-lg" />
-                
-                {/* Central Energy Core */}
-                <div className="absolute w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)] border border-primary/20 group-hover:scale-125 transition-transform duration-500" />
+                <div className="absolute inset-1 bg-gradient-to-tr from-emerald-500/20 to-teal-600/15 dark:from-emerald-500/12 dark:to-teal-600/10 blur-md rounded-full group-hover:opacity-90 transition-opacity duration-500" />
+                <div className="absolute w-6 h-6 bg-gradient-to-br from-emerald-600 to-teal-700 dark:from-emerald-700 dark:to-teal-800 rounded-[8px] rotate-45 border border-white/15 shadow-[0_0_12px_rgba(16,185,129,0.15)] dark:shadow-[0_0_14px_rgba(16,185,129,0.12)]" />
+                <div className="absolute w-6 h-6 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-[8px] rotate-[75deg] border border-white/20 dark:border-emerald-500/15 group-hover:rotate-[90deg] transition-transform duration-700 shadow-lg" />
+                <div className="absolute w-2.5 h-2.5 rounded-full bg-emerald-100 dark:bg-emerald-400/90 shadow-[0_0_8px_rgba(16,185,129,0.35)] dark:shadow-[0_0_8px_rgba(52,211,153,0.22)] border border-emerald-900/20 group-hover:scale-125 transition-transform duration-500" />
               </div>
-              <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-foreground to-accent bg-clip-text text-transparent group-hover:text-neon transition-all duration-300">
+              <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-foreground to-emerald-700/90 dark:to-emerald-500/75 bg-clip-text text-transparent transition-all duration-300">
                 AIDFest
               </span>
             </div>
