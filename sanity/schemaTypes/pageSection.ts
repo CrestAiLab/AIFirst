@@ -15,8 +15,9 @@ export const pageSection = defineType({
         list: [
           { title: 'Hero (Top Banner)', value: 'hero' },
           { title: 'Stats (Numbers/Metrics)', value: 'stats' },
-          { title: 'Solutions (Feature Cards)', value: 'solutions' },
-          { title: 'Community', value: 'community' },
+          { title: 'Infrastructure Bento Grid', value: 'solutions' },
+          { title: 'Cyber Security Hub', value: 'cyberSecurity' },
+          { title: 'Community Pathways', value: 'community' },
           { title: 'Insights (Blog Posts)', value: 'insights' },
           { title: 'Call to Action (CTA)', value: 'cta' },
           { title: 'Content (2-Column with Image)', value: 'content' },
@@ -204,6 +205,53 @@ export const pageSection = defineType({
         },
       ],
       hidden: ({ parent }) => parent?.sectionType !== 'solutions',
+    }),
+    defineField({
+      name: 'cyberSecurity',
+      title: 'Cyber Security Section',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'heading',
+          title: 'Heading',
+          type: 'string',
+          initialValue: 'AI-Powered Security Scan',
+        }),
+        defineField({
+          name: 'description',
+          title: 'Description',
+          type: 'text',
+        }),
+        defineField({
+          name: 'buttonText',
+          title: 'Button Text',
+          type: 'string',
+          initialValue: 'Run Diagnostics',
+        }),
+        defineField({
+          name: 'features',
+          title: 'Features',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              fields: [
+                defineField({
+                  name: 'title',
+                  title: 'Title',
+                  type: 'string',
+                }),
+                defineField({
+                  name: 'description',
+                  title: 'Description',
+                  type: 'string',
+                }),
+              ],
+            },
+          ],
+        }),
+      ],
+      hidden: ({ parent }) => parent?.sectionType !== 'cyberSecurity',
     }),
     defineField({
       name: 'community',
@@ -414,8 +462,9 @@ export const pageSection = defineType({
       const titles = {
         hero: heading || 'Hero Section',
         stats: `Stats (${statsCount || 0} items)`,
-        solutions: `Solutions (${solutionsCount || 0} items)`,
-        community: communityHeading || 'Community Section',
+        solutions: `Infrastructure Bento Grid (${solutionsCount || 0} items)`,
+        cyberSecurity: 'Cyber Security Hub',
+        community: communityHeading || 'Community Pathways',
         insights: insightsHeading || 'Insights Section',
         cta: ctaHeading || 'CTA Section',
         content: contentTitle || 'Content Section',

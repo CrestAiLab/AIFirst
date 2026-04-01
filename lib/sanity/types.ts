@@ -43,6 +43,18 @@ export interface InsightsConfig {
   buttonUrl?: string
 }
 
+export interface CyberSecurityFeature {
+  title?: string
+  description?: string
+}
+
+export interface CyberSecurityConfig {
+  heading?: string
+  description?: string
+  buttonText?: string
+  features?: CyberSecurityFeature[]
+}
+
 export interface CTAConfig {
   heading?: string
   description?: string
@@ -70,7 +82,7 @@ export interface ShowMoreConfig {
 
 export interface PageSection {
   _key?: string
-  sectionType: 'hero' | 'stats' | 'solutions' | 'community' | 'insights' | 'cta' | 'content'
+  sectionType: 'hero' | 'stats' | 'solutions' | 'cyberSecurity' | 'community' | 'insights' | 'cta' | 'content'
   enabled?: boolean
   showMore?: ShowMoreConfig
   hero?: HeroConfig
@@ -80,6 +92,7 @@ export interface PageSection {
   insights?: InsightsConfig
   cta?: CTAConfig
   content?: ContentConfig
+  cyberSecurity?: CyberSecurityConfig
 }
 
 export interface PageContent {
@@ -112,6 +125,7 @@ export interface CommunityPost {
     avatar?: any
   }
   content?: string
+  tags?: string[]
   replies?: number
   createdAt: string
   featured?: boolean

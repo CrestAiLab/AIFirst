@@ -19,9 +19,15 @@ export default async function Home() {
     }),
     client.fetch(insightsQuery, {}, {
       next: { tags: ['homepage', 'insights'] }
+    }).catch((err) => {
+      console.error('Error fetching insights:', err)
+      return []
     }),
     client.fetch(featuredCommunityPostsQuery, {}, {
       next: { tags: ['homepage', 'community'] }
+    }).catch((err) => {
+      console.error('Error fetching community posts:', err)
+      return []
     }),
   ])
 
@@ -34,16 +40,14 @@ export default async function Home() {
     })
   }
 
-  // Use sections from Sanity if available, otherwise use default sections
-  const sections = pageContent?.sections && pageContent.sections.length > 0
-    ? pageContent.sections.filter((section: PageSection) => section.enabled !== false)
-    : getDefaultSections()
-  
+  // Temporarily force getDefaultSections to showcase the new design without wiping CMS 
+  const sections = getDefaultSections()
+
   // Debug logging
   if (process.env.NODE_ENV === 'development') {
     console.log('🎨 Final sections to render:', {
       count: sections.length,
-      source: pageContent?.sections ? 'Sanity' : 'Defaults',
+      source: 'DefaultSections',
       types: sections.map((s: PageSection) => s.sectionType),
     })
   }

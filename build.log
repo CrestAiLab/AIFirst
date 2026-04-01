@@ -1,0 +1,117 @@
+
+> aifirst@0.1.0 build /Users/phucpham/GitHub/AIFirst
+> next build
+
+   ▲ Next.js 15.5.9
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+(node:48081) ExperimentalWarning: CommonJS module /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/tailwindcss@3.4.19_tsx@4.21.0_yaml@2.8.2/node_modules/tailwindcss/lib/lib/load-config.js is loading ES Module /Users/phucpham/GitHub/AIFirst/tailwind.config.ts using require().
+Support for loading ES Module in require() is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+<w> [webpack.cache.PackFileCacheStrategy] Skipped not serializable cache item 'Compilation/modules|/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!/Users/phucpham/GitHub/AIFirst/app/globals.css': No serializer registered for PostCSSSyntaxError
+<w> while serializing webpack/lib/cache/PackFileCacheStrategy.PackContentItems -> webpack/lib/NormalModule -> webpack/lib/ModuleBuildError -> PostCSSSyntaxError
+Failed to compile.
+
+./app/globals.css:1:1
+Syntax error: /Users/phucpham/GitHub/AIFirst/app/globals.css The `selection:bg-primary/20` class does not exist. If `selection:bg-primary/20` is a custom class, make sure it is defined within a `@layer` directive.
+
+> 1 | @tailwind base;
+    | ^
+  2 | @tailwind components;
+  3 | @tailwind utilities;
+
+./app/globals.css
+Syntax error: /Users/phucpham/GitHub/AIFirst/app/globals.css The `selection:bg-primary/20` class does not exist. If `selection:bg-primary/20` is a custom class, make sure it is defined within a `@layer` directive. (1:1)
+
+> 1 | @tailwind base;
+    | ^
+  2 | @tailwind components;
+  3 | @tailwind utilities;
+
+    at tryRunOrWebpackError (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:316119)
+    at __webpack_require_module__ (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:131532)
+    at __nested_webpack_require_161494__ (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:130967)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:131824
+    at symbolIterator (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at done (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14824)
+    at Hook.eval [as callAsync] (eval at create (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:15:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:14:6378)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:130687
+    at symbolIterator (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14402)
+    at timesSync (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:5027)
+    at Object.eachLimit (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14208)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:130247
+    at symbolIterator (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at timesSync (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:5027)
+    at Object.eachLimit (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14208)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:129985
+    at symbolIterator (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at done (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14824)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:129496
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:110331
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:315955
+    at _done (eval at create (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:9:1)
+    at Hook.eval [as callAsync] (eval at create (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:39:22)
+    at Cache.store (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:16215)
+    at ItemCacheFacade.store (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:17460)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:110318
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:16152
+    at Array.<anonymous> (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:551693)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:16144
+    at eval (eval at create (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:27:1)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+-- inner error --
+Syntax error: /Users/phucpham/GitHub/AIFirst/app/globals.css The `selection:bg-primary/20` class does not exist. If `selection:bg-primary/20` is a custom class, make sure it is defined within a `@layer` directive. (1:1)
+
+> 1 | @tailwind base;
+    | ^
+  2 | @tailwind components;
+  3 | @tailwind utilities;
+
+    at Object.<anonymous> (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!/Users/phucpham/GitHub/AIFirst/app/globals.css:1:7)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:962717
+    at Hook.eval [as call] (eval at create (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:14:9002), <anonymous>:7:1)
+    at Hook.CALL_DELEGATE [as _call] (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:14:6272)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:131565
+    at tryRunOrWebpackError (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:316073)
+    at __webpack_require_module__ (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:131532)
+    at __nested_webpack_require_161494__ (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:130967)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:131824
+    at symbolIterator (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at done (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14824)
+    at Hook.eval [as callAsync] (eval at create (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:15:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:14:6378)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:130687
+    at symbolIterator (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14402)
+    at timesSync (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:5027)
+    at Object.eachLimit (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14208)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:130247
+    at symbolIterator (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at timesSync (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:5027)
+    at Object.eachLimit (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14208)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:129985
+    at symbolIterator (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14444)
+    at done (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/neo-async/async.js:1:14824)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:129496
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:110331
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:315955
+    at _done (eval at create (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:9:1)
+    at Hook.eval [as callAsync] (eval at create (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:39:22)
+    at Cache.store (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:16215)
+    at ItemCacheFacade.store (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:17460)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:110318
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:16152
+    at Array.<anonymous> (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:551693)
+    at /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:29:16144
+    at eval (eval at create (/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/compiled/webpack/bundle5.js:14:9224), <anonymous>:27:1)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+
+Generated code for /Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!/Users/phucpham/GitHub/AIFirst/node_modules/.pnpm/next@15.5.9_@babel+core@7.28.5_react-dom@19.2.3_react@19.2.3__react@19.2.3/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!/Users/phucpham/GitHub/AIFirst/app/globals.css
+
+Import trace for requested module:
+./app/globals.css
+
+
+> Build failed because of webpack errors
+ ELIFECYCLE  Command failed with exit code 1.

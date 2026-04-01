@@ -44,6 +44,15 @@ export const pageContentQuery = `*[_type == "pageContent"] | order(_updatedAt de
         description
       }
     },
+    cyberSecurity{
+      heading,
+      description,
+      buttonText,
+      features[]{
+        title,
+        description
+      }
+    },
     insights{
       heading,
       description,
@@ -118,6 +127,7 @@ export const featuredCommunityPostsQuery = `*[_type == "communityPost" && featur
     name,
     avatar
   },
+  tags,
   replies,
   createdAt
 }`
@@ -131,6 +141,7 @@ export const communityPostsQuery = `*[_type == "communityPost"] | order(createdA
     avatar
   },
   content,
+  tags,
   replies,
   createdAt,
   featured
