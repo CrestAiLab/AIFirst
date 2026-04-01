@@ -25,7 +25,7 @@ export function Insights({ insights = [], sectionConfig, showMore }: InsightsPro
     if (buttonUrl.startsWith("/") || buttonUrl.startsWith("#")) {
       return (
         <Link href={buttonUrl}>
-          <Button variant="outline" className="hidden md:flex gap-2 bg-transparent">
+          <Button variant="outline" className="hidden md:flex gap-2 bg-transparent rounded-full border-foreground/10 hover:bg-foreground hover:text-background transition-colors">
             {buttonText}
             <ArrowRight className="h-4 w-4" />
           </Button>
@@ -33,7 +33,7 @@ export function Insights({ insights = [], sectionConfig, showMore }: InsightsPro
       )
     } else {
       return (
-        <Button variant="outline" className="hidden md:flex gap-2 bg-transparent" asChild>
+        <Button variant="outline" className="hidden md:flex gap-2 bg-transparent rounded-full border-foreground/10 hover:bg-foreground hover:text-background transition-colors" asChild>
           <a href={buttonUrl} target="_blank" rel="noopener noreferrer">
             {buttonText}
             <ArrowRight className="h-4 w-4" />
@@ -44,18 +44,22 @@ export function Insights({ insights = [], sectionConfig, showMore }: InsightsPro
   }
 
   return (
-    <section id="insights" className="py-20 md:py-28 bg-muted/30">
-      <div className="container">
-        <div className="flex items-end justify-between mb-12">
-          <div>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">{heading}</h2>
-            <p className="text-lg text-muted-foreground">{description}</p>
+    <section id="insights" className="py-24 md:py-32 bg-background relative border-t border-foreground/5 overflow-hidden">
+      
+      {/* Background glow */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.02)_0%,transparent_60%)] -z-10 rounded-full blur-[100px]" />
+
+      <div className="container relative z-10 mx-auto px-4">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+          <div className="max-w-2xl">
+            <h2 className="text-4xl md:text-5xl font-serif font-medium mb-4 tracking-tight text-foreground">{heading}</h2>
+            <p className="text-lg text-muted-foreground/80 font-light">{description}</p>
           </div>
           {renderButton()}
         </div>
 
         {displayInsights.length > 0 ? (
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
             {displayInsights.map((insight) => {
               const imageUrl = insight.image
                 ? urlFor(insight.image).width(800).height(400).url()
@@ -72,52 +76,57 @@ export function Insights({ insights = [], sectionConfig, showMore }: InsightsPro
                 <Link
                   key={insight._id}
                   href={`/insights/${insight.slug.current}`}
-                  className="block"
+                  className="block group"
                 >
-                  <Card className="group cursor-pointer overflow-hidden bg-card/80 backdrop-blur-xl border-border/50 hover:border-accent/50 shadow-lg dark:shadow-xl hover:shadow-2xl dark:hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] hover:shadow-accent/15 dark:hover:shadow-accent/25 transition-all duration-300 hover:-translate-y-2 h-full">
-                  <div className="aspect-[2/1] overflow-hidden relative">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10" />
-                    <Image
-                      src={imageUrl}
-                      alt={insight.title}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-500"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                  </div>
-                  <CardHeader>
-                    <div className="text-xs font-semibold text-accent mb-2 drop-shadow-[0_0_8px_rgba(0,0,0,0.2)] dark:drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
-                      {insight.category}
+                  <Card className="h-full bg-transparent border-none shadow-none overflow-hidden relative">
+                    <div className="aspect-[16/9] overflow-hidden rounded-2xl relative mb-6">
+                      <div className="absolute inset-0 bg-foreground/10 group-hover:bg-transparent transition-colors duration-500 z-10 pointer-events-none mix-blend-overlay" />
+                      <Image
+                        src={imageUrl}
+                        alt={insight.title}
+                        fill
+                        className="object-cover scale-105 group-hover:scale-100 transition-transform duration-700 ease-in-out grayscale group-hover:grayscale-0"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
                     </div>
-                    <CardTitle className="text-xl group-hover:text-accent transition-colors bg-gradient-to-r from-foreground via-foreground to-accent bg-clip-text text-transparent group-hover:from-accent group-hover:via-accent group-hover:to-primary">
-                      {insight.title}
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <CardDescription className="mb-3 leading-relaxed">{insight.description}</CardDescription>
-                    <div className="text-xs text-muted-foreground">{date}</div>
-                  </CardContent>
-                </Card>
+                    <CardHeader className="p-0 mb-3">
+                      <div className="flex items-center gap-3 mb-3">
+                        <span className="text-xs font-mono uppercase tracking-widest text-foreground/60 group-hover:text-foreground transition-colors">
+                          {insight.category}
+                        </span>
+                        <span className="w-1 h-1 rounded-full bg-foreground/20" />
+                        <span className="text-xs font-mono text-muted-foreground/60">{date}</span>
+                      </div>
+                      <CardTitle className="text-2xl font-serif font-medium leading-tight group-hover:text-foreground/80 transition-colors text-foreground tracking-tight">
+                        {insight.title}
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-0">
+                      <CardDescription className="text-base font-light leading-relaxed text-muted-foreground/80 line-clamp-3">
+                        {insight.description}
+                      </CardDescription>
+                    </CardContent>
+                  </Card>
                 </Link>
               )
             })}
           </div>
         ) : (
-          <div className="text-center py-12 text-muted-foreground">
-            <p>No insights available yet. Check back soon!</p>
+          <div className="text-center py-20 rounded-2xl border border-dashed border-foreground/10 text-muted-foreground/50">
+            <p className="font-light">No insights available yet. Check back soon!</p>
           </div>
         )}
 
         <div className="text-center md:hidden">
           {buttonUrl.startsWith("/") || buttonUrl.startsWith("#") ? (
             <Link href={buttonUrl}>
-              <Button variant="outline" className="gap-2 bg-transparent">
+              <Button variant="outline" className="gap-2 bg-transparent rounded-full border-foreground/20 text-foreground hover:bg-foreground hover:text-background transition-colors">
                 {buttonText}
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
           ) : (
-            <Button variant="outline" className="gap-2 bg-transparent" asChild>
+            <Button variant="outline" className="gap-2 bg-transparent rounded-full border-foreground/20 text-foreground hover:bg-foreground hover:text-background transition-colors" asChild>
               <a href={buttonUrl} target="_blank" rel="noopener noreferrer">
                 {buttonText}
                 <ArrowRight className="h-4 w-4" />
@@ -125,7 +134,10 @@ export function Insights({ insights = [], sectionConfig, showMore }: InsightsPro
             </Button>
           )}
         </div>
-        <ShowMoreButton config={showMore} />
+        
+        <div className="flex justify-center">
+          <ShowMoreButton config={showMore} />
+        </div>
       </div>
     </section>
   )

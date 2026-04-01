@@ -53,6 +53,10 @@ const config = {
           foreground: "var(--card-foreground)",
         },
       },
+      fontFamily: {
+        serif: ["var(--font-instrument-serif)", "serif"],
+        mono: ["var(--font-fira-code)", "monospace"],
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",

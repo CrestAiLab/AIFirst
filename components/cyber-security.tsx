@@ -12,89 +12,114 @@ export function CyberSecurity({ config }: CyberSecurityProps) {
   if (!config) return null
 
   return (
-    <section className="relative py-24 overflow-hidden bg-background">
-      {/* Background Effect */}
-      <div className="absolute inset-0 z-0 bg-card/30 scanline" />
+    <section className="relative py-32 overflow-hidden bg-background">
+      {/* Subtle Background Elements */}
+      <div className="absolute inset-0 z-0 bg-background" />
+      <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[radial-gradient(circle_at_left,rgba(255,255,255,0.02)_0%,transparent_70%)] rounded-full blur-[80px] -translate-y-1/2 pointer-events-none" />
 
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row gap-12 items-center">
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        <div className="flex flex-col lg:flex-row gap-16 lg:gap-24 items-center">
           
           {/* Content Column */}
-          <div className="w-full lg:w-1/2 space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary mb-2">
+          <div className="w-full lg:w-1/2 space-y-10">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-foreground/5 border border-foreground/10 text-foreground/80 mb-4 backdrop-blur-sm cursor-default transition-colors hover:bg-foreground/10">
               <Shield className="w-4 h-4" />
-              <span className="text-sm font-medium tracking-wide">Enterprise Security</span>
+              <span className="text-xs font-mono tracking-[0.15em] uppercase">Enterprise Security</span>
             </div>
             
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground text-neon tracking-tight">
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif font-medium text-foreground tracking-tight leading-[1.1]">
               {config.heading}
             </h2>
             
-            <p className="text-lg text-muted-foreground max-w-xl">
+            <p className="text-lg md:text-xl text-muted-foreground/90 max-w-xl font-light leading-relaxed">
               {config.description}
             </p>
 
-            <div className="space-y-4 pt-4">
+            <div className="space-y-8 pt-8 border-t border-foreground/5">
               {config.features?.map((feature, idx) => (
-                <div key={idx} className="flex gap-4 items-start">
-                  <div className="mt-1 p-2 rounded-lg bg-primary/10 text-primary">
+                <div key={idx} className="flex gap-6 items-start group">
+                  <div className="mt-1 p-3 rounded-2xl bg-foreground/5 border border-foreground/10 text-foreground/60 transition-colors group-hover:bg-foreground group-hover:text-background group-hover:border-foreground shadow-sm">
                     {idx % 3 === 0 ? <Lock className="w-5 h-5" /> : idx % 3 === 1 ? <Search className="w-5 h-5" /> : <Activity className="w-5 h-5" />}
                   </div>
                   <div>
-                    <h3 className="text-foreground font-medium">{feature.title}</h3>
-                    <p className="text-muted-foreground text-sm">{feature.description}</p>
+                    <h3 className="text-xl font-serif font-medium text-foreground mb-1 tracking-tight">{feature.title}</h3>
+                    <p className="text-muted-foreground/80 text-base font-light leading-relaxed">{feature.description}</p>
                   </div>
                 </div>
               ))}
             </div>
 
             {config.buttonText && (
-              <button className="mt-8 group relative flex h-12 items-center justify-center overflow-hidden rounded-md bg-primary px-8 font-medium text-primary-foreground dark:text-black transition-all duration-300 hover:bg-primary/90 shadow-glow hover:shadow-glow-accent">
-                <span className="font-bold font-mono tracking-wide">{config.buttonText}</span>
-              </button>
+              <div className="pt-6">
+                <button className="group relative flex h-14 items-center justify-center overflow-hidden rounded-full bg-foreground px-10 text-background transition-all hover:bg-foreground/90 hover:scale-[1.02] shadow-xl">
+                  <span className="font-medium text-base tracking-wide flex items-center gap-2">
+                    {config.buttonText}
+                    <Shield className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
+                  </span>
+                </button>
+              </div>
             )}
           </div>
 
-          {/* Animation Column */}
-          <div className="w-full lg:w-1/2 mt-12 lg:mt-0 relative">
-            <div className="absolute inset-0 flex items-center justify-center opacity-30 mix-blend-screen -z-10 animate-pulse-slow pointer-events-none">
+          {/* Animation Column (Terminal) */}
+          <div className="w-full lg:w-1/2 relative mt-12 lg:mt-0">
+            <div className="absolute inset-0 flex items-center justify-center -z-10 mix-blend-screen opacity-10 pointer-events-none">
               <Image 
                 src="/assets/cyber_security_shield.png"
                 alt="Cyber Security Shield"
-                width={500}
-                height={500}
-                className="object-contain drop-shadow-[0_0_30px_rgba(0,255,65,0.6)] animate-float"
+                width={600}
+                height={600}
+                className="object-contain"
               />
             </div>
-            {/* Fixed dark terminal chrome — not theme-dependent so [OK] lines stay legible in light mode */}
-            <div className="relative aspect-square md:aspect-video lg:aspect-square w-full rounded-2xl border border-white/10 bg-black p-6 shadow-glow-accent overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-8 bg-zinc-950 border-b border-white/10 flex items-center px-4 gap-2">
-                <div className="w-3 h-3 rounded-full bg-destructive/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-primary/80" />
-                <span className="ml-4 text-xs font-mono text-zinc-400">security-scan.sh</span>
-              </div>
-              
-              <div className="mt-8 space-y-4 font-mono text-sm relative z-10">
-                <div className="flex items-center text-primary overflow-hidden whitespace-nowrap border-r-2 border-primary animate-pulse w-max">
-                  &gt; Initializing vulnerability scan...
+            
+            <div className="relative w-full rounded-2xl border border-white/10 bg-[#0A0A0A] p-1 shadow-2xl overflow-hidden glass-card">
+              <div className="rounded-xl overflow-hidden bg-black/80 backdrop-blur-2xl h-[450px] flex flex-col">
+                {/* Terminal Header */}
+                <div className="flex items-center px-4 h-12 border-b border-white/5 bg-white/[0.02]">
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-white/20 hover:bg-white/40 transition-colors" />
+                    <div className="w-3 h-3 rounded-full bg-white/20 hover:bg-white/40 transition-colors" />
+                    <div className="w-3 h-3 rounded-full bg-white/20 hover:bg-white/40 transition-colors" />
+                  </div>
+                  <div className="mx-auto -ml-8 flex items-center gap-2">
+                    <Lock className="w-3 h-3 text-white/30" />
+                    <span className="text-xs font-mono text-white/30">user@infrastructure:~</span>
+                  </div>
                 </div>
-                <div className="text-white drop-shadow-md delay-100 transition-opacity">
-                  [OK] Vector DB isolation verified
+                
+                {/* Terminal Body */}
+                <div className="p-6 font-mono text-sm relative flex-1 flex flex-col">
+                  <div className="flex items-center text-white/60 overflow-hidden whitespace-nowrap border-r-[1px] border-white/60 animate-[pulse_1s_infinite] w-max mb-6">
+                    $ ./security-scan.sh --deep
+                  </div>
+                  <div className="space-y-3 pl-2">
+                    <div className="text-white/40 delay-100 transition-opacity flex items-center gap-3">
+                      <span className="text-white/80">✓</span> Vector DB isolation verified
+                    </div>
+                    <div className="text-white/40 delay-200 transition-opacity flex items-center gap-3">
+                      <span className="text-white/80">✓</span> Prompt injection firewall active
+                    </div>
+                    <div className="text-white/40 delay-300 transition-opacity flex items-center gap-3">
+                      <span className="text-white/80">✓</span> Role-based access control synced
+                    </div>
+                  </div>
+                  
+                  <div className="mt-auto pt-6 flex flex-col gap-2">
+                    <div className="h-px w-full bg-white/5 mb-2" />
+                    <div className="flex items-center justify-between text-xs text-white/40">
+                      <span>SCAN_COMPLETE</span>
+                      <span>0 VULNERABILITIES</span>
+                    </div>
+                    <div className="flex items-center text-white/80 font-medium">
+                      $ System secure. Awaiting inputs.<span className="animate-[ping_1.5s_infinite] ml-1 w-2 h-4 bg-white/80 inline-block" />
+                    </div>
+                  </div>
                 </div>
-                <div className="text-white drop-shadow-md delay-200 transition-opacity">
-                  [OK] Prompt injection firewall active
-                </div>
-                <div className="text-white drop-shadow-md delay-300 transition-opacity">
-                  [OK] Role-based access control synced
-                </div>
-                <div className="flex items-center text-primary mt-4 font-bold text-neon">
-                  &gt; System secure. Awaiting commands.<span className="animate-ping ml-1 w-2 h-4 bg-primary inline-block" />
-                </div>
-              </div>
 
-              {/* Decorative scan visuals */}
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/5 via-transparent to-transparent opacity-50 pointer-events-none z-0" />
+                {/* Scanline overlay */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.01] to-transparent bg-[length:100%_4px] pointer-events-none opacity-20 mask-image-[linear-gradient(to_bottom,black,transparent)]" />
+              </div>
             </div>
           </div>
           
