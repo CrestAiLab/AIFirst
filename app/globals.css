@@ -143,6 +143,10 @@
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
   }
 
+  .dark .glass-card {
+    border-color: rgba(52, 211, 153, 0.07);
+  }
+
   html:not(.dark) .glass-card {
     background: color-mix(in srgb, var(--card) 85%, transparent);
     border: 1px solid rgba(9, 9, 11, 0.06);
@@ -171,6 +175,136 @@
     background: linear-gradient(to right, #09090b, #52525b); /* Slate/Black */
     -webkit-background-clip: text;
     background-clip: text;
+  }
+
+  /* Hero: line 1 + gradient line — light = punchy; dark = softer, less glow */
+  .hero-headline-solid {
+    color: #fafafa;
+    text-shadow:
+      0 0 1px rgba(255, 255, 255, 0.9),
+      0 2px 4px rgba(0, 0, 0, 0.55),
+      0 0 42px rgba(52, 211, 153, 0.22),
+      0 0 72px rgba(16, 185, 129, 0.12);
+  }
+
+  html:not(.dark) .hero-headline-solid {
+    color: #09090b;
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.85),
+      0 2px 6px rgba(0, 0, 0, 0.08),
+      0 0 36px rgba(22, 163, 74, 0.18);
+  }
+
+  .dark .hero-headline-solid {
+    color: #d4d4d8;
+    text-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.5),
+      0 0 18px rgba(52, 211, 153, 0.06);
+  }
+
+  .hero-headline-gradient {
+    background: linear-gradient(
+      105deg,
+      #d9f99d 0%,
+      #4ade80 28%,
+      #34d399 52%,
+      #2dd4bf 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    text-shadow:
+      0 0 1px rgba(0, 0, 0, 0.35),
+      0 3px 14px rgba(0, 0, 0, 0.45),
+      0 0 32px rgba(163, 230, 53, 0.45),
+      0 0 56px rgba(52, 211, 153, 0.32),
+      0 0 88px rgba(45, 212, 191, 0.2);
+  }
+
+  html:not(.dark) .hero-headline-gradient {
+    background: linear-gradient(
+      105deg,
+      #4d7c0f 0%,
+      #15803d 35%,
+      #0d9488 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.25),
+      0 2px 8px rgba(0, 0, 0, 0.12),
+      0 0 28px rgba(22, 163, 74, 0.28);
+  }
+
+  .dark .hero-headline-gradient {
+    background: linear-gradient(
+      105deg,
+      #5eead4 0%,
+      #34d399 42%,
+      #0f766e 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.42),
+      0 0 14px rgba(45, 212, 191, 0.1);
+  }
+
+  /* Shared brand chrome (badges, chips, pills) — muted emerald */
+  .brand-tag {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(5, 150, 105, 0.28);
+    background: rgba(236, 253, 245, 0.88);
+    box-shadow: 0 0 16px rgba(22, 163, 74, 0.08);
+  }
+
+  .dark .brand-tag {
+    border-color: rgba(52, 211, 153, 0.16);
+    background: rgba(6, 78, 59, 0.2);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 0 1px rgba(52, 211, 153, 0.06);
+  }
+
+  .brand-tag-dot {
+    background: rgb(5, 150, 105);
+    box-shadow: 0 0 6px rgba(22, 163, 74, 0.35);
+  }
+
+  .dark .brand-tag-dot {
+    background: rgb(52, 211, 153);
+    opacity: 0.88;
+    box-shadow: 0 0 8px rgba(52, 211, 153, 0.22);
+  }
+
+  .brand-tag-chip {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(5, 150, 105, 0.2);
+    background: rgba(240, 253, 244, 0.9);
+    color: rgba(21, 128, 61, 0.92);
+  }
+
+  .dark .brand-tag-chip {
+    border-color: rgba(52, 211, 153, 0.12);
+    background: rgba(6, 78, 59, 0.18);
+    color: rgba(209, 250, 229, 0.78);
+  }
+
+  .brand-surface {
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(5, 150, 105, 0.18);
+    background: rgba(255, 255, 255, 0.65);
+  }
+
+  .dark .brand-surface {
+    border-color: rgba(52, 211, 153, 0.12);
+    background: rgba(6, 78, 59, 0.12);
   }
   
   .scanline {

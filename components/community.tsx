@@ -43,11 +43,11 @@ export function Community({ community, featuredPosts = [], showMore }: Community
             {features.map((feature, index) => {
               const IconComponent = getIcon(feature?.icon)
               return (
-                <div key={index} className="group rounded-2xl p-8 bg-card/40 border border-foreground/5 hover:border-foreground/20 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:bg-card/80 text-left relative overflow-hidden backdrop-blur-sm">
-                  <div className="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-5 transition-opacity duration-500 text-foreground">
+                <div key={index} className="group rounded-2xl p-8 bg-card/40 border border-foreground/5 hover:border-emerald-500/22 dark:hover:border-emerald-500/15 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl hover:bg-card/80 text-left relative overflow-hidden backdrop-blur-sm">
+                  <div className="absolute top-0 right-0 p-8 opacity-0 group-hover:opacity-5 transition-opacity duration-500 text-emerald-600/80 dark:text-emerald-500/50">
                     <IconComponent className="w-32 h-32" />
                   </div>
-                  <div className="p-3 rounded-xl bg-foreground/5 inline-flex border border-foreground/10 text-foreground/80 mb-6 transition-colors group-hover:bg-foreground group-hover:text-background shadow-sm">
+                  <div className="p-3 rounded-xl brand-surface inline-flex mb-6 transition-colors group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-500/40 dark:group-hover:bg-emerald-800/90 text-emerald-900/80 dark:text-emerald-400/75 shadow-sm">
                     <IconComponent className="h-6 w-6" />
                   </div>
                   <h3 className="text-2xl font-serif font-medium text-foreground mb-3">{feature?.title}</h3>
@@ -66,7 +66,10 @@ export function Community({ community, featuredPosts = [], showMore }: Community
               <p className="text-muted-foreground/80 font-light leading-relaxed mb-8">
                 Connect with practitioners, solution builders, and engineers working on data, #RAG, #CyberSecurity, and #Orchestration.
               </p>
-              <button className="h-12 px-8 rounded-full bg-transparent border border-foreground/20 text-foreground hover:bg-foreground hover:text-background transition-all font-medium text-sm tracking-wide">
+              <button
+                type="button"
+                className="h-12 px-8 rounded-full border border-emerald-600/28 bg-transparent text-foreground hover:bg-emerald-500/[0.08] hover:border-emerald-500/38 dark:border-emerald-500/22 dark:hover:bg-emerald-950/45 dark:hover:border-emerald-500/32 transition-all font-medium text-sm tracking-wide"
+              >
                 Join Forum
               </button>
             </div>
@@ -78,8 +81,8 @@ export function Community({ community, featuredPosts = [], showMore }: Community
                     ? urlFor(post.author.avatar).width(40).height(40).url()
                     : undefined
                   return (
-                    <Card key={post._id} className="bg-transparent border border-foreground/5 hover:border-foreground/20 transition-all shadow-none hover:shadow-xl group cursor-pointer overflow-hidden relative rounded-xl">
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-foreground transition-colors" />
+                    <Card key={post._id} className="bg-transparent border border-foreground/5 hover:border-emerald-500/22 dark:hover:border-emerald-500/14 transition-all shadow-none hover:shadow-xl group cursor-pointer overflow-hidden relative rounded-xl">
+                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-transparent group-hover:bg-emerald-500/70 dark:group-hover:bg-emerald-500/50 transition-colors" />
                       <CardContent className="p-4 sm:p-6 flex flex-col sm:flex-row gap-4 items-start sm:items-center">
                         <div className="flex items-center gap-4 w-full sm:w-auto">
                           {avatarUrl ? (
@@ -112,12 +115,12 @@ export function Community({ community, featuredPosts = [], showMore }: Community
 
                         <div className="flex flex-wrap gap-2 items-center w-full sm:w-auto mt-2 sm:mt-0 justify-end">
                           {post.tags?.map((tag, i) => (
-                            <span key={i} className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-foreground/5 text-foreground/70 text-[10px] font-mono border border-foreground/10">
-                              <Hash className="w-3 h-3 text-foreground/40" />
+                            <span key={i} className="brand-tag-chip inline-flex items-center gap-1 px-2.5 py-1 rounded text-[10px] font-mono">
+                              <Hash className="w-3 h-3 opacity-60" />
                               {tag.replace(/^#/, '')}
                             </span>
                           ))}
-                          <div className="ml-auto sm:ml-4 text-[10px] font-mono text-muted-foreground/60 bg-foreground/5 px-2.5 py-1 rounded border border-foreground/5 group-hover:border-foreground/20 group-hover:text-foreground/90 transition-colors">
+                          <div className="ml-auto sm:ml-4 text-[10px] font-mono text-muted-foreground/70 brand-tag-chip px-2.5 py-1 rounded group-hover:border-emerald-500/25 dark:group-hover:border-emerald-500/18 group-hover:text-foreground/90 transition-colors">
                             {post.replies || 0} REPLIES
                           </div>
                         </div>

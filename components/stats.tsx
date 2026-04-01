@@ -12,9 +12,9 @@ export function Stats({ stats, showMore }: StatsProps) {
   if (displayStats.length === 0) return null
 
   return (
-    <section className="relative overflow-hidden border-y border-foreground/5 bg-background py-16 md:py-24">
+    <section className="relative overflow-hidden border-y border-emerald-500/[0.07] dark:border-emerald-500/[0.08] bg-background py-16 md:py-24">
       <div className="container relative z-10 mx-auto px-4">
-        <div className="flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-foreground/5 justify-center items-center">
+        <div className="flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-emerald-500/[0.08] dark:divide-emerald-500/[0.1] justify-center items-center">
           {displayStats.map((stat, index) => (
             <div
               key={stat?.label || index}

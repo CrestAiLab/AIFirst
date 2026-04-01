@@ -1,5 +1,6 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
 import { Shield, Lock, Search, Activity } from "lucide-react"
 import { CyberSecurityConfig } from "@/lib/sanity/types"
 import Image from "next/image"
@@ -22,9 +23,9 @@ export function CyberSecurity({ config }: CyberSecurityProps) {
           
           {/* Content Column */}
           <div className="w-full lg:w-1/2 space-y-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-foreground/5 border border-foreground/10 text-foreground/80 mb-4 backdrop-blur-sm cursor-default transition-colors hover:bg-foreground/10">
-              <Shield className="w-4 h-4" />
-              <span className="text-xs font-mono tracking-[0.15em] uppercase">Enterprise Security</span>
+            <div className="brand-tag inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4 backdrop-blur-sm cursor-default transition-opacity hover:opacity-95">
+              <Shield className="w-4 h-4 text-emerald-800 dark:text-emerald-400/85" />
+              <span className="text-xs font-mono tracking-[0.15em] uppercase text-emerald-900 dark:text-emerald-300/85">Enterprise Security</span>
             </div>
             
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif font-medium text-foreground tracking-tight leading-[1.1]">
@@ -38,7 +39,7 @@ export function CyberSecurity({ config }: CyberSecurityProps) {
             <div className="space-y-8 pt-8 border-t border-foreground/5">
               {config.features?.map((feature, idx) => (
                 <div key={idx} className="flex gap-6 items-start group">
-                  <div className="mt-1 p-3 rounded-2xl bg-foreground/5 border border-foreground/10 text-foreground/60 transition-colors group-hover:bg-foreground group-hover:text-background group-hover:border-foreground shadow-sm">
+                  <div className="brand-surface mt-1 p-3 rounded-2xl text-emerald-900/70 dark:text-emerald-400/65 transition-colors group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-500/50 dark:group-hover:bg-emerald-800/90 shadow-sm">
                     {idx % 3 === 0 ? <Lock className="w-5 h-5" /> : idx % 3 === 1 ? <Search className="w-5 h-5" /> : <Activity className="w-5 h-5" />}
                   </div>
                   <div>
@@ -51,12 +52,12 @@ export function CyberSecurity({ config }: CyberSecurityProps) {
 
             {config.buttonText && (
               <div className="pt-6">
-                <button className="group relative flex h-14 items-center justify-center overflow-hidden rounded-full bg-foreground px-10 text-background transition-all hover:bg-foreground/90 hover:scale-[1.02] shadow-xl">
-                  <span className="font-medium text-base tracking-wide flex items-center gap-2">
+                <Button variant="brand" size="lg" className="group h-14 rounded-full px-10 text-base hover:scale-[1.01] transition-transform">
+                  <span className="font-medium tracking-wide flex items-center gap-2">
                     {config.buttonText}
-                    <Shield className="w-4 h-4 opacity-50 group-hover:opacity-100 transition-opacity" />
+                    <Shield className="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity" />
                   </span>
-                </button>
+                </Button>
               </div>
             )}
           </div>

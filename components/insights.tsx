@@ -25,7 +25,7 @@ export function Insights({ insights = [], sectionConfig, showMore }: InsightsPro
     if (buttonUrl.startsWith("/") || buttonUrl.startsWith("#")) {
       return (
         <Link href={buttonUrl}>
-          <Button variant="outline" className="hidden md:flex gap-2 bg-transparent rounded-full border-foreground/10 hover:bg-foreground hover:text-background transition-colors">
+          <Button variant="outlineBrand" className="hidden md:flex gap-2 rounded-full">
             {buttonText}
             <ArrowRight className="h-4 w-4" />
           </Button>
@@ -33,7 +33,7 @@ export function Insights({ insights = [], sectionConfig, showMore }: InsightsPro
       )
     } else {
       return (
-        <Button variant="outline" className="hidden md:flex gap-2 bg-transparent rounded-full border-foreground/10 hover:bg-foreground hover:text-background transition-colors" asChild>
+        <Button variant="outlineBrand" className="hidden md:flex gap-2 rounded-full" asChild>
           <a href={buttonUrl} target="_blank" rel="noopener noreferrer">
             {buttonText}
             <ArrowRight className="h-4 w-4" />
@@ -91,10 +91,10 @@ export function Insights({ insights = [], sectionConfig, showMore }: InsightsPro
                     </div>
                     <CardHeader className="p-0 mb-3">
                       <div className="flex items-center gap-3 mb-3">
-                        <span className="text-xs font-mono uppercase tracking-widest text-foreground/60 group-hover:text-foreground transition-colors">
+                        <span className="text-xs font-mono uppercase tracking-widest text-foreground/60 group-hover:text-emerald-700 dark:group-hover:text-emerald-400/85 transition-colors">
                           {insight.category}
                         </span>
-                        <span className="w-1 h-1 rounded-full bg-foreground/20" />
+                        <span className="w-1 h-1 rounded-full bg-emerald-500/35" />
                         <span className="text-xs font-mono text-muted-foreground/60">{date}</span>
                       </div>
                       <CardTitle className="text-2xl font-serif font-medium leading-tight group-hover:text-foreground/80 transition-colors text-foreground tracking-tight">
@@ -120,13 +120,13 @@ export function Insights({ insights = [], sectionConfig, showMore }: InsightsPro
         <div className="text-center md:hidden">
           {buttonUrl.startsWith("/") || buttonUrl.startsWith("#") ? (
             <Link href={buttonUrl}>
-              <Button variant="outline" className="gap-2 bg-transparent rounded-full border-foreground/20 text-foreground hover:bg-foreground hover:text-background transition-colors">
+              <Button variant="outlineBrand" className="gap-2 rounded-full">
                 {buttonText}
                 <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
           ) : (
-            <Button variant="outline" className="gap-2 bg-transparent rounded-full border-foreground/20 text-foreground hover:bg-foreground hover:text-background transition-colors" asChild>
+            <Button variant="outlineBrand" className="gap-2 rounded-full" asChild>
               <a href={buttonUrl} target="_blank" rel="noopener noreferrer">
                 {buttonText}
                 <ArrowRight className="h-4 w-4" />

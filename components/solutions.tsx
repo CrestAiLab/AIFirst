@@ -43,17 +43,17 @@ export function Solutions({ solutions, showMore }: SolutionsProps) {
             return (
               <div 
                 key={solution?.title || index} 
-                className={`group relative overflow-hidden rounded-3xl glass-card border border-foreground/5 p-8 flex flex-col justify-between transition-all duration-500 hover:border-foreground/20 hover:shadow-2xl hover:-translate-y-1 bg-card/40 ${bentoClasses}`}
+                className={`group relative overflow-hidden rounded-3xl glass-card border border-foreground/5 p-8 flex flex-col justify-between transition-all duration-500 hover:border-emerald-500/25 dark:hover:border-emerald-500/18 hover:shadow-2xl hover:-translate-y-1 bg-card/40 ${bentoClasses}`}
               >
                 {/* Background glow effect on hover */}
-                <div className="absolute inset-0 bg-gradient-to-br from-foreground/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 {/* Main Content */}
                 <div className="relative z-10 flex justify-between items-start">
-                  <div className="p-3 rounded-xl bg-background/50 border border-foreground/10 text-foreground/80 shadow-sm backdrop-blur-md transition-colors group-hover:bg-foreground group-hover:text-background group-hover:border-foreground">
+                  <div className="p-3 rounded-xl bg-background/50 border border-emerald-600/12 dark:border-emerald-500/10 text-emerald-900/75 dark:text-emerald-400/70 shadow-sm backdrop-blur-md transition-colors group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-500/50 dark:group-hover:bg-emerald-800/90">
                     <IconComponent className="h-6 w-6" />
                   </div>
-                  <div className="w-10 h-10 rounded-full border border-foreground/10 flex items-center justify-center bg-background/30 text-foreground/40 transition-all duration-500 group-hover:text-foreground group-hover:border-foreground/30 group-hover:bg-foreground/5">
+                  <div className="w-10 h-10 rounded-full border border-emerald-600/12 dark:border-emerald-500/10 flex items-center justify-center bg-background/30 text-emerald-800/35 dark:text-emerald-500/35 transition-all duration-500 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 group-hover:border-emerald-500/30 group-hover:bg-emerald-950/30">
                     <ArrowUpRight className="w-5 h-5 transition-transform duration-500 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </div>
                 </div>

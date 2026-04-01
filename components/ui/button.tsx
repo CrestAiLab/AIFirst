@@ -19,6 +19,10 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80 shadow-md dark:shadow-lg hover:shadow-lg dark:hover:shadow-xl",
         ghost: "hover:bg-accent hover:text-accent-foreground shadow-sm dark:shadow-md hover:shadow-md dark:hover:shadow-lg",
         link: "text-primary underline-offset-4 hover:underline",
+        brand:
+          "bg-emerald-600 text-white hover:bg-emerald-500 border border-emerald-500/35 shadow-sm dark:bg-emerald-900/75 dark:text-emerald-50 dark:hover:bg-emerald-800/85 dark:border-emerald-600/35 dark:shadow-[0_0_18px_rgba(16,185,129,0.1)]",
+        outlineBrand:
+          "border border-emerald-600/25 bg-transparent text-foreground hover:bg-emerald-500/[0.08] hover:border-emerald-500/35 dark:border-emerald-500/22 dark:hover:bg-emerald-950/45 dark:hover:border-emerald-500/32 shadow-sm dark:shadow-none",
       },
       size: {
         default: "h-10 px-4 py-2",

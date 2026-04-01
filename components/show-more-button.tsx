@@ -23,7 +23,7 @@ export function ShowMoreButton({ config }: ShowMoreButtonProps) {
         href={href}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-flex items-center gap-2 font-bold text-muted-foreground hover:text-foreground transition-colors group"
+        className="inline-flex items-center gap-2 font-bold text-muted-foreground hover:text-emerald-800 dark:hover:text-emerald-400/85 transition-colors group"
       >
         {config.text}
         <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
@@ -34,7 +34,7 @@ export function ShowMoreButton({ config }: ShowMoreButtonProps) {
   return (
     <Link
       href={href}
-      className="inline-flex items-center gap-2 font-bold text-muted-foreground hover:text-foreground transition-colors group"
+      className="inline-flex items-center gap-2 font-bold text-muted-foreground hover:text-emerald-800 dark:hover:text-emerald-400/85 transition-colors group"
     >
       {config.text}
       <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />

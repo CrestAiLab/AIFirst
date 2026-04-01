@@ -47,8 +47,8 @@ export function Content({ content, showMore }: ContentProps) {
       {items.length > 0 && (
         <ul className="space-y-4 mt-6">
           {items.map((item, index) => (
-            <li key={index} className="flex items-start gap-4 p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-accent/50 transition-all duration-300 hover:shadow-lg dark:hover:shadow-xl hover:shadow-accent/10 dark:hover:shadow-accent/20">
-              <div className="flex-shrink-0 mt-1.5 h-2 w-2 rounded-full bg-accent shadow-md dark:shadow-lg shadow-accent/50" />
+            <li key={index} className="flex items-start gap-4 p-4 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-emerald-500/25 dark:hover:border-emerald-500/15 transition-all duration-300 hover:shadow-lg dark:hover:shadow-xl hover:shadow-emerald-500/5 dark:hover:shadow-emerald-500/10">
+              <div className="flex-shrink-0 mt-1.5 h-2 w-2 rounded-full bg-emerald-500/80 dark:bg-emerald-500/50 shadow-[0_0_8px_rgba(16,185,129,0.25)] dark:shadow-[0_0_8px_rgba(52,211,153,0.15)]" />
               <span className="text-foreground leading-relaxed flex-1 font-medium">{item}</span>
             </li>
           ))}
@@ -62,7 +62,7 @@ export function Content({ content, showMore }: ContentProps) {
     
     return (
       <div className="flex-1 relative group">
-        <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl dark:shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-border/50 hover:border-accent/50 transition-all duration-300 group-hover:shadow-[0_25px_70px_rgba(0,0,0,0.15)] dark:group-hover:shadow-[0_25px_70px_rgba(0,0,0,0.7)] group-hover:shadow-accent/15 dark:group-hover:shadow-accent/25">
+        <div className="relative aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl dark:shadow-[0_20px_60px_rgba(0,0,0,0.6)] border border-border/50 hover:border-emerald-500/25 dark:hover:border-emerald-500/12 transition-all duration-300 group-hover:shadow-[0_25px_70px_rgba(0,0,0,0.15)] dark:group-hover:shadow-[0_25px_70px_rgba(0,0,0,0.7)] group-hover:shadow-emerald-500/10 dark:group-hover:shadow-emerald-500/8">
           <Image
             src={imageUrl}
             alt={imageAlt}
