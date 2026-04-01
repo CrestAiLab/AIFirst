@@ -18,7 +18,7 @@ export function Solutions({ solutions, showMore }: SolutionsProps) {
       
       <div className="container relative z-10 mx-auto px-4">
         <div className="mx-auto max-w-2xl text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white tracking-tight">
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-foreground tracking-tight">
             The Infrastructure <span className="text-primary text-neon tracking-widest block mt-2">BENTO GRID</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-xl mx-auto">
@@ -45,7 +45,8 @@ export function Solutions({ solutions, showMore }: SolutionsProps) {
                 {/* Background glow effect on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
-                <div className="relative z-10 flex justify-between items-start">
+                {/* Main Content (fades out on hover) */}
+                <div className="relative z-10 flex justify-between items-start transition-opacity duration-300 group-hover:opacity-0">
                   <div className="p-3 rounded-lg bg-card/80 border border-primary/20 text-primary shadow-glow">
                     <IconComponent className="h-6 w-6" />
                   </div>
@@ -54,8 +55,8 @@ export function Solutions({ solutions, showMore }: SolutionsProps) {
                   </div>
                 </div>
 
-                <div className="relative z-10 mt-12 md:mt-auto">
-                  <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
+                <div className="relative z-10 mt-12 md:mt-auto transition-opacity duration-300 group-hover:opacity-0">
+                  <h3 className="text-xl md:text-2xl font-bold text-foreground mb-2">
                     {solution?.title}
                   </h3>
                   <p className="text-muted-foreground text-sm leading-relaxed max-w-sm">
@@ -64,15 +65,15 @@ export function Solutions({ solutions, showMore }: SolutionsProps) {
                 </div>
                 
                 {/* Hover Reveal Card Layer */}
-                <div className="absolute inset-0 bg-card/95 backdrop-blur-xl border border-primary/30 p-6 flex flex-col justify-center items-center text-center opacity-0 hover:opacity-100 transition-all duration-300 z-20 translate-y-4 hover:translate-y-0">
-                  <div className="p-3 rounded-full bg-primary/20 mb-4 animate-pulse">
+                <div className="absolute inset-0 bg-background border border-primary/30 p-6 flex flex-col justify-center items-center text-center opacity-0 group-hover:opacity-100 transition-all duration-300 z-20 translate-y-4 group-hover:translate-y-0">
+                  <div className="p-3 rounded-full bg-primary/20 mb-4 group-hover:animate-pulse">
                     <IconComponent className="h-8 w-8 text-primary" />
                   </div>
-                  <h4 className="text-lg font-bold text-white mb-2">One-Click Deployment</h4>
+                  <h4 className="text-lg font-bold text-foreground mb-2">One-Click Deployment</h4>
                   <p className="text-sm text-primary font-mono bg-primary/10 px-3 py-1 rounded">
                     terraform apply -target={solution?.title?.replace(" ", "_").toLowerCase() || "module"}
                   </p>
-                  <button className="mt-6 text-xs text-muted-foreground border-b border-muted-foreground hover:text-white transition-colors">
+                  <button className="mt-6 text-xs text-muted-foreground border-b border-muted-foreground hover:text-foreground transition-colors">
                     View Documentation
                   </button>
                 </div>

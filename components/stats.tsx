@@ -21,7 +21,7 @@ export function Stats({ stats, showMore }: StatsProps) {
               key={stat?.label || index}
               className="flex-1 w-full text-center py-6 md:py-0 px-8 group transition-all"
             >
-              <div className="text-3xl md:text-4xl font-mono font-bold text-white mb-2 tracking-tight group-hover:text-primary transition-colors">
+              <div className="text-3xl md:text-4xl font-mono font-bold text-foreground mb-2 tracking-tight group-hover:text-primary transition-colors">
                 {stat?.value}
               </div>
               <div className="text-sm uppercase tracking-widest text-primary font-bold mb-1">

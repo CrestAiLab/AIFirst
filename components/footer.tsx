@@ -26,9 +26,21 @@ export function Footer() {
       <div className="container py-16">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
           <div className="col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="h-8 w-8 rounded-lg bg-primary shadow-md dark:shadow-lg border border-primary/20" />
-              <span className="text-xl font-bold bg-gradient-to-r from-foreground to-accent bg-clip-text text-transparent">
+            <div className="flex items-center gap-3 mb-4 group cursor-default">
+              <div className="relative flex items-center justify-center w-10 h-10 flex-shrink-0 group-hover:scale-110 transition-transform duration-500">
+                {/* Ambient Base Glow */}
+                <div className="absolute inset-1 bg-gradient-to-tr from-primary/40 to-accent/40 blur-md rounded-full group-hover:opacity-80 transition-opacity duration-500" />
+                
+                {/* Layer 1: Abstract Shape */}
+                <div className="absolute w-6 h-6 bg-gradient-to-br from-primary to-accent rounded-[8px] rotate-45 border border-white/20 shadow-glow" />
+                
+                {/* Layer 2: Glass Overlay */}
+                <div className="absolute w-6 h-6 bg-white/10 dark:bg-black/10 backdrop-blur-md rounded-[8px] rotate-[75deg] border border-white/30 group-hover:rotate-[90deg] transition-transform duration-700 shadow-lg" />
+                
+                {/* Central Energy Core */}
+                <div className="absolute w-2.5 h-2.5 bg-white rounded-full shadow-[0_0_10px_rgba(255,255,255,0.8)] border border-primary/20 group-hover:scale-125 transition-transform duration-500" />
+              </div>
+              <span className="text-xl font-bold tracking-tight bg-gradient-to-r from-foreground to-accent bg-clip-text text-transparent group-hover:text-neon transition-all duration-300">
                 AIDFest
               </span>
             </div>

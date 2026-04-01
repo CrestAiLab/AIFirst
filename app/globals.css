@@ -3,7 +3,44 @@
 @tailwind utilities;
 
 @layer base {
-  :root, .dark {
+  :root {
+    /* Light: airy near-white canvas (public-sector style), white cards for separation */
+    --background: #F8FAFC;
+    --foreground: #020617;
+
+    --card: #FFFFFF;
+    --card-foreground: #020617;
+    --popover: #FFFFFF;
+    --popover-foreground: #020617;
+
+    --primary: #15803D;
+    --primary-foreground: #FFFFFF;
+
+    --secondary: #EEF2F6;
+    --secondary-foreground: #0F172A;
+
+    --muted: #F1F5F9;
+    --muted-foreground: #3D4F66;
+
+    --accent: #1D4ED8;
+    --accent-foreground: #FFFFFF;
+
+    --destructive: #DC2626;
+    --destructive-foreground: #FFFFFF;
+
+    --border: #D1D9E5;
+    --input: #D8E0EA;
+    --ring: #15803D;
+    --radius: 0.75rem;
+
+    --chart-1: #15803D;
+    --chart-2: #2563EB;
+    --chart-3: #1E3A8A;
+    --chart-4: #7C3AED;
+    --chart-5: #0D9488;
+  }
+
+  .dark {
     /* OLED Base */
     --background: #000000;
     --foreground: #E0E0E0;
@@ -61,7 +98,20 @@
     @apply bg-background text-foreground;
   }
 
-  ::selection {
+  /* Light: whisper of tint only — keeps PSN-style brightness */
+  html:not(.dark) body {
+    background-image:
+      radial-gradient(ellipse 120% 80% at 50% -25%, rgba(21, 128, 61, 0.04), transparent 55%),
+      radial-gradient(ellipse 70% 50% at 100% 0%, rgba(29, 78, 216, 0.03), transparent 50%),
+      radial-gradient(ellipse 60% 40% at 0% 100%, rgba(15, 23, 42, 0.02), transparent 45%);
+  }
+
+  html:not(.dark) ::selection {
+    background-color: rgba(21, 128, 61, 0.28);
+    color: #052e16;
+  }
+
+  .dark ::selection {
     background-color: rgba(0, 255, 65, 0.2);
     color: #00FF41;
   }
@@ -71,20 +121,48 @@
   .shadow-glow {
     box-shadow: 0 0 10px rgba(0, 255, 65, 0.1), 0 0 20px rgba(0, 255, 65, 0.05);
   }
+
+  html:not(.dark) .shadow-glow {
+    box-shadow:
+      0 1px 2px rgba(15, 23, 42, 0.04),
+      0 0 12px rgba(21, 128, 61, 0.08),
+      0 0 24px rgba(21, 128, 61, 0.04);
+  }
   
   .shadow-glow-accent {
     box-shadow: 0 0 15px rgba(0, 255, 65, 0.2), 0 0 30px rgba(0, 255, 65, 0.1);
   }
+
+  html:not(.dark) .shadow-glow-accent {
+    box-shadow:
+      0 2px 8px rgba(15, 23, 42, 0.05),
+      0 0 18px rgba(21, 128, 61, 0.12),
+      0 0 36px rgba(21, 128, 61, 0.06);
+  }
   
+  /* Light: frosted white + visible edge; dark: midnight glass */
   .glass-card {
-    background: rgba(10, 14, 39, 0.6);
+    background: color-mix(in srgb, var(--card) 92%, transparent);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
+    border: 1px solid color-mix(in srgb, var(--border) 88%, var(--foreground) 5%);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.85) inset, 0 6px 20px rgba(15, 23, 42, 0.04);
+  }
+
+  .dark .glass-card {
+    background: rgba(10, 14, 39, 0.6);
     border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: none;
   }
 
   .text-neon {
     text-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
+  }
+
+  html:not(.dark) .text-neon {
+    text-shadow:
+      0 0 1px rgba(21, 128, 61, 0.35),
+      0 0 12px rgba(21, 128, 61, 0.25);
   }
 
   .gradient-text-safe {
@@ -92,6 +170,12 @@
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
+  }
+
+  html:not(.dark) .gradient-text-safe {
+    background: linear-gradient(135deg, #047857, #1D4ED8);
+    -webkit-background-clip: text;
+    background-clip: text;
   }
   
   .scanline {
@@ -114,6 +198,14 @@
     background-size: 100% 4px;
     z-index: 10;
     pointer-events: none;
+  }
+
+  html:not(.dark) .scanline::after {
+    background: linear-gradient(
+      to bottom,
+      transparent 50%,
+      rgba(15, 23, 42, 0.035) 50%
+    );
   }
 }
 

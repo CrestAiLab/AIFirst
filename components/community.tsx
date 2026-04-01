@@ -36,7 +36,7 @@ export function Community({ community, featuredPosts = [], showMore }: Community
         
         {/* Top Section: Pathways */}
         <div className="mb-20 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight text-white">{heading}</h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4 tracking-tight text-foreground">{heading}</h2>
           <p className="text-lg text-muted-foreground mx-auto max-w-2xl">{description}</p>
           
           <div className="grid md:grid-cols-3 gap-6 mt-12 max-w-6xl mx-auto">
@@ -50,7 +50,7 @@ export function Community({ community, featuredPosts = [], showMore }: Community
                   <div className="p-4 rounded-xl bg-primary/10 inline-flex border border-primary/20 text-primary mb-6 shadow-glow">
                     <IconComponent className="h-8 w-8 text-primary" />
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-3">{feature?.title}</h3>
+                  <h3 className="text-2xl font-bold text-foreground mb-3">{feature?.title}</h3>
                   <p className="text-muted-foreground leading-relaxed">{feature?.description}</p>
                 </div>
               )
@@ -62,7 +62,7 @@ export function Community({ community, featuredPosts = [], showMore }: Community
         <div className="max-w-6xl mx-auto border-t border-border/50 pt-16">
           <div className="flex flex-col md:flex-row gap-12">
             <div className="w-full md:w-1/3">
-              <h3 className="text-3xl font-bold tracking-tight text-white mb-4">Latest Insights &amp; Discussion</h3>
+              <h3 className="text-3xl font-bold tracking-tight text-foreground mb-4">Latest Insights &amp; Discussion</h3>
               <p className="text-muted-foreground mb-6">
                 Connect with practitioners, solution builders, and engineers working on data, #RAG, #CyberSecurity, and #Orchestration.
               </p>
@@ -96,13 +96,13 @@ export function Community({ community, featuredPosts = [], showMore }: Community
                             </div>
                           )}
                           <div className="sm:hidden flex-1">
-                            <div className="font-semibold text-white">{post.title}</div>
+                            <div className="font-semibold text-foreground">{post.title}</div>
                             <div className="text-xs text-muted-foreground">{post.author?.name} • {formatTimeAgo(post.createdAt)}</div>
                           </div>
                         </div>
 
                         <div className="flex-1 hidden sm:block">
-                          <h4 className="font-semibold text-lg text-white group-hover:text-primary transition-colors">{post.title}</h4>
+                          <h4 className="font-semibold text-lg text-foreground group-hover:text-primary transition-colors">{post.title}</h4>
                           <div className="flex gap-4 items-center mt-1 text-sm text-muted-foreground">
                             <span>{post.author?.name}</span>
                             <span>•</span>

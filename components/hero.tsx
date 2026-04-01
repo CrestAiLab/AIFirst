@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowRight, Terminal } from "lucide-react"
 import type { HeroConfig, ShowMoreConfig } from "@/lib/sanity/types"
 import Link from "next/link"
+import Image from "next/image"
 
 interface HeroProps {
   hero?: HeroConfig
@@ -24,9 +25,20 @@ export function Hero({ hero }: HeroProps) {
 
   return (
     <section className="relative overflow-hidden bg-background py-32 md:py-48 flex items-center min-h-[90vh]">
+      {/* 3D Background Figure */}
+      <div className="absolute inset-0 z-0 flex items-center justify-center opacity-15 mix-blend-screen pointer-events-none">
+        <Image 
+          src="/assets/abstract_ai_network.png"
+          alt="Abstract 3D AI Network"
+          fill
+          className="object-cover opacity-60"
+          priority
+        />
+      </div>
+
       {/* Dynamic Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,65,0.08)_0%,transparent_50%)]" />
-      <div className="absolute inset-0 scanline opacity-20" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,65,0.08)_0%,transparent_50%)] z-0" />
+      <div className="absolute inset-0 scanline opacity-20 z-0" />
       
       <div className="container relative z-10 mx-auto px-4">
         <div className="mx-auto max-w-5xl text-center space-y-10">
@@ -36,12 +48,12 @@ export function Hero({ hero }: HeroProps) {
             <span className="text-sm font-mono tracking-wider text-primary font-medium uppercase">{badge}</span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white leading-tight">
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-foreground leading-tight">
             <span className="block mb-2">{heading.split('.')[0]}.</span>
-            <span className="gradient-text-safe text-transparent">{heading.split('.').slice(1).join('.').trim()}</span>
+            <span className="gradient-text-safe text-transparent drop-shadow-lg">{heading.split('.').slice(1).join('.').trim()}</span>
           </h1>
 
-          <p className="mx-auto max-w-3xl text-lg md:text-2xl text-muted-foreground leading-relaxed">
+          <p className="mx-auto max-w-3xl text-lg md:text-2xl text-muted-foreground leading-relaxed drop-shadow-md">
             {description}
           </p>
 
@@ -50,7 +62,7 @@ export function Hero({ hero }: HeroProps) {
               <Button
                 size="lg"
                 asChild
-                className="group relative h-14 overflow-hidden rounded-full bg-primary px-8 text-lg font-bold text-black transition-all hover:bg-primary/90 shadow-glow hover:shadow-glow-accent"
+                className="group relative h-14 overflow-hidden rounded-full bg-primary px-8 text-lg font-bold text-primary-foreground dark:text-black transition-all hover:bg-primary/90 shadow-glow hover:shadow-glow-accent"
               >
                 <Link href={primaryButtonUrl}>
                   <span className="relative z-10 flex items-center gap-2 font-mono">
@@ -66,7 +78,7 @@ export function Hero({ hero }: HeroProps) {
                 size="lg"
                 variant="outline"
                 asChild
-                className="group h-14 rounded-full border-border/50 bg-card/40 backdrop-blur-xl px-8 text-lg font-medium text-white transition-all hover:bg-white/10 hover:border-white/20"
+                className="group h-14 rounded-full border-border/50 bg-card/40 backdrop-blur-xl px-8 text-lg font-medium text-foreground transition-all hover:bg-foreground/10 hover:border-foreground/20"
               >
                 <Link href={secondaryButtonUrl}>
                   {secondaryButton}
