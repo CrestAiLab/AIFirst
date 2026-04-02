@@ -3,6 +3,22 @@ import { isSafeHttpUrlForFetch } from "@/lib/url-safety"
 
 export const runtime = "nodejs"
 
+/** Inline fallback so thumbnails never depend on /placeholder.svg being deployed. */
+const PLACEHOLDER_SVG = Buffer.from(
+  `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400"><defs><linearGradient id="g" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:#fafafa"/><stop offset="100%" style="stop-color:#e4e4e7"/></linearGradient></defs><rect width="800" height="400" fill="url(#g)"/><rect width="800" height="400" fill="#09090b" fill-opacity="0.04"/></svg>`,
+  "utf8"
+)
+
+function placeholderResponse() {
+  return new NextResponse(PLACEHOLDER_SVG, {
+    status: 200,
+    headers: {
+      "Content-Type": "image/svg+xml",
+      "Cache-Control": "public, max-age=3600, s-maxage=3600",
+    },
+  })
+}
+
 /**
  * Same-origin thumbnail for source cards: fetches the remote og:image on the server
  * so the browser doesn’t hit hotlink / referrer blocks that break images on Vercel.
@@ -37,12 +53,12 @@ export async function GET(request: NextRequest) {
     })
 
     if (!res.ok) {
-      return NextResponse.redirect(new URL("/placeholder.svg", request.url))
+      return placeholderResponse()
     }
 
     const ct = res.headers.get("content-type") ?? ""
     if (!ct.startsWith("image/") && !ct.includes("octet-stream")) {
-      return NextResponse.redirect(new URL("/placeholder.svg", request.url))
+      return placeholderResponse()
     }
 
     const buf = await res.arrayBuffer()
@@ -54,6 +70,6 @@ export async function GET(request: NextRequest) {
       },
     })
   } catch {
-    return NextResponse.redirect(new URL("/placeholder.svg", request.url))
+    return placeholderResponse()
   }
 }
