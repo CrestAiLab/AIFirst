@@ -40,14 +40,21 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "URL not allowed" }, { status: 400 })
   }
 
+  const host = target.hostname.toLowerCase()
+  /** ytimg often rejects requests whose Referer is the wrong origin (e.g. site URL or img.youtube.com itself). */
+  const isYouTubeImageCdn = host === "img.youtube.com" || host === "i.ytimg.com"
+  const fetchHeaders: Record<string, string> = {
+    "User-Agent":
+      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+    Accept: "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
+    ...(isYouTubeImageCdn
+      ? { Referer: "https://www.youtube.com/" }
+      : { Referer: `${target.origin}/` }),
+  }
+
   try {
     const res = await fetch(target.href, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
-        Accept: "image/avif,image/webp,image/apng,image/*,*/*;q=0.8",
-        Referer: target.origin + "/",
-      },
+      headers: fetchHeaders,
       redirect: "follow",
       signal: AbortSignal.timeout(20_000),
     })

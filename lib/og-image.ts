@@ -1,3 +1,6 @@
+import { ensureHttpsUrl } from "@/lib/normalize-url"
+import { getYouTubeVideoIdFromUrl, youtubeThumbnailUrl } from "@/lib/youtube"
+
 /** Decode common HTML entities in meta tag content */
 function decodeMetaContent(raw: string): string {
   return raw
@@ -56,5 +59,11 @@ async function fetchOgImageFromPage(pageUrl: string): Promise<string | null> {
 
 /** Resolve Open Graph / Twitter image URL for a page (no unstable_cache — avoids caching null on Vercel for 24h after a transient failure). */
 export async function getOgImageUrl(pageUrl: string): Promise<string | null> {
-  return fetchOgImageFromPage(pageUrl)
+  const normalized = ensureHttpsUrl(pageUrl)
+  if (!normalized) return null
+  const ytId = getYouTubeVideoIdFromUrl(normalized)
+  if (ytId) {
+    return youtubeThumbnailUrl(ytId)
+  }
+  return fetchOgImageFromPage(normalized)
 }
