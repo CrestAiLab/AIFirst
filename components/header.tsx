@@ -56,7 +56,7 @@ export function Header() {
           {isHomePage ? (
             <>
               <a
-                href="#why-it-matters"
+                href="#background"
                 className="text-sm font-medium text-muted-foreground hover:text-foreground dark:hover:text-emerald-400/85 transition-colors"
               >
                 About
@@ -73,11 +73,17 @@ export function Header() {
               >
                 Insights
               </Link>
+              <Link
+                href="/sources"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground dark:hover:text-emerald-400/85 transition-colors"
+              >
+                Sources
+              </Link>
             </>
           ) : (
             <>
               <Link
-                href="/#why-it-matters"
+                href="/#background"
                 className="text-sm font-medium text-muted-foreground hover:text-foreground dark:hover:text-emerald-400/85 transition-colors"
               >
                 About
@@ -93,6 +99,12 @@ export function Header() {
                 className="text-sm font-medium text-muted-foreground hover:text-foreground dark:hover:text-emerald-400/85 transition-colors"
               >
                 Insights
+              </Link>
+              <Link
+                href="/sources"
+                className="text-sm font-medium text-muted-foreground hover:text-foreground dark:hover:text-emerald-400/85 transition-colors"
+              >
+                Sources
               </Link>
             </>
           )}
@@ -112,11 +124,11 @@ export function Header() {
               <Sun className="h-4 w-4" />
             )}
           </Button>
-          <Button variant="ghost" size="sm" className="shadow-sm dark:shadow-none">
-            Sign In
+          <Button variant="ghost" size="sm" className="shadow-sm dark:shadow-none" asChild>
+            <Link href="/insights">Updates</Link>
           </Button>
-          <Button variant="brand" size="sm" className="hover:-translate-y-0.5 transition-transform">
-            Get Started
+          <Button variant="brand" size="sm" className="hover:-translate-y-0.5 transition-transform" asChild>
+            <Link href="/contact">Get in touch</Link>
           </Button>
         </div>
       </div>

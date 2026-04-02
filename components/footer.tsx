@@ -4,6 +4,7 @@ export function Footer() {
   const links = {
     About: [
       { label: "Background", href: "/#background" },
+      { label: "Purpose", href: "/#purpose-of-the-community-event" },
       { label: "Why it Matters", href: "/#why-it-matters" },
       { label: "Goals", href: "/#goals" },
       { label: "Expected Outcomes", href: "/#expected-outcomes" },
@@ -11,6 +12,7 @@ export function Footer() {
     "Resources": [
       { label: "Events & Insights", href: "/insights" },
       { label: "Community", href: "/community" },
+      { label: "Sources", href: "/sources" },
       { label: "Contact", href: "#contact" },
     ],
     Legal: [

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" fill="none" role="img" aria-labelledby="title-pu">
+  <title id="title-pu">Shared hub: builders, practitioners, agencies</title>
+  <defs>
+    <linearGradient id="pu-em" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#059669" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#0f766e" stop-opacity="0.12"/>
+    </linearGradient>
+    <linearGradient id="pu-ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34d399" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0.2"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="640" rx="32" fill="url(#pu-em)"/>
+  <circle cx="400" cy="320" r="72" stroke="url(#pu-ring)" stroke-width="2" fill="#059669" fill-opacity="0.12"/>
+  <circle cx="400" cy="320" r="36" fill="#10b981" fill-opacity="0.35" stroke="#6ee7b7" stroke-width="2"/>
+  <circle cx="400" cy="140" r="40" fill="#0d9488" fill-opacity="0.25" stroke="#10b981" stroke-width="2"/>
+  <circle cx="220" cy="420" r="40" fill="#0d9488" fill-opacity="0.25" stroke="#10b981" stroke-width="2"/>
+  <circle cx="580" cy="420" r="40" fill="#0d9488" fill-opacity="0.25" stroke="#10b981" stroke-width="2"/>
+  <path d="M400 180 L400 284" stroke="#10b981" stroke-width="2" stroke-linecap="round" opacity="0.45"/>
+  <path d="M368 352 L260 400" stroke="#10b981" stroke-width="2" stroke-linecap="round" opacity="0.45"/>
+  <path d="M432 352 L540 400" stroke="#10b981" stroke-width="2" stroke-linecap="round" opacity="0.45"/>
+  <path d="M400 200 A 180 180 0 0 1 560 400" stroke="#34d399" stroke-width="1.5" fill="none" opacity="0.25" stroke-dasharray="8 12"/>
+  <path d="M400 200 A 180 180 0 0 0 240 400" stroke="#34d399" stroke-width="1.5" fill="none" opacity="0.25" stroke-dasharray="8 12"/>
+  <text x="400" y="96" text-anchor="middle" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" letter-spacing="0.14em">SOLUTION BUILDERS</text>
+  <text x="220" y="500" text-anchor="middle" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" letter-spacing="0.14em">PRACTITIONERS</text>
+  <text x="580" y="500" text-anchor="middle" fill="#64748b" font-family="system-ui, -apple-system, sans-serif" font-size="12" font-weight="600" letter-spacing="0.14em">AGENCIES</text>
+  <text x="400" y="568" text-anchor="middle" fill="#94a3b8" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="500" letter-spacing="0.1em">SHARED DATA-FOR-AI PRACTICE</text>
+</svg>

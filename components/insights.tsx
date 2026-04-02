@@ -14,9 +14,11 @@ interface InsightsProps {
 }
 
 export function Insights({ insights = [], sectionConfig, showMore }: InsightsProps) {
-  const heading = sectionConfig?.heading || "Latest insights"
-  const description = sectionConfig?.description || "Stay ahead with industry trends and expert perspectives"
-  const buttonText = sectionConfig?.buttonText || "View All"
+  const heading = sectionConfig?.heading || "Resources & ongoing collaboration"
+  const description =
+    sectionConfig?.description ||
+    "Follow updates on working groups, playbooks, pilots, and reusable artifacts—plus ways to stay involved after the event."
+  const buttonText = sectionConfig?.buttonText || "Browse insights"
   const buttonUrl = sectionConfig?.buttonUrl || "/insights"
 
   const displayInsights = insights.slice(0, 3)

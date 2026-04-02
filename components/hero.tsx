@@ -9,14 +9,16 @@ interface HeroProps {
 }
 
 export function Hero({ hero }: HeroProps) {
-  const badge = hero?.badge || "Next-Gen AI Platform"
-  const heading = hero?.heading || "AI Infrastructure Made Simple. Zero to Production in Minutes."
-  const description = hero?.description || "From students to enterprise researchers—we provide the Dagster orchestration, Vector/Graph databases, and RAG support so you can focus on the work that matters."
-  
-  const primaryButton = hero?.primaryButton || "Book a Consultation"
+  const badge = hero?.badge || "Artificial Intelligence and Data Festival (AIDFest)"
+  const heading = hero?.heading || "Artificial Intelligence and Data Festival. Data for AI in practice."
+  const description =
+    hero?.description ||
+    "One place to align on what \"good data\" means for AI: from labeling and evaluation sets to governance and production monitoring—so pilots turn into repeatable practice across teams and sectors."
+
+  const primaryButton = hero?.primaryButton || "Get in touch"
   const primaryButtonUrl = hero?.primaryButtonUrl || "#"
-  
-  const secondaryButton = hero?.secondaryButton || "Explore the Knowledge Hub"
+
+  const secondaryButton = hero?.secondaryButton || "Events & insights"
   const secondaryButtonUrl = hero?.secondaryButtonUrl || "#"
 
   const showPrimaryButton = hero?.showPrimaryButton !== false

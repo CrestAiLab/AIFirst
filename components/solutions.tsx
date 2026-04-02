@@ -13,7 +13,7 @@ export function Solutions({ solutions, showMore }: SolutionsProps) {
   const displaySolutions = solutions && solutions.length > 0 ? solutions : []
 
   return (
-    <section id="infrastructure" className="py-24 md:py-32 relative overflow-hidden">
+    <section id="goals" className="py-24 md:py-32 relative overflow-hidden">
       <div className="absolute inset-0 bg-background/50 z-0" />
       
       {/* Subtle background glow for the section */}
@@ -22,14 +22,14 @@ export function Solutions({ solutions, showMore }: SolutionsProps) {
       <div className="container relative z-10 mx-auto px-4">
         <div className="mx-auto max-w-3xl text-center mb-20 space-y-6">
           <h2 className="text-4xl md:text-6xl font-serif font-medium mb-6 text-foreground tracking-tight">
-            The Infrastructure <span className="block mt-2 text-muted-foreground/80 italic font-light">Bento Grid</span>
+            Goals for the <span className="block mt-2 text-muted-foreground/80 italic font-light">community event</span>
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-light leading-relaxed">
-            Everything you need to build, deploy, and scale intelligent infrastructure gracefully. We handle the infrastructure. You handle the innovation.
+            What we want to walk away with: a common playbook, honest visibility into cross-sector blockers, practical methods you can reuse, and collaboration hooks for pilots—not another shelf of strategy PDFs.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4 lg:gap-6 max-w-6xl mx-auto auto-rows-[300px] md:auto-rows-auto md:h-[600px]">
+        <div className="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-4 lg:gap-6 max-w-6xl mx-auto md:items-stretch md:auto-rows-min">
           {displaySolutions.map((solution, index) => {
             const IconComponent = getIcon(solution?.icon)
             
@@ -43,13 +43,13 @@ export function Solutions({ solutions, showMore }: SolutionsProps) {
             return (
               <div 
                 key={solution?.title || index} 
-                className={`group relative overflow-hidden rounded-3xl glass-card border border-foreground/5 p-8 flex flex-col justify-between transition-all duration-500 hover:border-emerald-500/25 dark:hover:border-emerald-500/18 hover:shadow-2xl hover:-translate-y-1 bg-card/40 ${bentoClasses}`}
+                className={`group relative overflow-hidden rounded-3xl glass-card border border-foreground/5 p-8 flex flex-col gap-8 min-h-0 transition-all duration-500 hover:border-emerald-500/25 dark:hover:border-emerald-500/18 hover:shadow-2xl hover:-translate-y-1 bg-card/40 ${bentoClasses}`}
               >
                 {/* Background glow effect on hover */}
                 <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
-                {/* Main Content */}
-                <div className="relative z-10 flex justify-between items-start">
+                {/* Main Content — top-aligned; no justify-between / mt-auto so tall cell text isn’t pinned to bottom */}
+                <div className="relative z-10 flex justify-between items-start shrink-0">
                   <div className="p-3 rounded-xl bg-background/50 border border-emerald-600/12 dark:border-emerald-500/10 text-emerald-900/75 dark:text-emerald-400/70 shadow-sm backdrop-blur-md transition-colors group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-500/50 dark:group-hover:bg-emerald-800/90">
                     <IconComponent className="h-6 w-6" />
                   </div>
@@ -58,11 +58,11 @@ export function Solutions({ solutions, showMore }: SolutionsProps) {
                   </div>
                 </div>
 
-                <div className="relative z-10 mt-12 md:mt-auto">
+                <div className="relative z-10 min-h-0">
                   <h3 className="text-2xl md:text-3xl font-serif font-medium text-foreground mb-3 tracking-tight">
                     {solution?.title}
                   </h3>
-                  <p className="text-muted-foreground/80 text-base md:text-lg leading-relaxed max-w-sm font-light">
+                  <p className="text-muted-foreground/80 text-base md:text-lg leading-relaxed font-light text-balance">
                     {solution?.description}
                   </p>
                 </div>

@@ -36,12 +36,14 @@ export async function GET(request: NextRequest) {
     revalidatePath('/insights')
     revalidatePath('/community', 'layout')
     revalidatePath('/community')
+    revalidatePath('/sources', 'layout')
+    revalidatePath('/sources')
     
     return NextResponse.json({ 
       revalidated: true, 
       now: Date.now(),
       message: 'All pages revalidated successfully',
-      paths: ['/', '/insights', '/community']
+      paths: ['/', '/insights', '/community', '/sources']
     })
   } catch (error) {
     return NextResponse.json(
@@ -90,6 +92,8 @@ export async function POST(request: NextRequest) {
       revalidatePath('/insights')
       revalidatePath('/community', 'layout')
       revalidatePath('/community')
+      revalidatePath('/sources', 'layout')
+      revalidatePath('/sources')
       return NextResponse.json({ 
         revalidated: true, 
         now: Date.now(),
@@ -182,6 +186,18 @@ export async function POST(request: NextRequest) {
                 revalidatedPaths.push('/')
               }
               console.log('✅ Revalidated community pages and homepage')
+            } else if (_type === 'source') {
+              revalidatePath('/sources', 'layout')
+              revalidatePath('/sources')
+              revalidateTag('sources')
+              revalidatedPaths.push('/sources')
+              revalidatePath('/', 'layout')
+              revalidatePath('/')
+              revalidateTag('homepage')
+              if (!revalidatedPaths.includes('/')) {
+                revalidatedPaths.push('/')
+              }
+              console.log('✅ Revalidated sources pages and homepage')
             }
           })
           
@@ -194,7 +210,9 @@ export async function POST(request: NextRequest) {
             revalidatePath('/insights')
             revalidatePath('/community', 'layout')
             revalidatePath('/community')
-            revalidatedPaths.push('/', '/insights', '/community')
+            revalidatePath('/sources', 'layout')
+            revalidatePath('/sources')
+            revalidatedPaths.push('/', '/insights', '/community', '/sources')
           }
           
           return NextResponse.json({ 
@@ -214,6 +232,8 @@ export async function POST(request: NextRequest) {
           revalidatePath('/insights')
           revalidatePath('/community', 'layout')
           revalidatePath('/community')
+          revalidatePath('/sources', 'layout')
+          revalidatePath('/sources')
           return NextResponse.json({ 
             revalidated: true, 
             now: Date.now(),
@@ -268,6 +288,8 @@ export async function POST(request: NextRequest) {
       revalidatePath('/insights')
       revalidatePath('/community', 'layout')
       revalidatePath('/community')
+      revalidatePath('/sources', 'layout')
+      revalidatePath('/sources')
       return NextResponse.json({ 
         revalidated: true, 
         now: Date.now(),
@@ -317,6 +339,18 @@ export async function POST(request: NextRequest) {
         // Also revalidate homepage if it shows community posts
         revalidatePath('/')
         console.log('✅ Revalidated community pages')
+      } else if (_type === 'source') {
+        revalidatePath('/sources', 'layout')
+        revalidatePath('/sources')
+        revalidateTag('sources')
+        revalidatedPaths.push('/sources')
+        revalidatePath('/', 'layout')
+        revalidatePath('/')
+        revalidateTag('homepage')
+        if (!revalidatedPaths.includes('/')) {
+          revalidatedPaths.push('/')
+        }
+        console.log('✅ Revalidated sources pages and homepage')
       }
     })
 

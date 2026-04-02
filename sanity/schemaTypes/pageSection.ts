@@ -19,6 +19,7 @@ export const pageSection = defineType({
           { title: 'Cyber Security Hub', value: 'cyberSecurity' },
           { title: 'Community Pathways', value: 'community' },
           { title: 'Insights (Blog Posts)', value: 'insights' },
+          { title: 'Sources (Links & Media)', value: 'sources' },
           { title: 'Call to Action (CTA)', value: 'cta' },
           { title: 'Content (2-Column with Image)', value: 'content' },
         ],
@@ -346,6 +347,39 @@ export const pageSection = defineType({
       hidden: ({ parent }) => parent?.sectionType !== 'insights',
     }),
     defineField({
+      name: 'sources',
+      title: 'Sources Section',
+      type: 'object',
+      fields: [
+        defineField({
+          name: 'heading',
+          title: 'Heading',
+          type: 'string',
+          initialValue: 'Curated sources',
+        }),
+        defineField({
+          name: 'description',
+          title: 'Description',
+          type: 'string',
+          initialValue: 'Recommended reading and listening.',
+        }),
+        defineField({
+          name: 'buttonText',
+          title: 'Button Text',
+          type: 'string',
+          initialValue: 'Browse sources',
+        }),
+        defineField({
+          name: 'buttonUrl',
+          title: 'Button Link',
+          type: 'string',
+          description: 'URL or page section (e.g., /sources, /insights, #section-id)',
+          initialValue: '/sources',
+        }),
+      ],
+      hidden: ({ parent }) => parent?.sectionType !== 'sources',
+    }),
+    defineField({
       name: 'cta',
       title: 'Call to Action Section',
       type: 'object',
@@ -397,6 +431,12 @@ export const pageSection = defineType({
           validation: (rule) => rule.required(),
         }),
         defineField({
+          name: 'lead',
+          title: 'Lead line (optional)',
+          type: 'string',
+          description: 'One short italic line under the heading—sets up the paragraph below.',
+        }),
+        defineField({
           name: 'body',
           title: 'Body Text',
           type: 'text',
@@ -442,6 +482,13 @@ export const pageSection = defineType({
           description: 'Alternative text describing the image. Important for accessibility and SEO. Example: "Futuristic cityscape with glowing buildings"',
           hidden: ({ parent }) => parent?.layout === 'default',
         }),
+        defineField({
+          name: 'imageUrl',
+          title: 'Static image URL (optional)',
+          type: 'string',
+          description: 'Public path such as /images/figure.svg when not using the Sanity image field above.',
+          hidden: ({ parent }) => parent?.layout === 'default',
+        }),
       ],
       hidden: ({ parent }) => parent?.sectionType !== 'content',
     }),
@@ -455,10 +502,11 @@ export const pageSection = defineType({
       solutionsCount: 'solutions.length',
       communityHeading: 'community.heading',
       insightsHeading: 'insights.heading',
+      sourcesHeading: 'sources.heading',
       ctaHeading: 'cta.heading',
       contentTitle: 'content.title',
     },
-    prepare({ sectionType, enabled, heading, statsCount, solutionsCount, communityHeading, insightsHeading, ctaHeading, contentTitle }) {
+    prepare({ sectionType, enabled, heading, statsCount, solutionsCount, communityHeading, insightsHeading, sourcesHeading, ctaHeading, contentTitle }) {
       const titles = {
         hero: heading || 'Hero Section',
         stats: `Stats (${statsCount || 0} items)`,
@@ -466,6 +514,7 @@ export const pageSection = defineType({
         cyberSecurity: 'Cyber Security Hub',
         community: communityHeading || 'Community Pathways',
         insights: insightsHeading || 'Insights Section',
+        sources: sourcesHeading || 'Sources Section',
         cta: ctaHeading || 'CTA Section',
         content: contentTitle || 'Content Section',
       }
