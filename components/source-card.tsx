@@ -40,6 +40,7 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
 
   const [mounted, setMounted] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
+  const [imgFailed, setImgFailed] = useState(false)
 
   const date = item.publishedAt
     ? new Date(item.publishedAt).toLocaleDateString("en-US", {
@@ -63,6 +64,10 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
   useEffect(() => {
     setMounted(true)
   }, [])
+
+  useEffect(() => {
+    setImgFailed(false)
+  }, [item.displayImageUrl])
 
   useEffect(() => {
     return () => {
@@ -149,14 +154,16 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
       </div>
     ) : null
 
+  const imageSrc = imgFailed ? "/placeholder.svg" : item.displayImageUrl
+
   return (
-    <div className="group">
+    <>
       <Card
         className={cn(
-          "h-full overflow-hidden relative",
+          "group h-full overflow-hidden relative",
           isHome
             ? "bg-transparent border-none shadow-none"
-            : "cursor-default bg-card/80 backdrop-blur-xl border-border/50 shadow-lg dark:shadow-xl hover:border-accent/50 hover:shadow-2xl dark:hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] hover:shadow-accent/15 dark:hover:shadow-accent/25 transition-all duration-300 hover:-translate-y-2"
+            : "cursor-default bg-card/80 backdrop-blur-xl border-border/50 shadow-lg dark:shadow-xl [@media(hover:hover)]:hover:border-accent/50 [@media(hover:hover)]:hover:shadow-2xl dark:[@media(hover:hover)]:hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] [@media(hover:hover)]:hover:shadow-accent/15 dark:[@media(hover:hover)]:hover:shadow-accent/25 transition-all duration-300 [@media(hover:hover)]:hover:-translate-y-2"
         )}
       >
         <a
@@ -180,15 +187,16 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
                   : "bg-gradient-to-t from-black/60 via-transparent to-transparent"
               )}
             />
-            {/* eslint-disable-next-line @next/next/no-img-element -- og:image from arbitrary origins */}
+            {/* eslint-disable-next-line @next/next/no-img-element -- og:image / proxy / Sanity CDN */}
             <img
-              src={item.displayImageUrl}
+              src={imageSrc}
               alt=""
+              onError={() => setImgFailed(true)}
               className={cn(
                 "absolute inset-0 w-full h-full object-cover",
                 isHome
                   ? "scale-105 group-hover:scale-100 transition-transform duration-700 ease-in-out grayscale group-hover:grayscale-0"
-                  : "group-hover:scale-110 transition-transform duration-500"
+                  : "transition-transform duration-500 motion-reduce:transform-none"
               )}
             />
             <div
@@ -251,7 +259,7 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
             className={cn(
               isHome
                 ? "text-2xl font-serif font-medium leading-tight group-hover:text-foreground/80 transition-colors text-foreground tracking-tight"
-                : "text-xl group-hover:text-accent transition-colors"
+                : "text-xl font-semibold text-foreground [@media(hover:hover)]:group-hover:text-accent transition-colors"
             )}
           >
             <a
@@ -269,8 +277,10 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
           <CardContent className={cn(isHome ? "p-0" : "")}>
             <CardDescription
               className={cn(
-                "leading-relaxed text-muted-foreground",
-                isHome ? "text-base font-light line-clamp-3" : "line-clamp-3"
+                "leading-relaxed",
+                isHome
+                  ? "text-base font-light line-clamp-3 text-muted-foreground"
+                  : "line-clamp-3 text-foreground/80 dark:text-zinc-400"
               )}
             >
               {desc}
@@ -288,6 +298,6 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
       </Card>
 
       {modalContent ? createPortal(modalContent, document.body) : null}
-    </div>
+    </>
   )
 }
