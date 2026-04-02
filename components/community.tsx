@@ -13,8 +13,10 @@ interface CommunityProps {
 }
 
 export function Community({ community, featuredPosts = [], showMore }: CommunityProps) {
-  const heading = community?.heading || "Learning & Development Pathways"
-  const description = community?.description || "Choose your journey and start building with enterprise-grade infrastructure today."
+  const heading = community?.heading || "Who the festival is for"
+  const description =
+    community?.description ||
+    "A community event for people who build, buy, regulate, or operate AI systems—and care that the data behind them is intentional, evaluable, and governable."
   const features = community?.features || []
   const displayPosts = featuredPosts.slice(0, 4)
 
@@ -62,15 +64,15 @@ export function Community({ community, featuredPosts = [], showMore }: Community
         <div className="max-w-6xl mx-auto border-t border-foreground/5 pt-20">
           <div className="flex flex-col md:flex-row gap-16 lg:gap-24">
             <div className="w-full md:w-1/3">
-              <h3 className="text-3xl md:text-4xl font-serif font-medium tracking-tight text-foreground mb-6">Latest Insights &<br/>Discussion</h3>
+              <h3 className="text-3xl md:text-4xl font-serif font-medium tracking-tight text-foreground mb-6">Collaboration &<br/>discussion</h3>
               <p className="text-muted-foreground/80 font-light leading-relaxed mb-8">
-                Connect with practitioners, solution builders, and engineers working on data, #RAG, #CyberSecurity, and #Orchestration.
+                Connect on data readiness, governance, labeling and ground truth, evaluation design, monitoring, and cross-agency pilots—aligned with the festival outcomes and working groups.
               </p>
               <button
                 type="button"
                 className="h-12 px-8 rounded-full border border-emerald-600/28 bg-transparent text-foreground hover:bg-emerald-500/[0.08] hover:border-emerald-500/38 dark:border-emerald-500/22 dark:hover:bg-emerald-950/45 dark:hover:border-emerald-500/32 transition-all font-medium text-sm tracking-wide"
               >
-                Join Forum
+                Join the conversation
               </button>
             </div>
 

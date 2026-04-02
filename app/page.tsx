@@ -2,7 +2,8 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { SectionRenderer } from "@/components/section-renderer"
 import { client } from "@/lib/sanity/client"
-import { pageContentQuery, insightsQuery, featuredCommunityPostsQuery } from "@/lib/sanity/queries"
+import { pageContentQuery, insightsQuery, featuredCommunityPostsQuery, sourcesPreviewQuery } from "@/lib/sanity/queries"
+import { enrichSources } from "@/lib/sources/enrich"
 import { getDefaultSections } from "@/lib/defaultSections"
 import type { PageSection } from "@/lib/sanity/types"
 
@@ -10,7 +11,7 @@ import type { PageSection } from "@/lib/sanity/types"
 export const revalidate = 3600
 
 export default async function Home() {
-  const [pageContent, insights, communityPosts] = await Promise.all([
+  const [pageContent, insights, communityPosts, rawSources] = await Promise.all([
     client.fetch(pageContentQuery, {}, {
       next: { tags: ['homepage', 'pageContent'] }
     }).catch((err) => {
@@ -29,7 +30,15 @@ export default async function Home() {
       console.error('Error fetching community posts:', err)
       return []
     }),
+    client.fetch(sourcesPreviewQuery, {}, {
+      next: { tags: ['homepage', 'sources'] }
+    }).catch((err) => {
+      console.error('Error fetching sources:', err)
+      return []
+    }),
   ])
+
+  const sources = await enrichSources(Array.isArray(rawSources) ? rawSources : [])
 
   // Debug logging (remove in production)
   if (process.env.NODE_ENV === 'development') {
@@ -61,6 +70,7 @@ export default async function Home() {
           section={section}
           insights={insights || []}
           communityPosts={communityPosts || []}
+          sources={sources}
         />
       ))}
       <Footer />

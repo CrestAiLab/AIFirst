@@ -13,7 +13,7 @@ export function CyberSecurity({ config }: CyberSecurityProps) {
   if (!config) return null
 
   return (
-    <section className="relative py-32 overflow-hidden bg-background">
+    <section id="why-it-matters" className="relative py-32 overflow-hidden bg-background">
       {/* Subtle Background Elements */}
       <div className="absolute inset-0 z-0 bg-background" />
       <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-[radial-gradient(circle_at_left,rgba(255,255,255,0.02)_0%,transparent_70%)] rounded-full blur-[80px] -translate-y-1/2 pointer-events-none" />
@@ -25,7 +25,7 @@ export function CyberSecurity({ config }: CyberSecurityProps) {
           <div className="w-full lg:w-1/2 space-y-10">
             <div className="brand-tag inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-4 backdrop-blur-sm cursor-default transition-opacity hover:opacity-95">
               <Shield className="w-4 h-4 text-emerald-800 dark:text-emerald-400/85" />
-              <span className="text-xs font-mono tracking-[0.15em] uppercase text-emerald-900 dark:text-emerald-300/85">Enterprise Security</span>
+              <span className="text-xs font-mono tracking-[0.15em] uppercase text-emerald-900 dark:text-emerald-300/85">Why it matters</span>
             </div>
             
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-serif font-medium text-foreground tracking-tight leading-[1.1]">
@@ -92,28 +92,28 @@ export function CyberSecurity({ config }: CyberSecurityProps) {
                 {/* Terminal Body */}
                 <div className="p-6 font-mono text-sm relative flex-1 flex flex-col">
                   <div className="flex items-center text-white/60 overflow-hidden whitespace-nowrap border-r-[1px] border-white/60 animate-[pulse_1s_infinite] w-max mb-6">
-                    $ ./security-scan.sh --deep
+                    $ ./data-for-ai lifecycle status
                   </div>
                   <div className="space-y-3 pl-2">
                     <div className="text-white/40 delay-100 transition-opacity flex items-center gap-3">
-                      <span className="text-white/80">✓</span> Vector DB isolation verified
+                      <span className="text-white/80">✓</span> Evaluation data aligned to deployment context
                     </div>
                     <div className="text-white/40 delay-200 transition-opacity flex items-center gap-3">
-                      <span className="text-white/80">✓</span> Prompt injection firewall active
+                      <span className="text-white/80">✓</span> Governance &amp; access policies documented
                     </div>
                     <div className="text-white/40 delay-300 transition-opacity flex items-center gap-3">
-                      <span className="text-white/80">✓</span> Role-based access control synced
+                      <span className="text-white/80">✓</span> Monitoring hooks for drift &amp; quality
                     </div>
                   </div>
                   
                   <div className="mt-auto pt-6 flex flex-col gap-2">
                     <div className="h-px w-full bg-white/5 mb-2" />
                     <div className="flex items-center justify-between text-xs text-white/40">
-                      <span>SCAN_COMPLETE</span>
-                      <span>0 VULNERABILITIES</span>
+                      <span>LIFECYCLE_CHECK</span>
+                      <span>DATA-CENTRIC</span>
                     </div>
                     <div className="flex items-center text-white/80 font-medium">
-                      $ System secure. Awaiting inputs.<span className="animate-[ping_1.5s_infinite] ml-1 w-2 h-4 bg-white/80 inline-block" />
+                      $ Ready for responsible AI ops.<span className="animate-[ping_1.5s_infinite] ml-1 w-2 h-4 bg-white/80 inline-block" />
                     </div>
                   </div>
                 </div>

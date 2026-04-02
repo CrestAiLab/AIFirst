@@ -43,6 +43,33 @@ export interface InsightsConfig {
   buttonUrl?: string
 }
 
+export interface SourcesConfig {
+  heading?: string
+  description?: string
+  buttonText?: string
+  buttonUrl?: string
+}
+
+export interface Source {
+  _id: string
+  title: string
+  slug: {
+    current: string
+  }
+  kind: 'paper' | 'podcast' | 'article' | 'link'
+  url: string
+  /** One line under kind/date on the card: where the resource is from */
+  sourceInfo?: string
+  description?: string
+  thumbnail?: any
+  publishedAt: string
+}
+
+/** Resolved for UI: Sanity thumbnail, og:image from URL, or placeholder */
+export interface SourceDisplay extends Source {
+  displayImageUrl: string
+}
+
 export interface CyberSecurityFeature {
   title?: string
   description?: string
@@ -65,11 +92,16 @@ export interface CTAConfig {
 
 export interface ContentConfig {
   title?: string
+  /** One short line under the title (italic, muted) — sets up the paragraph */
+  lead?: string
   body?: string
   items?: string[]
   layout?: 'default' | 'imageLeft' | 'imageRight'
+  /** Sanity image asset */
   image?: any
   imageAlt?: string
+  /** Public URL e.g. `/images/figure.svg` when not using Sanity */
+  imageUrl?: string
 }
 
 export interface ShowMoreConfig {
@@ -82,7 +114,7 @@ export interface ShowMoreConfig {
 
 export interface PageSection {
   _key?: string
-  sectionType: 'hero' | 'stats' | 'solutions' | 'cyberSecurity' | 'community' | 'insights' | 'cta' | 'content'
+  sectionType: 'hero' | 'stats' | 'solutions' | 'cyberSecurity' | 'community' | 'insights' | 'sources' | 'cta' | 'content'
   enabled?: boolean
   showMore?: ShowMoreConfig
   hero?: HeroConfig
@@ -90,6 +122,7 @@ export interface PageSection {
   solutions?: SolutionItem[]
   community?: CommunityConfig
   insights?: InsightsConfig
+  sources?: SourcesConfig
   cta?: CTAConfig
   content?: ContentConfig
   cyberSecurity?: CyberSecurityConfig

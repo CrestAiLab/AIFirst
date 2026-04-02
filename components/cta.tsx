@@ -10,11 +10,13 @@ interface CTAProps {
 }
 
 export function CTA({ cta, showMore }: CTAProps) {
-  const heading = cta?.heading || "Ready to transform your infrastructure?"
-  const description = cta?.description || "Join thousands of forward-thinking companies building the future with AI-powered solutions"
-  const buttonText = cta?.buttonText || "Get Started"
+  const heading = cta?.heading || "Stay part of the data-for-AI community"
+  const description =
+    cta?.description ||
+    "Get updates on working groups, playbooks, pilots, and the shared knowledge repository—plus invitations to follow-on meetups and new partner onboarding."
+  const buttonText = cta?.buttonText || "Subscribe"
   const buttonUrl = cta?.buttonUrl || "#"
-  const disclaimer = cta?.disclaimer || "No credit card required • Free 14-day trial"
+  const disclaimer = cta?.disclaimer || "We’ll only send festival and community updates • Unsubscribe anytime"
 
   return (
     <section className="py-20 md:py-28 relative overflow-hidden">

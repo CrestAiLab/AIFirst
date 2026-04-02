@@ -59,6 +59,12 @@ export const pageContentQuery = `*[_type == "pageContent"] | order(_updatedAt de
       buttonText,
       buttonUrl
     },
+    sources{
+      heading,
+      description,
+      buttonText,
+      buttonUrl
+    },
     cta{
       heading,
       description,
@@ -96,6 +102,20 @@ export const insightsQuery = `*[_type == "insight"] | order(publishedAt desc) {
   author
 }[0...3]`
 
+export const insightsCountQuery = `count(*[_type == "insight"])`
+
+export const insightsPaginatedQuery = `*[_type == "insight"] | order(publishedAt desc)[$start...$end] {
+  _id,
+  title,
+  slug,
+  category,
+  description,
+  image,
+  publishedAt,
+  author
+}`
+
+/** @deprecated Use insightsPaginatedQuery for listing pages */
 export const allInsightsQuery = `*[_type == "insight"] | order(publishedAt desc) {
   _id,
   title,
@@ -105,6 +125,44 @@ export const allInsightsQuery = `*[_type == "insight"] | order(publishedAt desc)
   image,
   publishedAt,
   author
+}`
+
+export const sourcesPreviewQuery = `*[_type == "source"] | order(publishedAt desc) {
+  _id,
+  title,
+  slug,
+  kind,
+  url,
+  sourceInfo,
+  description,
+  thumbnail,
+  publishedAt
+}[0...3]`
+
+export const sourcesCountQuery = `count(*[_type == "source"])`
+
+export const sourcesPaginatedQuery = `*[_type == "source"] | order(publishedAt desc)[$start...$end] {
+  _id,
+  title,
+  slug,
+  kind,
+  url,
+  sourceInfo,
+  description,
+  thumbnail,
+  publishedAt
+}`
+
+export const allSourcesQuery = `*[_type == "source"] | order(publishedAt desc) {
+  _id,
+  title,
+  slug,
+  kind,
+  url,
+  sourceInfo,
+  description,
+  thumbnail,
+  publishedAt
 }`
 
 export const insightBySlugQuery = `*[_type == "insight" && slug.current == $slug][0]{
@@ -130,6 +188,23 @@ export const featuredCommunityPostsQuery = `*[_type == "communityPost" && featur
   tags,
   replies,
   createdAt
+}`
+
+export const communityPostsCountQuery = `count(*[_type == "communityPost"])`
+
+export const communityPostsPaginatedQuery = `*[_type == "communityPost"] | order(createdAt desc)[$start...$end] {
+  _id,
+  title,
+  slug,
+  author{
+    name,
+    avatar
+  },
+  content,
+  tags,
+  replies,
+  createdAt,
+  featured
 }`
 
 export const communityPostsQuery = `*[_type == "communityPost"] | order(createdAt desc) {

@@ -3,18 +3,20 @@ import { Stats } from "@/components/stats"
 import { Solutions } from "@/components/solutions"
 import { Community } from "@/components/community"
 import { Insights } from "@/components/insights"
+import { Sources } from "@/components/sources"
 import { CTA } from "@/components/cta"
 import { Content } from "@/components/content"
 import { CyberSecurity } from "@/components/cyber-security"
-import type { PageSection, Insight, CommunityPost } from "@/lib/sanity/types"
+import type { PageSection, Insight, CommunityPost, SourceDisplay } from "@/lib/sanity/types"
 
 interface SectionRendererProps {
   section: PageSection
   insights?: Insight[]
   communityPosts?: CommunityPost[]
+  sources?: SourceDisplay[]
 }
 
-export function SectionRenderer({ section, insights = [], communityPosts = [] }: SectionRendererProps) {
+export function SectionRenderer({ section, insights = [], communityPosts = [], sources = [] }: SectionRendererProps) {
   if (!section.enabled) {
     return null
   }
@@ -46,6 +48,15 @@ export function SectionRenderer({ section, insights = [], communityPosts = [] }:
         <Insights 
           insights={insights || []} 
           sectionConfig={section.insights}
+          showMore={section.showMore}
+        />
+      )
+
+    case 'sources':
+      return (
+        <Sources
+          sources={sources || []}
+          sectionConfig={section.sources}
           showMore={section.showMore}
         />
       )
