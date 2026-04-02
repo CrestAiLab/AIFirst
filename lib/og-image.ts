@@ -1,14 +1,30 @@
-import { unstable_cache } from 'next/cache'
+/** Decode common HTML entities in meta tag content */
+function decodeMetaContent(raw: string): string {
+  return raw
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&#x27;/g, "'")
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(parseInt(n, 10)))
+}
 
 async function fetchOgImageFromPage(pageUrl: string): Promise<string | null> {
   try {
     const normalized = new URL(pageUrl)
+    if (normalized.protocol !== "http:" && normalized.protocol !== "https:") return null
+
     const res = await fetch(pageUrl, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; AIDFestBot/1.0)',
-        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+        Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        "Accept-Language": "en-US,en;q=0.9",
       },
-      next: { revalidate: 86400 },
+      redirect: "follow",
+      signal: AbortSignal.timeout(18_000),
+      next: { revalidate: 3600 },
     })
     if (!res.ok) return null
     const html = await res.text()
@@ -29,18 +45,16 @@ async function fetchOgImageFromPage(pageUrl: string): Promise<string | null> {
       }
     }
     if (!raw) return null
-    const abs = new URL(raw, normalized.origin).href
+    const decoded = decodeMetaContent(raw)
+    const abs = new URL(decoded, normalized.origin).href
+    if (!abs.startsWith("http://") && !abs.startsWith("https://")) return null
     return abs
   } catch {
     return null
   }
 }
 
-/** Cached Open Graph / Twitter image URL for a page (24h). */
-export function getOgImageUrl(pageUrl: string): Promise<string | null> {
-  return unstable_cache(
-    async () => fetchOgImageFromPage(pageUrl),
-    ['og-image', pageUrl],
-    { revalidate: 86400 }
-  )()
+/** Resolve Open Graph / Twitter image URL for a page (no unstable_cache — avoids caching null on Vercel for 24h after a transient failure). */
+export async function getOgImageUrl(pageUrl: string): Promise<string | null> {
+  return fetchOgImageFromPage(pageUrl)
 }
