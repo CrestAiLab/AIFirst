@@ -22,6 +22,13 @@ const KIND_ICONS: Record<string, LucideIcon> = {
   link: Link2,
 }
 
+/** Never depends on /placeholder.svg (avoids broken img if static asset 404s in prod). */
+const IMG_FALLBACK_DATA =
+  "data:image/svg+xml," +
+  encodeURIComponent(
+    `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400"><defs><linearGradient id="g" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="#fafafa"/><stop offset="100%" stop-color="#e4e4e7"/></linearGradient></defs><rect width="800" height="400" fill="url(#g)"/><rect width="800" height="400" fill="#09090b" fill-opacity="0.04"/></svg>`
+  )
+
 function KindIcon({ kind, className }: { kind: string; className?: string }) {
   const Icon = KIND_ICONS[kind] ?? Link2
   return <Icon className={cn("shrink-0", className)} aria-hidden />
@@ -154,7 +161,7 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
       </div>
     ) : null
 
-  const imageSrc = imgFailed ? "/placeholder.svg" : item.displayImageUrl
+  const imageSrc = imgFailed ? IMG_FALLBACK_DATA : item.displayImageUrl
 
   return (
     <>
@@ -241,7 +248,7 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
             </div>
           ) : (
             <div className="mb-2 space-y-1.5">
-              <div className="flex items-center gap-2 text-xs font-semibold text-accent">
+              <div className="flex items-center gap-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                 <KindIcon kind={item.kind} className="h-4 w-4 shrink-0" />
                 <span>
                   {kind}
@@ -259,7 +266,7 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
             className={cn(
               isHome
                 ? "text-2xl font-serif font-medium leading-tight group-hover:text-foreground/80 transition-colors text-foreground tracking-tight"
-                : "text-xl font-semibold text-foreground [@media(hover:hover)]:group-hover:text-accent transition-colors"
+                : "text-xl font-semibold text-foreground transition-colors [@media(hover:hover)]:group-hover:text-emerald-700 dark:[@media(hover:hover)]:group-hover:text-emerald-300"
             )}
           >
             <a
@@ -288,7 +295,7 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
             <Button
               type="button"
               variant="link"
-              className="mt-1 h-auto p-0 text-accent font-medium"
+              className="mt-1 h-auto p-0 font-semibold text-emerald-700 underline-offset-4 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
               onClick={openModal}
             >
               Read more
