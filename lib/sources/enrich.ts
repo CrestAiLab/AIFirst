@@ -14,7 +14,8 @@ export async function toSourceDisplay(source: Source): Promise<SourceDisplay> {
       displayImageUrl: urlFor(source.thumbnail).width(800).height(400).url(),
     }
   }
-  const og = await getOgImageUrl(source.url)
+  const pageUrl = source.url?.trim()
+  const og = pageUrl ? await getOgImageUrl(pageUrl) : null
   return {
     ...source,
     displayImageUrl: og ? proxiedThumbnailUrl(og) : '/placeholder.svg',

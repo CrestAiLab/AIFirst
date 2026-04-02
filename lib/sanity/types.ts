@@ -57,9 +57,12 @@ export interface Source {
     current: string
   }
   kind: 'paper' | 'podcast' | 'article' | 'link'
-  url: string
+  /** Optional: when absent, card is not a link; no OG thumbnail unless custom image is set */
+  url?: string | null
   /** One line under kind/date on the card: where the resource is from */
   sourceInfo?: string
+  tags?: string[]
+  /** Markdown-supported in Read more dialog */
   description?: string
   thumbnail?: any
   publishedAt: string

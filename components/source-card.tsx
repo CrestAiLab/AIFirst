@@ -4,8 +4,11 @@ import { useCallback, useEffect, useId, useState } from "react"
 import { createPortal } from "react-dom"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
 import { ExternalLink, Link2, Mic, Newspaper, ScrollText, type LucideIcon } from "lucide-react"
 import type { SourceDisplay } from "@/lib/sanity/types"
+import { markdownToPlainText } from "@/lib/markdown-plain"
+import { SourceDescriptionMarkdown } from "@/components/source-description-markdown"
 import { cn } from "@/lib/utils"
 
 const KIND_LABEL: Record<string, string> = {
@@ -34,6 +37,31 @@ function KindIcon({ kind, className }: { kind: string; className?: string }) {
   return <Icon className={cn("shrink-0", className)} aria-hidden />
 }
 
+function SourceTags({ tags, className }: { tags: string[]; className?: string }) {
+  const list = tags.map((t) => t.trim()).filter(Boolean)
+  if (!list.length) return null
+  return (
+    <div className={cn("flex flex-wrap gap-1.5", className)} role="list" aria-label="Tags">
+      {list.map((tag, i) => (
+        <Tooltip key={`${tag}-${i}`}>
+          <TooltipTrigger asChild>
+            <span
+              role="listitem"
+              tabIndex={0}
+              className="inline-flex max-w-[9rem] cursor-default truncate rounded-md border border-border/80 bg-muted/30 px-2 py-0.5 text-[11px] font-medium text-muted-foreground outline-none hover:bg-muted/50 focus-visible:ring-2 focus-visible:ring-ring"
+            >
+              {tag}
+            </span>
+          </TooltipTrigger>
+          <TooltipContent side="top" className="max-w-xs">
+            <p>{tag}</p>
+          </TooltipContent>
+        </Tooltip>
+      ))}
+    </div>
+  )
+}
+
 interface SourceCardProps {
   item: SourceDisplay
   variant?: "home" | "page"
@@ -43,7 +71,11 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
   const titleId = useId()
   const desc = item.description?.trim()
   const hasDetails = Boolean(desc)
+  const plainDesc = desc ? markdownToPlainText(desc) : ""
   const sourceInfo = item.sourceInfo?.trim()
+  const tags = item.tags?.filter(Boolean) ?? []
+  const hasUrl = Boolean(item.url?.trim())
+  const href = item.url?.trim() ?? ""
 
   const [mounted, setMounted] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
@@ -92,6 +124,7 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
   }, [modalOpen, closeModal])
 
   const isHome = variant === "home"
+  const descId = `${titleId}-desc`
 
   const modalContent =
     hasDetails && mounted && modalOpen ? (
@@ -105,11 +138,11 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
           role="dialog"
           aria-modal="true"
           aria-labelledby={titleId}
-          aria-describedby={hasDetails ? `${titleId}-desc` : undefined}
-          className="relative z-10 flex min-h-0 w-full max-w-[min(100vw-2rem,28rem)] max-h-[85vh] flex-col overflow-hidden rounded-2xl border border-border bg-background p-0 text-foreground shadow-2xl"
+          aria-describedby={descId}
+          className="relative z-10 flex min-h-0 w-full max-w-[min(100vw-2rem,48rem)] max-h-[88vh] flex-col overflow-hidden rounded-2xl border border-border bg-background p-0 text-foreground shadow-2xl"
         >
-          <div className="flex shrink-0 items-start justify-between gap-3 border-b border-border/60 px-6 pb-3 pt-6">
-            <h2 id={titleId} className="pr-2 text-lg font-semibold leading-snug text-foreground">
+          <div className="flex shrink-0 items-start justify-between gap-3 border-b border-border/60 px-6 pb-3 pt-6 md:px-8">
+            <h2 id={titleId} className="pr-2 text-lg font-semibold leading-snug text-foreground md:text-xl">
               {item.title}
             </h2>
             <button
@@ -123,7 +156,7 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
               </span>
             </button>
           </div>
-          <div className="shrink-0 space-y-1.5 px-6 pb-3 pt-3">
+          <div className="shrink-0 space-y-1.5 px-6 pb-3 pt-3 md:px-8">
             <p className="flex items-center gap-2 text-xs text-muted-foreground">
               <KindIcon kind={item.kind} className="h-4 w-4 text-emerald-700 dark:text-emerald-400/85" />
               <span>
@@ -135,12 +168,15 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
               <p className="text-sm text-muted-foreground leading-snug pl-6">{sourceInfo}</p>
             ) : null}
           </div>
-          <div className="dialog-body-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-6">
-            <p id={`${titleId}-desc`} className="text-sm leading-relaxed text-foreground whitespace-pre-wrap pb-0.5">
-              {desc}
-            </p>
+          <div className="dialog-body-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden px-6 md:px-8">
+            {desc ? <SourceDescriptionMarkdown markdown={desc} id={descId} /> : null}
           </div>
-          <div className="flex shrink-0 flex-wrap items-center justify-end gap-2 border-t border-border/60 bg-background px-6 pb-6 pt-4">
+          {tags.length > 0 ? (
+            <div className="shrink-0 border-t border-border/40 px-6 py-3 md:px-8">
+              <SourceTags tags={tags} />
+            </div>
+          ) : null}
+          <div className="flex shrink-0 flex-wrap items-center justify-end gap-2 border-t border-border/60 bg-background px-6 pb-6 pt-4 md:px-8">
             <Button
               type="button"
               variant="secondary"
@@ -150,18 +186,69 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
             >
               Close
             </Button>
-            <Button variant="brand" size="sm" asChild>
-              <a href={item.url} target="_blank" rel="noopener noreferrer">
-                Open link
-                <ExternalLink className="h-3.5 w-3.5" />
-              </a>
-            </Button>
+            {hasUrl ? (
+              <Button variant="brand" size="sm" asChild>
+                <a href={href} target="_blank" rel="noopener noreferrer">
+                  Open link
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </a>
+              </Button>
+            ) : null}
           </div>
         </div>
       </div>
     ) : null
 
   const imageSrc = imgFailed ? IMG_FALLBACK_DATA : item.displayImageUrl
+
+  const mediaBlock = (
+    <div
+      className={cn(
+        "overflow-hidden relative bg-muted/40",
+        isHome ? "aspect-[16/9] rounded-2xl mb-6" : "aspect-[2/1]"
+      )}
+    >
+      <div
+        className={cn(
+          "absolute inset-0 z-10 pointer-events-none mix-blend-overlay",
+          isHome
+            ? "bg-foreground/10 group-hover:bg-transparent transition-colors duration-500"
+            : "bg-gradient-to-t from-black/60 via-transparent to-transparent"
+        )}
+      />
+      {/* eslint-disable-next-line @next/next/no-img-element -- og proxy / Sanity CDN / data URL fallback */}
+      <img
+        src={imageSrc}
+        alt=""
+        onError={() => setImgFailed(true)}
+        className={cn(
+          "absolute inset-0 w-full h-full object-cover",
+          isHome
+            ? "scale-105 group-hover:scale-100 transition-transform duration-700 ease-in-out grayscale group-hover:grayscale-0"
+            : "transition-transform duration-500 motion-reduce:transform-none"
+        )}
+      />
+      {hasUrl ? (
+        <div
+          className={cn(
+            "absolute z-20 rounded-full bg-background/85 backdrop-blur-sm p-1.5 shadow-sm border border-border/50",
+            isHome ? "top-3 right-3 opacity-90 group-hover:opacity-100 transition-opacity" : "top-2 right-2 bg-background/90"
+          )}
+        >
+          <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" aria-hidden />
+        </div>
+      ) : null}
+      <div
+        className={cn(
+          "absolute z-20 rounded-full bg-background/85 backdrop-blur-sm p-1.5 shadow-sm border border-border/50 text-emerald-700 dark:text-emerald-400/90",
+          isHome ? "bottom-3 left-3" : "bottom-2 left-2"
+        )}
+        title={kind}
+      >
+        <KindIcon kind={item.kind} className="h-3.5 w-3.5" />
+      </div>
+    </div>
+  )
 
   return (
     <>
@@ -173,58 +260,19 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
             : "cursor-default bg-card/80 backdrop-blur-xl border-border/50 shadow-lg dark:shadow-xl [@media(hover:hover)]:hover:border-accent/50 [@media(hover:hover)]:hover:shadow-2xl dark:[@media(hover:hover)]:hover:shadow-[0_20px_60px_rgba(0,0,0,0.6)] [@media(hover:hover)]:hover:shadow-accent/15 dark:[@media(hover:hover)]:hover:shadow-accent/25 transition-all duration-300 [@media(hover:hover)]:hover:-translate-y-2"
         )}
       >
-        <a
-          href={item.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block"
-          aria-label={`Open ${item.title} in a new tab`}
-        >
-          <div
-            className={cn(
-              "overflow-hidden relative bg-muted/40",
-              isHome ? "aspect-[16/9] rounded-2xl mb-6" : "aspect-[2/1]"
-            )}
+        {hasUrl ? (
+          <a
+            href={href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block"
+            aria-label={`Open ${item.title} in a new tab`}
           >
-            <div
-              className={cn(
-                "absolute inset-0 z-10 pointer-events-none mix-blend-overlay",
-                isHome
-                  ? "bg-foreground/10 group-hover:bg-transparent transition-colors duration-500"
-                  : "bg-gradient-to-t from-black/60 via-transparent to-transparent"
-              )}
-            />
-            {/* eslint-disable-next-line @next/next/no-img-element -- og:image / proxy / Sanity CDN */}
-            <img
-              src={imageSrc}
-              alt=""
-              onError={() => setImgFailed(true)}
-              className={cn(
-                "absolute inset-0 w-full h-full object-cover",
-                isHome
-                  ? "scale-105 group-hover:scale-100 transition-transform duration-700 ease-in-out grayscale group-hover:grayscale-0"
-                  : "transition-transform duration-500 motion-reduce:transform-none"
-              )}
-            />
-            <div
-              className={cn(
-                "absolute z-20 rounded-full bg-background/85 backdrop-blur-sm p-1.5 shadow-sm border border-border/50",
-                isHome ? "top-3 right-3 opacity-90 group-hover:opacity-100 transition-opacity" : "top-2 right-2 bg-background/90"
-              )}
-            >
-              <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" aria-hidden />
-            </div>
-            <div
-              className={cn(
-                "absolute z-20 rounded-full bg-background/85 backdrop-blur-sm p-1.5 shadow-sm border border-border/50 text-emerald-700 dark:text-emerald-400/90",
-                isHome ? "bottom-3 left-3" : "bottom-2 left-2"
-              )}
-              title={kind}
-            >
-              <KindIcon kind={item.kind} className="h-3.5 w-3.5" />
-            </div>
-          </div>
-        </a>
+            {mediaBlock}
+          </a>
+        ) : (
+          <div className="block">{mediaBlock}</div>
+        )}
 
         <CardHeader className={cn(isHome ? "p-0 mb-3" : "")}>
           {isHome ? (
@@ -269,37 +317,70 @@ export function SourceCard({ item, variant = "home" }: SourceCardProps) {
                 : "text-xl font-semibold text-foreground transition-colors [@media(hover:hover)]:group-hover:text-emerald-700 dark:[@media(hover:hover)]:group-hover:text-emerald-300"
             )}
           >
-            <a
-              href={item.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:underline underline-offset-4 decoration-emerald-600/40"
-            >
-              {item.title}
-            </a>
+            {hasDetails ? (
+              <button
+                type="button"
+                onClick={openModal}
+                className={cn(
+                  "w-full text-left bg-transparent p-0 border-0 cursor-pointer font-inherit text-inherit",
+                  "hover:underline underline-offset-4 decoration-emerald-600/40",
+                  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm"
+                )}
+                aria-haspopup="dialog"
+                aria-label={`Read more: ${item.title}`}
+              >
+                {item.title}
+              </button>
+            ) : hasUrl ? (
+              <a
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline underline-offset-4 decoration-emerald-600/40"
+              >
+                {item.title}
+              </a>
+            ) : (
+              <span className="block">{item.title}</span>
+            )}
           </CardTitle>
         </CardHeader>
 
-        {hasDetails ? (
-          <CardContent className={cn(isHome ? "p-0" : "")}>
-            <CardDescription
-              className={cn(
-                "leading-relaxed",
-                isHome
-                  ? "text-base font-light line-clamp-3 text-muted-foreground"
-                  : "line-clamp-3 text-foreground/80 dark:text-zinc-400"
-              )}
-            >
-              {desc}
-            </CardDescription>
-            <Button
-              type="button"
-              variant="link"
-              className="mt-1 h-auto p-0 font-semibold text-emerald-700 underline-offset-4 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
-              onClick={openModal}
-            >
-              Read more
-            </Button>
+        {hasDetails || tags.length > 0 ? (
+          <CardContent
+            className={cn(
+              isHome ? "p-0" : "",
+              tags.length > 0 && !hasDetails ? "pt-2" : ""
+            )}
+          >
+            {hasDetails ? (
+              <>
+                <CardDescription
+                  className={cn(
+                    "leading-relaxed",
+                    isHome
+                      ? "text-base font-light line-clamp-3 text-muted-foreground"
+                      : "line-clamp-3 text-foreground/80 dark:text-zinc-400"
+                  )}
+                >
+                  {plainDesc}
+                </CardDescription>
+                <Button
+                  type="button"
+                  variant="link"
+                  className="mt-1 h-auto p-0 font-semibold text-emerald-700 underline-offset-4 hover:text-emerald-800 dark:text-emerald-400 dark:hover:text-emerald-300"
+                  onClick={openModal}
+                >
+                  Read more
+                </Button>
+              </>
+            ) : null}
+            {tags.length > 0 ? (
+              <SourceTags
+                tags={tags}
+                className={cn(hasDetails ? "mt-3 pt-3 border-t border-border/40" : "mt-0")}
+              />
+            ) : null}
           </CardContent>
         ) : null}
       </Card>
