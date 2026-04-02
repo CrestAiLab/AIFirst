@@ -14,8 +14,9 @@
     "seed:sanity": "tsx scripts/seed-sanity.ts"
   },
   "dependencies": {
-    "@radix-ui/react-slot": "^1.2.4",
     "@portabletext/react": "^3.0.0",
+    "@radix-ui/react-slot": "^1.2.4",
+    "@radix-ui/react-tooltip": "^1.2.8",
     "@sanity/client": "^6.15.0",
     "@sanity/image-url": "^1.0.2",
     "@sanity/vision": "^3.0.0",
@@ -24,6 +25,8 @@
     "next-sanity": "^7.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
     "sanity": "^3.0.0",
     "tw-animate-css": "^1.4.0"
   },

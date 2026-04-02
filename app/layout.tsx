@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono, Fira_Code, Instrument_Serif } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
+import { AppTooltipProvider } from "@/components/app-tooltip-provider"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-geist-mono" })
@@ -28,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={`font-sans antialiased ${firaCode.variable} ${_geistMono.variable} ${instrumentSerif.variable} bg-background text-foreground`}>
-        {children}
+        <AppTooltipProvider>{children}</AppTooltipProvider>
         <Analytics />
         <script
           dangerouslySetInnerHTML={{

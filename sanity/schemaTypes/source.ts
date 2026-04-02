@@ -42,8 +42,19 @@ export const source = defineType({
       name: 'url',
       title: 'URL',
       type: 'url',
-      description: 'The page to open. The site’s Open Graph image is used as the thumbnail unless you add a custom image below.',
-      validation: (rule) => rule.required(),
+      description:
+        'Optional. When set, the card links here and the thumbnail uses this page’s Open Graph image unless you upload a custom image below.',
+      validation: (rule) =>
+        rule.custom((value) => {
+          if (value == null || (typeof value === 'string' && value.trim() === '')) return true
+          try {
+            const u = new URL(value as string)
+            if (u.protocol !== 'http:' && u.protocol !== 'https:') return 'URL must start with http:// or https://'
+            return true
+          } catch {
+            return 'Invalid URL'
+          }
+        }),
     }),
     defineField({
       name: 'sourceInfo',
@@ -53,10 +64,21 @@ export const source = defineType({
         'Optional. One line on the card directly under the type and date—where this comes from (e.g. site, publication, podcast, venue).',
     }),
     defineField({
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        layout: 'tags',
+      },
+      description: 'Optional. Shown on the card as small labels; hover shows the full tag in a tooltip.',
+    }),
+    defineField({
       name: 'description',
       title: 'Description',
       type: 'text',
-      rows: 3,
+      rows: 6,
+      description: 'Optional. Supports Markdown (headings, **bold**, lists, links, code fences, tables). Shown in the Read more dialog.',
     }),
     defineField({
       name: 'thumbnail',
@@ -80,13 +102,18 @@ export const source = defineType({
       title: 'title',
       kind: 'kind',
       sourceInfo: 'sourceInfo',
+      tags: 'tags',
       media: 'thumbnail',
       publishedAt: 'publishedAt',
     },
-    prepare({ title, kind, sourceInfo, media, publishedAt }) {
-      const bits = [kind ?? 'link', sourceInfo, publishedAt ? new Date(publishedAt).toLocaleDateString() : null].filter(
-        Boolean
-      )
+    prepare({ title, kind, sourceInfo, tags, media, publishedAt }) {
+      const tagBits = Array.isArray(tags) && tags.length ? `${tags.length} tag(s)` : null
+      const bits = [
+        kind ?? 'link',
+        sourceInfo,
+        tagBits,
+        publishedAt ? new Date(publishedAt).toLocaleDateString() : null,
+      ].filter(Boolean)
       return {
         title,
         subtitle: bits.join(' • '),

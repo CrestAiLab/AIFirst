@@ -134,6 +134,7 @@ export const sourcesPreviewQuery = `*[_type == "source"] | order(publishedAt des
   kind,
   url,
   sourceInfo,
+  tags,
   description,
   thumbnail,
   publishedAt
@@ -148,6 +149,7 @@ export const sourcesPaginatedQuery = `*[_type == "source"] | order(publishedAt d
   kind,
   url,
   sourceInfo,
+  tags,
   description,
   thumbnail,
   publishedAt
@@ -160,6 +162,7 @@ export const allSourcesQuery = `*[_type == "source"] | order(publishedAt desc) {
   kind,
   url,
   sourceInfo,
+  tags,
   description,
   thumbnail,
   publishedAt
